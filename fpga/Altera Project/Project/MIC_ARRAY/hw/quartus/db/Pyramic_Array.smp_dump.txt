@@ -1,0 +1,109 @@
+
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|Pyramic_Array_mm_interconnect_1:mm_interconnect_1|altera_merlin_burst_adapter:spi_system_0_avalon_slave_burst_adapter|altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter|state
+Name state.ST_IDLE state.ST_UNCOMP_WR_SUBBURST state.ST_UNCOMP_TRANS state.ST_COMP_TRANS 
+state.ST_IDLE 0 0 0 0 
+state.ST_COMP_TRANS 1 0 0 1 
+state.ST_UNCOMP_TRANS 1 0 1 0 
+state.ST_UNCOMP_WR_SUBBURST 1 1 0 0 
+
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|Pyramic_Array_mm_interconnect_1:mm_interconnect_1|altera_merlin_burst_adapter:audio_and_video_config_0_avalon_av_config_slave_burst_adapter|altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter|state
+Name state.ST_IDLE state.ST_UNCOMP_WR_SUBBURST state.ST_UNCOMP_TRANS state.ST_COMP_TRANS 
+state.ST_IDLE 0 0 0 0 
+state.ST_COMP_TRANS 1 0 0 1 
+state.ST_UNCOMP_TRANS 1 0 1 0 
+state.ST_UNCOMP_WR_SUBBURST 1 1 0 0 
+
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|Pyramic_Array_audio_and_video_config_0:audio_and_video_config_0|s_serial_transfer
+Name s_serial_transfer.STATE_6_POST_READ s_serial_transfer.STATE_5_READ_TRANSFER s_serial_transfer.STATE_4_PRE_READ s_serial_transfer.STATE_3_POST_WRITE s_serial_transfer.STATE_2_WRITE_TRANSFER s_serial_transfer.STATE_1_PRE_WRITE s_serial_transfer.STATE_0_IDLE 
+s_serial_transfer.STATE_0_IDLE 0 0 0 0 0 0 0 
+s_serial_transfer.STATE_1_PRE_WRITE 0 0 0 0 0 1 1 
+s_serial_transfer.STATE_2_WRITE_TRANSFER 0 0 0 0 1 0 1 
+s_serial_transfer.STATE_3_POST_WRITE 0 0 0 1 0 0 1 
+s_serial_transfer.STATE_4_PRE_READ 0 0 1 0 0 0 1 
+s_serial_transfer.STATE_5_READ_TRANSFER 0 1 0 0 0 0 1 
+s_serial_transfer.STATE_6_POST_READ 1 0 0 0 0 0 1 
+
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|Pyramic_Array_audio_and_video_config_0:audio_and_video_config_0|altera_up_av_config_serial_bus_controller:Serial_Bus_Controller|s_serial_protocol
+Name s_serial_protocol.STATE_5_STOP_BIT s_serial_protocol.STATE_4_TRANSFER s_serial_protocol.STATE_3_START_BIT s_serial_protocol.STATE_2_RESTART_BIT s_serial_protocol.STATE_1_INITIALIZE s_serial_protocol.STATE_0_IDLE 
+s_serial_protocol.STATE_0_IDLE 0 0 0 0 0 0 
+s_serial_protocol.STATE_1_INITIALIZE 0 0 0 0 1 1 
+s_serial_protocol.STATE_2_RESTART_BIT 0 0 0 1 0 1 
+s_serial_protocol.STATE_3_START_BIT 0 0 1 0 0 1 
+s_serial_protocol.STATE_4_TRANSFER 0 1 0 0 0 1 
+s_serial_protocol.STATE_5_STOP_BIT 1 0 0 0 0 1 
+
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|SPI_System:spi_system_0|SPI_Streaming:Streaming|StateM
+Name StateM.s_transmit3 StateM.s_transmit2 StateM.s_transmit1 StateM.s_wait 
+StateM.s_wait 0 0 0 0 
+StateM.s_transmit1 0 0 1 1 
+StateM.s_transmit2 0 1 0 1 
+StateM.s_transmit3 1 0 0 1 
+
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|SPI_System:spi_system_0|SPI_DMA:DMA|StateM
+Name StateM.s_waitdata4 StateM.s_waitdata3 StateM.s_waitdata2 StateM.s_loaddata StateM.s_writedata StateM.s_waitdata StateM.s_idle 
+StateM.s_idle 0 0 0 0 0 0 0 
+StateM.s_waitdata 0 0 0 0 0 1 1 
+StateM.s_writedata 0 0 0 0 1 0 1 
+StateM.s_loaddata 0 0 0 1 0 0 1 
+StateM.s_waitdata2 0 0 1 0 0 0 1 
+StateM.s_waitdata3 0 1 0 0 0 0 1 
+StateM.s_waitdata4 1 0 0 0 0 0 1 
+
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|SPI_System:spi_system_0|SPI_Controller:Controller|SPI_state
+Name SPI_state.Waiting7 SPI_state.Waiting6 SPI_state.Waiting5 SPI_state.Read_State SPI_state.Transmission SPI_state.Converting SPI_state.Wait_For_Conversion SPI_state.Waiting4 SPI_state.Waiting3 SPI_state.Waiting2 SPI_state.Waiting1 SPI_state.Idle 
+SPI_state.Idle 0 0 0 0 0 0 0 0 0 0 0 0 
+SPI_state.Waiting1 0 0 0 0 0 0 0 0 0 0 1 1 
+SPI_state.Waiting2 0 0 0 0 0 0 0 0 0 1 0 1 
+SPI_state.Waiting3 0 0 0 0 0 0 0 0 1 0 0 1 
+SPI_state.Waiting4 0 0 0 0 0 0 0 1 0 0 0 1 
+SPI_state.Wait_For_Conversion 0 0 0 0 0 0 1 0 0 0 0 1 
+SPI_state.Converting 0 0 0 0 0 1 0 0 0 0 0 1 
+SPI_state.Transmission 0 0 0 0 1 0 0 0 0 0 0 1 
+SPI_state.Read_State 0 0 0 1 0 0 0 0 0 0 0 1 
+SPI_state.Waiting5 0 0 1 0 0 0 0 0 0 0 0 1 
+SPI_state.Waiting6 0 1 0 0 0 0 0 0 0 0 0 1 
+SPI_state.Waiting7 1 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|Pyramic_Array_FIR_LEFT:fir_right|Pyramic_Array_FIR_LEFT_ast:Pyramic_Array_FIR_LEFT_ast_inst|auk_dspip_avalon_streaming_source_hpfir:source|source_state
+Name source_state.end1 source_state.st_err source_state.run1 source_state.sop source_state.start 
+source_state.start 0 0 0 0 0 
+source_state.sop 0 0 0 1 1 
+source_state.run1 0 0 1 0 1 
+source_state.st_err 0 1 0 0 1 
+source_state.end1 1 0 0 0 1 
+
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|Pyramic_Array_FIR_LEFT:fir_right|Pyramic_Array_FIR_LEFT_ast:Pyramic_Array_FIR_LEFT_ast_inst|auk_dspip_avalon_streaming_sink_hpfir:sink|sink_state
+Name sink_state.end1 sink_state.st_err sink_state.run1 sink_state.stall sink_state.start 
+sink_state.start 0 0 0 0 0 
+sink_state.stall 0 0 0 1 1 
+sink_state.run1 0 0 1 0 1 
+sink_state.st_err 0 1 0 0 1 
+sink_state.end1 1 0 0 0 1 
+
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|Pyramic_Array_FIR_LEFT:fir_left|Pyramic_Array_FIR_LEFT_ast:Pyramic_Array_FIR_LEFT_ast_inst|auk_dspip_avalon_streaming_source_hpfir:source|source_state
+Name source_state.end1 source_state.st_err source_state.run1 source_state.sop source_state.start 
+source_state.start 0 0 0 0 0 
+source_state.sop 0 0 0 1 1 
+source_state.run1 0 0 1 0 1 
+source_state.st_err 0 1 0 0 1 
+source_state.end1 1 0 0 0 1 
+
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|Pyramic_Array_FIR_LEFT:fir_left|Pyramic_Array_FIR_LEFT_ast:Pyramic_Array_FIR_LEFT_ast_inst|auk_dspip_avalon_streaming_sink_hpfir:sink|sink_state
+Name sink_state.end1 sink_state.st_err sink_state.run1 sink_state.stall sink_state.start 
+sink_state.start 0 0 0 0 0 
+sink_state.stall 0 0 0 1 1 
+sink_state.run1 0 0 1 0 1 
+sink_state.st_err 0 1 0 0 1 
+sink_state.end1 1 0 0 0 1 
+
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|Beamformer_Adder:beamformer_right|FIR_Acq
+Name FIR_Acq.s_beamformer FIR_Acq.s_acquire FIR_Acq.s_waiting 
+FIR_Acq.s_waiting 0 0 0 
+FIR_Acq.s_acquire 0 1 1 
+FIR_Acq.s_beamformer 1 0 1 
+
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|Beamformer_Adder:beamformer_left|FIR_Acq
+Name FIR_Acq.s_beamformer FIR_Acq.s_acquire FIR_Acq.s_waiting 
+FIR_Acq.s_waiting 0 0 0 
+FIR_Acq.s_acquire 0 1 1 
+FIR_Acq.s_beamformer 1 0 1 

@@ -1,0 +1,64 @@
+Tue Aug 02 01:44:44 CEST 2016
+Trace back: Too many nested dialog boxes
+    while executing
+"error "Too many nested dialog boxes""
+    (procedure "tk_dialog" line 32)
+    invoked from within
+"tk_dialog .srcobjdlg "Warning!" "$msg" "" 1 Overwrite Reload Ignore"
+    (object "::.main_pane.source3.interior.cs.body.srcobj" method "::vsimwidgets::Srcobj::CheckModification" body line 18)
+    invoked from within
+"::.main_pane.source3.interior.cs.body.srcobj CheckModification"
+    (in namespace inscope "::vsimwidgets::Srcobj" script line 1)
+    invoked from within
+"namespace inscope ::vsimwidgets::Srcobj {::.main_pane.source3.interior.cs.body.srcobj CheckModification}"
+    (command bound to event)
+  <2:C:/altera_lite/15.1/modelsim_ase/win32aloem/tk8.5/bgerror.tcl:92: ::tkerror {Too many nested dialog boxes}
+  <1:C:/altera_lite/15.1/modelsim_ase/win32aloem/tk8.5/dialog.tcl:178: ::tk::dialog::error::bgerror {Too many nested dialog boxes}
+Tue Aug 02 01:45:32 CEST 2016
+Trace back: Too many nested dialog boxes
+    while executing
+"error "Too many nested dialog boxes""
+    (procedure "tk_dialog" line 32)
+    invoked from within
+"tk_dialog .srcobjdlg "Warning!" "$msg" "" 1 Overwrite Reload Ignore"
+    (object "::.main_pane.source3.interior.cs.body.srcobj" method "::vsimwidgets::Srcobj::CheckModification" body line 18)
+    invoked from within
+"::.main_pane.source3.interior.cs.body.srcobj CheckModification"
+    (in namespace inscope "::vsimwidgets::Srcobj" script line 1)
+    invoked from within
+"namespace inscope ::vsimwidgets::Srcobj {::.main_pane.source3.interior.cs.body.srcobj CheckModification}"
+    (command bound to event)
+  <2:C:/altera_lite/15.1/modelsim_ase/win32aloem/tk8.5/bgerror.tcl:92: ::tkerror {Too many nested dialog boxes}
+  <1:C:/altera_lite/15.1/modelsim_ase/win32aloem/tk8.5/dialog.tcl:178: ::tk::dialog::error::bgerror {Too many nested dialog boxes}
+Tue Aug 02 01:46:02 CEST 2016
+Trace back: Too many nested dialog boxes
+    while executing
+"error "Too many nested dialog boxes""
+    (procedure "tk_dialog" line 32)
+    invoked from within
+"tk_dialog .srcobjdlg "Warning!" "$msg" "" 1 Overwrite Reload Ignore"
+    (object "::.main_pane.source3.interior.cs.body.srcobj" method "::vsimwidgets::Srcobj::CheckModification" body line 18)
+    invoked from within
+"::.main_pane.source3.interior.cs.body.srcobj CheckModification"
+    (in namespace inscope "::vsimwidgets::Srcobj" script line 1)
+    invoked from within
+"namespace inscope ::vsimwidgets::Srcobj {::.main_pane.source3.interior.cs.body.srcobj CheckModification}"
+    (command bound to event)
+  <2:C:/altera_lite/15.1/modelsim_ase/win32aloem/tk8.5/bgerror.tcl:92: ::tkerror {Too many nested dialog boxes}
+  <1:C:/altera_lite/15.1/modelsim_ase/win32aloem/tk8.5/dialog.tcl:178: ::tk::dialog::error::bgerror {Too many nested dialog boxes}
+Tue Aug 02 01:46:03 CEST 2016
+Trace back: Too many nested dialog boxes
+    while executing
+"error "Too many nested dialog boxes""
+    (procedure "tk_dialog" line 32)
+    invoked from within
+"tk_dialog .srcobjdlg "Warning!" "$msg" "" 1 Overwrite Reload Ignore"
+    (object "::.main_pane.source3.interior.cs.body.srcobj" method "::vsimwidgets::Srcobj::CheckModification" body line 18)
+    invoked from within
+"::.main_pane.source3.interior.cs.body.srcobj CheckModification"
+    (in namespace inscope "::vsimwidgets::Srcobj" script line 1)
+    invoked from within
+"namespace inscope ::vsimwidgets::Srcobj {::.main_pane.source3.interior.cs.body.srcobj CheckModification}"
+    (command bound to event)
+  <2:C:/altera_lite/15.1/modelsim_ase/win32aloem/tk8.5/bgerror.tcl:92: ::tkerror {Too many nested dialog boxes}
+  <1:C:/altera_lite/15.1/modelsim_ase/win32aloem/tk8.5/dialog.tcl:178: ::tk::dialog::error::bgerror {Too many nested dialog boxes}

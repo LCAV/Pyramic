@@ -1,0 +1,87 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst Mic_Array_GPA.hps_0.gmac0 -pg 1
+preplace inst Mic_Array_GPA.hps_0.i2c0 -pg 1
+preplace inst Mic_Array_GPA.hps_0.fpgamgr -pg 1
+preplace inst Mic_Array_GPA.hps_0 -pg 1 -lvl 2 -y 70
+preplace inst Mic_Array_GPA.Beamformer_LEFT -pg 1 -lvl 4 -y 110
+preplace inst Mic_Array_GPA.hps_0.axi_ocram -pg 1
+preplace inst Mic_Array_GPA.hps_0.gmac1 -pg 1
+preplace inst Mic_Array_GPA.hps_0.i2c1 -pg 1
+preplace inst Mic_Array_GPA.hps_0.sdmmc -pg 1
+preplace inst Mic_Array_GPA.hps_0.qspi -pg 1
+preplace inst Mic_Array_GPA.hps_0.i2c2 -pg 1
+preplace inst Mic_Array_GPA.hps_0.uart0 -pg 1
+preplace inst Mic_Array_GPA.hps_0.rstmgr -pg 1
+preplace inst Mic_Array_GPA -pg 1 -lvl 1 -y 40 -regy -20
+preplace inst Mic_Array_GPA.hps_0.timer -pg 1
+preplace inst Mic_Array_GPA.hps_0.spim0 -pg 1
+preplace inst Mic_Array_GPA.hps_0.i2c3 -pg 1
+preplace inst Mic_Array_GPA.hps_0.uart1 -pg 1
+preplace inst Mic_Array_GPA.hps_0.sysmgr -pg 1
+preplace inst Mic_Array_GPA.audio_and_video_config_0 -pg 1 -lvl 5 -y 30
+preplace inst Mic_Array_GPA.hps_0.sdrctl -pg 1
+preplace inst Mic_Array_GPA.hps_0.dcan0 -pg 1
+preplace inst Mic_Array_GPA.hps_0.spim1 -pg 1
+preplace inst Mic_Array_GPA.hps_0.eosc1 -pg 1
+preplace inst Mic_Array_GPA.hps_0.hps_io.border -pg 1
+preplace inst Mic_Array_GPA.hps_0.fpga_interfaces -pg 1
+preplace inst Mic_Array_GPA.clk_0 -pg 1 -lvl 2 -y 390
+preplace inst Mic_Array_GPA.hps_0.dcan1 -pg 1
+preplace inst Mic_Array_GPA.hps_0.usb0 -pg 1
+preplace inst Mic_Array_GPA.hps_0.f2s_periph_ref_clk -pg 1
+preplace inst Mic_Array_GPA.hps_0.eosc2 -pg 1
+preplace inst Mic_Array_GPA.SPI_System_0 -pg 1 -lvl 1 -y 260
+preplace inst Mic_Array_GPA.jtag_uart_0 -pg 1 -lvl 5 -y 310
+preplace inst Mic_Array_GPA.hps_0.usb1 -pg 1
+preplace inst Mic_Array_GPA.hps_0.timer0 -pg 1
+preplace inst Mic_Array_GPA.hps_0.clkmgr -pg 1
+preplace inst Mic_Array_GPA.hps_0.bridges -pg 1
+preplace inst Mic_Array_GPA.hps_0.axi_sdram -pg 1
+preplace inst Mic_Array_GPA.hps_0.timer1 -pg 1
+preplace inst Mic_Array_GPA.hps_0.arm_gic_0 -pg 1
+preplace inst Mic_Array_GPA.hps_0.clk_0 -pg 1
+preplace inst Mic_Array_GPA.Beamformer_RIGHT -pg 1 -lvl 4 -y 270
+preplace inst Mic_Array_GPA.hps_0.timer2 -pg 1
+preplace inst Mic_Array_GPA.hps_0.L2 -pg 1
+preplace inst Mic_Array_GPA.hps_0.f2s_sdram_ref_clk -pg 1
+preplace inst Mic_Array_GPA.hps_0.hps_io -pg 1
+preplace inst Mic_Array_GPA.FIR_LEFT -pg 1 -lvl 3 -y 90
+preplace inst Mic_Array_GPA.pll_0 -pg 1 -lvl 5 -y 510
+preplace inst Mic_Array_GPA.hps_0.timer3 -pg 1
+preplace inst Mic_Array_GPA.hps_0.arm_a9_0 -pg 1
+preplace inst Mic_Array_GPA.hps_0.scu -pg 1
+preplace inst Mic_Array_GPA.hps_0.gpio0 -pg 1
+preplace inst Mic_Array_GPA.hps_0.wd_timer0 -pg 1
+preplace inst Mic_Array_GPA.hps_0.arm_a9_1 -pg 1
+preplace inst Mic_Array_GPA.audio_controller -pg 1 -lvl 5 -y 130
+preplace inst Mic_Array_GPA.hps_0.l3regs -pg 1
+preplace inst Mic_Array_GPA.hps_0.nand0 -pg 1
+preplace inst Mic_Array_GPA.hps_0.gpio1 -pg 1
+preplace inst Mic_Array_GPA.hps_0.wd_timer1 -pg 1
+preplace inst Mic_Array_GPA.sysid -pg 1 -lvl 5 -y 430
+preplace inst Mic_Array_GPA.hps_0.gpio2 -pg 1
+preplace inst Mic_Array_GPA.hps_0.dma -pg 1
+preplace inst Mic_Array_GPA.FIR_RIGHT -pg 1 -lvl 3 -y 250
+preplace netloc POINT_TO_POINT<net_container>Mic_Array_GPA</net_container>(SLAVE)FIR_LEFT.avalon_streaming_sink,(MASTER)SPI_System_0.Source_Left) 1 1 2 NJ 290 900
+preplace netloc POINT_TO_POINT<net_container>Mic_Array_GPA</net_container>(SLAVE)audio_controller.avalon_left_channel_sink,(MASTER)Beamformer_LEFT.Source_Beam) 1 4 1 N
+preplace netloc EXPORT<net_container>Mic_Array_GPA</net_container>(SLAVE)Mic_Array_GPA.clk,(SLAVE)clk_0.clk_in) 1 0 2 NJ 410 NJ
+preplace netloc POINT_TO_POINT<net_container>Mic_Array_GPA</net_container>(MASTER)SPI_System_0.avalon_master,(SLAVE)hps_0.f2h_sdram0_data) 1 1 1 570
+preplace netloc EXPORT<net_container>Mic_Array_GPA</net_container>(SLAVE)Mic_Array_GPA.reset,(SLAVE)clk_0.clk_in_reset) 1 0 2 NJ 430 NJ
+preplace netloc EXPORT<net_container>Mic_Array_GPA</net_container>(MASTER)Mic_Array_GPA.pll_0_outclk3_audio,(MASTER)pll_0.outclk3) 1 5 1 NJ
+preplace netloc EXPORT<net_container>Mic_Array_GPA</net_container>(SLAVE)audio_and_video_config_0.external_interface,(SLAVE)Mic_Array_GPA.audio_and_video_config_0_external_interface) 1 0 5 NJ 40 NJ 30 NJ 60 NJ 80 NJ
+preplace netloc EXPORT<net_container>Mic_Array_GPA</net_container>(MASTER)Mic_Array_GPA.pll_0_sdram,(MASTER)pll_0.outclk2) 1 5 1 NJ
+preplace netloc EXPORT<net_container>Mic_Array_GPA</net_container>(SLAVE)hps_0.memory,(SLAVE)Mic_Array_GPA.hps_0_ddr) 1 0 2 NJ 160 NJ
+preplace netloc EXPORT<net_container>Mic_Array_GPA</net_container>(SLAVE)Mic_Array_GPA.spi_system_0_spi_interface,(SLAVE)SPI_System_0.spi_interface) 1 0 1 NJ
+preplace netloc EXPORT<net_container>Mic_Array_GPA</net_container>(SLAVE)Mic_Array_GPA.audio_0_external_interface,(SLAVE)audio_controller.external_interface) 1 0 5 NJ 230 NJ 230 NJ 230 NJ 220 NJ
+preplace netloc FAN_OUT<net_container>Mic_Array_GPA</net_container>(SLAVE)FIR_LEFT.clk,(SLAVE)SPI_System_0.clock,(SLAVE)Beamformer_RIGHT.clock,(MASTER)pll_0.outclk0,(SLAVE)jtag_uart_0.clk,(SLAVE)FIR_RIGHT.clk,(SLAVE)Beamformer_LEFT.clock,(SLAVE)sysid.clk,(SLAVE)audio_controller.clk,(SLAVE)hps_0.h2f_lw_axi_clock,(SLAVE)audio_and_video_config_0.clk,(SLAVE)hps_0.f2h_sdram0_clock) 1 0 6 230 100 550 250 940 190 1210 200 1420 420 1860
+preplace netloc EXPORT<net_container>Mic_Array_GPA</net_container>(SLAVE)Mic_Array_GPA.hps_0_io,(SLAVE)hps_0.hps_io) 1 0 2 NJ 120 NJ
+preplace netloc POINT_TO_POINT<net_container>Mic_Array_GPA</net_container>(SLAVE)audio_controller.avalon_right_channel_sink,(MASTER)Beamformer_RIGHT.Source_Beam) 1 4 1 1480
+preplace netloc POINT_TO_POINT<net_container>Mic_Array_GPA</net_container>(MASTER)FIR_RIGHT.avalon_streaming_source,(SLAVE)Beamformer_RIGHT.Sink_FIR) 1 3 1 N
+preplace netloc POINT_TO_POINT<net_container>Mic_Array_GPA</net_container>(MASTER)FIR_LEFT.avalon_streaming_source,(SLAVE)Beamformer_LEFT.Sink_FIR) 1 3 1 N
+preplace netloc POINT_TO_POINT<net_container>Mic_Array_GPA</net_container>(SLAVE)pll_0.refclk,(MASTER)clk_0.clk) 1 2 3 NJ 400 NJ 400 1400
+preplace netloc POINT_TO_POINT<net_container>Mic_Array_GPA</net_container>(MASTER)SPI_System_0.Source_Right,(SLAVE)FIR_RIGHT.avalon_streaming_sink) 1 1 2 NJ 310 960
+preplace netloc INTERCONNECT<net_container>Mic_Array_GPA</net_container>(MASTER)clk_0.clk_reset,(SLAVE)jtag_uart_0.reset,(SLAVE)audio_controller.reset,(SLAVE)Beamformer_LEFT.reset,(SLAVE)sysid.reset,(SLAVE)Beamformer_RIGHT.reset,(SLAVE)SPI_System_0.reset,(SLAVE)pll_0.reset,(SLAVE)FIR_LEFT.rst,(SLAVE)FIR_RIGHT.rst,(MASTER)hps_0.h2f_reset,(SLAVE)audio_and_video_config_0.reset) 1 0 5 250 250 NJ 270 920 210 1190 240 1460
+preplace netloc FAN_OUT<net_container>Mic_Array_GPA</net_container>(SLAVE)audio_and_video_config_0.avalon_av_config_slave,(MASTER)hps_0.h2f_lw_axi_master,(SLAVE)SPI_System_0.avalon_slave) 1 0 5 270 210 NJ 210 880 80 NJ 100 1400
+levelinfo -pg 1 0 200 2030
+levelinfo -hier Mic_Array_GPA 210 300 690 990 1260 1510 1880

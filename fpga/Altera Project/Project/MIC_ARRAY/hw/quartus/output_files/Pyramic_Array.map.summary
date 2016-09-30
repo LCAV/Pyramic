@@ -1,0 +1,17 @@
+Analysis & Synthesis Status : Successful - Tue Aug 23 12:51:15 2016
+Quartus Prime Version : 16.0.0 Build 211 04/27/2016 SJ Lite Edition
+Revision Name : Pyramic_Array
+Top-level Entity Name : DE1_SoC_top_level
+Family : Cyclone V
+Logic utilization (in ALMs) : N/A
+Total registers : 4069
+Total pins : 201
+Total virtual pins : 0
+Total block memory bits : 511,700
+Total DSP Blocks : 4
+Total HSSI RX PCSs : 0
+Total HSSI PMA RX Deserializers : 0
+Total HSSI TX PCSs : 0
+Total HSSI PMA TX Serializers : 0
+Total PLLs : 1
+Total DLLs : 1
