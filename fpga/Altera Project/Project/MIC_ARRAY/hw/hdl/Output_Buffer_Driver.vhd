@@ -98,12 +98,14 @@ begin
 					stateM = s_read_memory;
 				end if
 			when s_read_memory =>
-				-- read from memory !! we're missing a logic vector input for that, right ?
-				if Out_Avalon_Ready = '1' then
-					if 
-					
+				-- We only read from memory whenever DMA and the codec are ready.
+				-- If one of them isn't, we can wait: memory is persistent/
+				if In_DMA_Valid = '1' then
+					if Out_Avalon_Ready = '1' then
+						signal_holder <= In_DMA_Data;
+						Offset <= Offset + 1;
+					end if
 				end if
-				
 			when others => null
 		end case;
 		if Out_Avalon_Ready = '1' then
