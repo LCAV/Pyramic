@@ -43,6 +43,15 @@
 #define RESERVED_MEMORY_OFFSET_PHY (500*1024*1024)			// Physical memory address where we can start to save data (500 MB)
 #define RESERVED_MEMORY_SIZE_PHY (450*1024*1024)			// Memory we allocate for our application (max. 500 MB)
 #define SPI_BUFFER_OFFSET (RESERVED_MEMORY_OFFSET_PHY + 0)  // Memory size
+
+// Secondary memory allocation for the samples : output buffer
+/* The samples in this buffer go to the codec... indeed we
+ * can inject whatever samples we want and circumvent the FPGA */
+
+#define SEC_MEMORY_OFFSET_PHY 0 // define them the same way the existing buffer is defined
+#define SEC_MEMORY_SIZE_PHY 0
+#define SEC_BUFFER_SPI_OFFSET 0
+
 // Define main parameters
 #define SAMPLING_FREQUENCY 48000							// fs
 #define SAMPLE_WIDTH 16										// Resolution

@@ -1,5 +1,5 @@
 Flow report for Pyramic_Array
-Tue Aug 23 12:55:17 2016
+Mon Oct 10 14:51:19 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -41,7 +41,7 @@ agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Tue Aug 23 12:54:25 2016       ;
+; Flow Status                     ; Successful - Mon Oct 10 14:50:36 2016       ;
 ; Quartus Prime Version           ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                   ; Pyramic_Array                               ;
 ; Top-level Entity Name           ; DE1_SoC_top_level                           ;
@@ -68,7 +68,7 @@ agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 08/23/2016 12:44:31 ;
+; Start date & time ; 10/10/2016 14:42:46 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; Pyramic_Array       ;
 +-------------------+---------------------+
@@ -79,7 +79,7 @@ agreement for further details.
 +---------------------------------------+-----------------------------------------------------------------------------+---------------+-----------------------------------+------------+
 ; Assignment Name                       ; Value                                                                       ; Default Value ; Entity Name                       ; Section Id ;
 +---------------------------------------+-----------------------------------------------------------------------------+---------------+-----------------------------------+------------+
-; COMPILER_SIGNATURE_ID                 ; 0.147194906717062                                                           ; --            ; --                                ; --         ;
+; COMPILER_SIGNATURE_ID                 ; 0.147610336303336                                                           ; --            ; --                                ; --         ;
 ; ECO_REGENERATE_REPORT                 ; On                                                                          ; Off           ; --                                ; --         ;
 ; ENABLE_SIGNALTAP                      ; On                                                                          ; --            ; --                                ; --         ;
 ; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_auto_inst_init.pre.c ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
@@ -136,24 +136,24 @@ agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:01:05     ; 1.0                     ; 1721 MB             ; 00:01:38                           ;
-; Fitter                    ; 00:02:43     ; 1.1                     ; 3756 MB             ; 00:04:31                           ;
-; Assembler                 ; 00:00:15     ; 1.0                     ; 1368 MB             ; 00:00:14                           ;
-; TimeQuest Timing Analyzer ; 00:00:48     ; 1.2                     ; 2310 MB             ; 00:00:57                           ;
-; Total                     ; 00:04:51     ; --                      ; --                  ; 00:07:20                           ;
+; Analysis & Synthesis      ; 00:00:51     ; 1.0                     ; 1797 MB             ; 00:01:16                           ;
+; Fitter                    ; 00:02:13     ; 1.0                     ; 3774 MB             ; 00:03:09                           ;
+; Assembler                 ; 00:00:10     ; 1.0                     ; 1410 MB             ; 00:00:11                           ;
+; TimeQuest Timing Analyzer ; 00:00:41     ; 1.0                     ; 2341 MB             ; 00:00:41                           ;
+; Total                     ; 00:03:55     ; --                      ; --                  ; 00:05:17                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
-+-----------------------------------------------------------------------------------------------+
-; Flow OS Summary                                                                               ;
-+---------------------------+--------------------+----------------+------------+----------------+
-; Module Name               ; Machine Hostname   ; OS Name        ; OS Version ; Processor type ;
-+---------------------------+--------------------+----------------+------------+----------------+
-; Analysis & Synthesis      ; lcav-ThinkPad-X230 ; Ubuntu 16.04.1 ; 16         ; x86_64         ;
-; Fitter                    ; lcav-ThinkPad-X230 ; Ubuntu 16.04.1 ; 16         ; x86_64         ;
-; Assembler                 ; lcav-ThinkPad-X230 ; Ubuntu 16.04.1 ; 16         ; x86_64         ;
-; TimeQuest Timing Analyzer ; lcav-ThinkPad-X230 ; Ubuntu 16.04.1 ; 16         ; x86_64         ;
-+---------------------------+--------------------+----------------+------------+----------------+
++--------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                      ;
++---------------------------+------------------+---------+------------+----------------+
+; Module Name               ; Machine Hostname ; OS Name ; OS Version ; Processor type ;
++---------------------------+------------------+---------+------------+----------------+
+; Analysis & Synthesis      ; lappc21.epfl.ch  ; Red Hat ; Red Hat    ; x86_64         ;
+; Fitter                    ; lappc21.epfl.ch  ; Red Hat ; Red Hat    ; x86_64         ;
+; Assembler                 ; lappc21.epfl.ch  ; Red Hat ; Red Hat    ; x86_64         ;
+; TimeQuest Timing Analyzer ; lappc21.epfl.ch  ; Red Hat ; Red Hat    ; x86_64         ;
++---------------------------+------------------+---------+------------+----------------+
 
 
 ------------
