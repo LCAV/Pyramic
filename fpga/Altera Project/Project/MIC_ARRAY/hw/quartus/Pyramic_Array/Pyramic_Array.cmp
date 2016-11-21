@@ -1,7 +1,5 @@
 	component Pyramic_Array is
 		port (
-			audio_0_external_interface_ADCDAT                : in    std_logic                     := 'X';             -- ADCDAT
-			audio_0_external_interface_ADCLRCK               : in    std_logic                     := 'X';             -- ADCLRCK
 			audio_0_external_interface_BCLK                  : in    std_logic                     := 'X';             -- BCLK
 			audio_0_external_interface_DACDAT                : out   std_logic;                                        -- DACDAT
 			audio_0_external_interface_DACLRCK               : in    std_logic                     := 'X';             -- DACLRCK
@@ -49,6 +47,10 @@
 			hps_0_io_hps_io_gpio_inst_GPIO35                 : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO35
 			hps_0_io_hps_io_gpio_inst_GPIO53                 : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO53
 			hps_0_io_hps_io_gpio_inst_GPIO54                 : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO54
+			output_switcher_0_source_select_new_signal       : in    std_logic                     := 'X';             -- new_signal
+			output_switcher_0_source_select_new_signal_1     : in    std_logic                     := 'X';             -- new_signal_1
+			output_switcher_1_source_select_new_signal       : in    std_logic                     := 'X';             -- new_signal
+			output_switcher_1_source_select_new_signal_1     : in    std_logic                     := 'X';             -- new_signal_1
 			pll_0_outclk3_audio_clk                          : out   std_logic;                                        -- clk
 			pll_0_sdram_clk                                  : out   std_logic;                                        -- clk
 			reset_reset_n                                    : in    std_logic                     := 'X';             -- reset_n

@@ -1,5 +1,5 @@
 Info: Starting: Create HDL design files for synthesis
-Info: qsys-generate /home/lcav/Desktop/Master_Thesis/Project/MIC_ARRAY/hw/quartus/Pyramic_Array.qsys --synthesis=VHDL --output-directory=/home/lcav/Desktop/Master_Thesis/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis --family="Cyclone V" --part=5CSEMA5F31C6
+Info: qsys-generate "/home/corentin/EPFL/projet/Pyramic_cferr/fpga/Altera Project/Project/MIC_ARRAY/hw/quartus/Pyramic_Array.qsys" --synthesis=VHDL --output-directory="/home/corentin/EPFL/projet/Pyramic_cferr/fpga/Altera Project/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis" --family="Cyclone V" --part=5CSEMA5F31C6
 Progress: Loading quartus/Pyramic_Array.qsys
 Progress: Reading input file
 Progress: Adding Beamformer_LEFT [Beamformer 1.0]
@@ -10,6 +10,10 @@ Progress: Adding FIR_LEFT [altera_fir_compiler_ii 16.0]
 Progress: Parameterizing module FIR_LEFT
 Progress: Adding FIR_RIGHT [altera_fir_compiler_ii 16.0]
 Progress: Parameterizing module FIR_RIGHT
+Progress: Adding Output_Switcher_0 [Output_Switcher 1.0]
+Progress: Parameterizing module Output_Switcher_0
+Progress: Adding Output_Switcher_1 [Output_Switcher 1.0]
+Progress: Parameterizing module Output_Switcher_1
 Progress: Adding SPI_System_0 [SPI_System 1.0]
 Progress: Parameterizing module SPI_System_0
 Progress: Adding audio_and_video_config_0 [altera_up_avalon_audio_and_video_config 15.1]
@@ -24,6 +28,8 @@ Progress: Adding jtag_uart_0 [altera_avalon_jtag_uart 16.0]
 Progress: Parameterizing module jtag_uart_0
 Progress: Adding pll_0 [altera_pll 16.0]
 Progress: Parameterizing module pll_0
+Progress: Adding pll_1 [altera_pll 16.0]
+Progress: Parameterizing module pll_1
 Progress: Adding sysid [altera_avalon_sysid_qsys 16.0]
 Progress: Parameterizing module sysid
 Progress: Building connections
@@ -40,6 +46,8 @@ Warning: Pyramic_Array.hps_0: 1 or more output clock frequencies cannot be achie
 Info: Pyramic_Array.jtag_uart_0: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
 Info: Pyramic_Array.pll_0: The legal reference clock frequency is 5.0 MHz..800.0 MHz
 Warning: Pyramic_Array.pll_0: Able to implement PLL - Actual settings differ from Requested settings
+Info: Pyramic_Array.pll_1: The legal reference clock frequency is 5.0 MHz..800.0 MHz
+Warning: Pyramic_Array.pll_1: Able to implement PLL - Actual settings differ from Requested settings
 Info: Pyramic_Array.sysid: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
 Info: Pyramic_Array.sysid: Time stamp will be automatically updated when this component is generated.
 Info: Pyramic_Array.SPI_System_0.Source_Left/FIR_LEFT.avalon_streaming_sink: The source has a ready signal of 1 bits, but the sink does not. Avalon-ST Adapter will be inserted.
@@ -52,12 +60,11 @@ Info: Pyramic_Array.FIR_RIGHT.avalon_streaming_source/Beamformer_RIGHT.Sink_FIR:
 Info: Pyramic_Array.FIR_RIGHT.avalon_streaming_source/Beamformer_RIGHT.Sink_FIR: The source has a error signal of 2 bits, but the sink does not. Avalon-ST Adapter will be inserted.
 Warning: Pyramic_Array.audio_controller.avalon_left_channel_source: audio_controller.avalon_left_channel_source must be connected to an Avalon-ST sink
 Warning: Pyramic_Array.audio_controller.avalon_right_channel_source: audio_controller.avalon_right_channel_source must be connected to an Avalon-ST sink
+Warning: Pyramic_Array.pll_1: pll_1.locked must be exported, or connected to a matching conduit.
 Warning: Pyramic_Array.jtag_uart_0: Interrupt sender jtag_uart_0.irq is not connected to an interrupt receiver
 Warning: Pyramic_Array.jtag_uart_0: jtag_uart_0.avalon_jtag_slave must be connected to an Avalon-MM master
 Warning: Pyramic_Array.sysid: sysid.control_slave must be connected to an Avalon-MM master
 Info: Pyramic_Array: Generating Pyramic_Array "Pyramic_Array" for QUARTUS_SYNTH
-Info: Interconnect is inserted between master SPI_System_0.avalon_master and slave hps_0.f2h_sdram0_data because the master has address signal 32 bit wide, but the slave is 30 bit wide.
-Info: Interconnect is inserted between master SPI_System_0.avalon_master and slave hps_0.f2h_sdram0_data because the master has burstcount signal 3 bit wide, but the slave is 8 bit wide.
 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
 Info: avalon_st_adapter: Inserting timing_adapter: timing_adapter_0
 Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
@@ -69,6 +76,7 @@ Info: avalon_st_adapter_003: Inserting timing_adapter: timing_adapter_0
 Info: Beamformer_LEFT: "Pyramic_Array" instantiated Beamformer "Beamformer_LEFT"
 Info: FIR_LEFT: PhysChanIn 1, PhysChanOut 1, ChansPerPhyIn 48, ChansPerPhyOut 48, OutputFullBitWidth 39, Bankcount 48, Latency 20, CoefBitWidth 16
 Info: FIR_LEFT: "Pyramic_Array" instantiated altera_fir_compiler_ii "FIR_LEFT"
+Info: Output_Switcher_0: "Pyramic_Array" instantiated Output_Switcher "Output_Switcher_0"
 Info: SPI_System_0: "Pyramic_Array" instantiated SPI_System "SPI_System_0"
 Info: audio_and_video_config_0: Starting Generation of Audio and Video Config
 Info: audio_and_video_config_0: "Pyramic_Array" instantiated altera_up_avalon_audio_and_video_config "audio_and_video_config_0"
@@ -82,10 +90,11 @@ Warning: hps_0: "Configuration/HPS-to-FPGA user 0 clock frequency" (desired_cfg_
 Warning: hps_0: 1 or more output clock frequencies cannot be achieved precisely, consider revising desired output clock frequencies.
 Info: hps_0: "Pyramic_Array" instantiated altera_hps "hps_0"
 Info: jtag_uart_0: Starting RTL generation for module 'Pyramic_Array_jtag_uart_0'
-Info: jtag_uart_0:   Generation command is [exec /opt/altera_lite/16.0/quartus/linux64/perl/bin/perl -I /opt/altera_lite/16.0/quartus/linux64/perl/lib -I /opt/altera_lite/16.0/quartus/sopc_builder/bin/europa -I /opt/altera_lite/16.0/quartus/sopc_builder/bin/perl_lib -I /opt/altera_lite/16.0/quartus/sopc_builder/bin -I /opt/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/common -I /opt/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- /opt/altera_lite/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=Pyramic_Array_jtag_uart_0 --dir=/tmp/alt7015_8289782437832844988.dir/0006_jtag_uart_0_gen/ --quartus_dir=/opt/altera_lite/16.0/quartus --verilog --config=/tmp/alt7015_8289782437832844988.dir/0006_jtag_uart_0_gen//Pyramic_Array_jtag_uart_0_component_configuration.pl  --do_build_sim=0  ]
+Info: jtag_uart_0:   Generation command is [exec /home/corentin/Proprietary_Software/Altera/16.0/quartus/linux64/perl/bin/perl -I /home/corentin/Proprietary_Software/Altera/16.0/quartus/linux64/perl/lib -I /home/corentin/Proprietary_Software/Altera/16.0/quartus/sopc_builder/bin/europa -I /home/corentin/Proprietary_Software/Altera/16.0/quartus/sopc_builder/bin/perl_lib -I /home/corentin/Proprietary_Software/Altera/16.0/quartus/sopc_builder/bin -I /home/corentin/Proprietary_Software/Altera/16.0/quartus/../ip/altera/sopc_builder_ip/common -I /home/corentin/Proprietary_Software/Altera/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- /home/corentin/Proprietary_Software/Altera/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=Pyramic_Array_jtag_uart_0 --dir=/tmp/alt7126_7099120500552638616.dir/0024_jtag_uart_0_gen/ --quartus_dir=/home/corentin/Proprietary_Software/Altera/16.0/quartus --verilog --config=/tmp/alt7126_7099120500552638616.dir/0024_jtag_uart_0_gen//Pyramic_Array_jtag_uart_0_component_configuration.pl  --do_build_sim=0  ]
 Info: jtag_uart_0: Done RTL generation for module 'Pyramic_Array_jtag_uart_0'
 Info: jtag_uart_0: "Pyramic_Array" instantiated altera_avalon_jtag_uart "jtag_uart_0"
 Info: pll_0: "Pyramic_Array" instantiated altera_pll "pll_0"
+Info: pll_1: "Pyramic_Array" instantiated altera_pll "pll_1"
 Info: sysid: "Pyramic_Array" instantiated altera_avalon_sysid_qsys "sysid"
 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
 Info: mm_interconnect_0: "Pyramic_Array" instantiated altera_mm_interconnect "mm_interconnect_0"
@@ -97,39 +106,40 @@ Info: avalon_st_adapter_002: "Pyramic_Array" instantiated altera_avalon_st_adapt
 Info: rst_controller: "Pyramic_Array" instantiated altera_reset_controller "rst_controller"
 Info: fpga_interfaces: "hps_0" instantiated altera_interface_generator "fpga_interfaces"
 Info: hps_io: "hps_0" instantiated altera_hps_io "hps_io"
-Info: SPI_System_0_avalon_master_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "SPI_System_0_avalon_master_translator"
+Info: Output_Switcher_0_DMA_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "Output_Switcher_0_DMA_translator"
 Info: hps_0_f2h_sdram0_data_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "hps_0_f2h_sdram0_data_translator"
-Info: SPI_System_0_avalon_master_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "SPI_System_0_avalon_master_agent"
+Info: Output_Switcher_0_DMA_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "Output_Switcher_0_DMA_agent"
 Info: hps_0_f2h_sdram0_data_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "hps_0_f2h_sdram0_data_agent"
 Info: hps_0_f2h_sdram0_data_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "hps_0_f2h_sdram0_data_agent_rsp_fifo"
-Info: Reusing file /home/lcav/Desktop/Master_Thesis/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: Reusing file /home/corentin/EPFL/projet/Pyramic_cferr/fpga/Altera Project/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_avalon_sc_fifo.v
 Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
-Info: router_001: "mm_interconnect_0" instantiated altera_merlin_router "router_001"
+Info: router_003: "mm_interconnect_0" instantiated altera_merlin_router "router_003"
 Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
 Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
+Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
 Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
-Info: Reusing file /home/lcav/Desktop/Master_Thesis/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file /home/corentin/EPFL/projet/Pyramic_cferr/fpga/Altera Project/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
 Info: hps_0_h2f_lw_axi_master_agent: "mm_interconnect_1" instantiated altera_merlin_axi_master_ni "hps_0_h2f_lw_axi_master_agent"
 Info: router: "mm_interconnect_1" instantiated altera_merlin_router "router"
 Info: router_002: "mm_interconnect_1" instantiated altera_merlin_router "router_002"
 Info: hps_0_h2f_lw_axi_master_wr_limiter: "mm_interconnect_1" instantiated altera_merlin_traffic_limiter "hps_0_h2f_lw_axi_master_wr_limiter"
-Info: Reusing file /home/lcav/Desktop/Master_Thesis/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: Reusing file /home/corentin/EPFL/projet/Pyramic_cferr/fpga/Altera Project/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_avalon_sc_fifo.v
 Info: audio_and_video_config_0_avalon_av_config_slave_burst_adapter: "mm_interconnect_1" instantiated altera_merlin_burst_adapter "audio_and_video_config_0_avalon_av_config_slave_burst_adapter"
-Info: Reusing file /home/lcav/Desktop/Master_Thesis/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_merlin_address_alignment.sv
-Info: Reusing file /home/lcav/Desktop/Master_Thesis/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_avalon_st_pipeline_base.v
+Info: Reusing file /home/corentin/EPFL/projet/Pyramic_cferr/fpga/Altera Project/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_merlin_address_alignment.sv
+Info: Reusing file /home/corentin/EPFL/projet/Pyramic_cferr/fpga/Altera Project/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_avalon_st_pipeline_base.v
 Info: cmd_demux: "mm_interconnect_1" instantiated altera_merlin_demultiplexer "cmd_demux"
 Info: cmd_mux: "mm_interconnect_1" instantiated altera_merlin_multiplexer "cmd_mux"
-Info: Reusing file /home/lcav/Desktop/Master_Thesis/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file /home/corentin/EPFL/projet/Pyramic_cferr/fpga/Altera Project/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: rsp_demux: "mm_interconnect_1" instantiated altera_merlin_demultiplexer "rsp_demux"
 Info: rsp_mux: "mm_interconnect_1" instantiated altera_merlin_multiplexer "rsp_mux"
-Info: Reusing file /home/lcav/Desktop/Master_Thesis/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: Reusing file /home/corentin/EPFL/projet/Pyramic_cferr/fpga/Altera Project/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
 Info: timing_adapter_0: "avalon_st_adapter" instantiated timing_adapter "timing_adapter_0"
 Info: error_adapter_0: "avalon_st_adapter_002" instantiated error_adapter "error_adapter_0"
 Info: timing_adapter_0: "avalon_st_adapter_002" instantiated timing_adapter "timing_adapter_0"
 Info: border: "hps_io" instantiated altera_interface_generator "border"
 Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
-Info: Pyramic_Array: Done "Pyramic_Array" with 43 modules, 134 files
+Info: Pyramic_Array: Done "Pyramic_Array" with 46 modules, 138 files
 Info: qsys-generate succeeded.
 Info: Finished: Create HDL design files for synthesis

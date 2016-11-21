@@ -78,7 +78,7 @@ begin
 						FIR_Ready <= '0';
 					end if;
 				when s_beamformer => 
-				-- Now we are reading just one of the channels but the final objective is to add all the channels and output them through the codec 
+				-- Now we are reading just one of the channels but the final objective is to add all the channels and output them through hte codec 
 					if Audio_Ready = '1' then
 						Audio_Valid <= '1';
 						-- The following line outputs the channel 2 audio data filtered:

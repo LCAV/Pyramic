@@ -37,7 +37,7 @@ module  Pyramic_Array_pll_0(
 		.output_clock_frequency2("100.000000 MHz"),
 		.phase_shift2("-3750 ps"),
 		.duty_cycle2(50),
-		.output_clock_frequency3("12.295081 MHz"),
+		.output_clock_frequency3("12.500000 MHz"),
 		.phase_shift3("0 ps"),
 		.duty_cycle3(50),
 		.output_clock_frequency4("0 MHz"),

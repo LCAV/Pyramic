@@ -3,13 +3,15 @@
  <debug showDebugMenu="0" />
  <systemtable filter="All Interfaces">
   <columns>
-   <connections preferredWidth="303" />
+   <connections preferredWidth="383" />
    <irq preferredWidth="34" />
    <name preferredWidth="234" />
    <description preferredWidth="310" />
+   <export preferredWidth="214" />
   </columns>
  </systemtable>
- <library expandedCategories="Project,Library" />
+ <library
+   expandedCategories="Library/Basic Functions,Library/University Program/Clock,Library,Project,Library/Basic Functions/Clocks; PLLs and Resets/PLL,Library/Interface Protocols,Library/University Program,Library/Interface Protocols/Transceiver PLL,Library/Basic Functions/Clocks; PLLs and Resets" />
  <window width="1920" height="1200" x="1920" y="0" />
  <generation synthesis="VHDL" block_symbol_file="0" />
 </preferences>
