@@ -1,6 +1,6 @@
 <sld_project_info>
   <project>
-    <hash md5_digest_80b="095791f1a2c316606cf1"/>
+    <hash md5_digest_80b="6edda76558a3a39db114"/>
   </project>
   <file_info>
     <file device="5CSEMA5F31C6" path="Pyramic_Array.sof" usercode="0xFFFFFFFF"/>
@@ -22,7 +22,7 @@
     </sld_info>
     <sld_info hpath="Pyramic_Array:u0" name="u0">
       <assignment_values>
-        <assignment_value text="QSYS_NAME Pyramic_Array HAS_SOPCINFO 1 GENERATION_ID 1470104789"/>
+        <assignment_value text="QSYS_NAME Pyramic_Array HAS_SOPCINFO 1 GENERATION_ID 1479723420"/>
       </assignment_values>
       <parameters/>
     </sld_info>

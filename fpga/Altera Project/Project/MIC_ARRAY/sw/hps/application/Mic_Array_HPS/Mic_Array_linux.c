@@ -18,7 +18,7 @@
 #include <string.h>
 
 
-#include "alt_generalpurpose_io.h"
+#include <alt_generalpurpose_io.h>
 #include "Mic_Array_linux.h"
 #include "Mic_Array_soc.h"
 #include "hwlib.h"
@@ -41,16 +41,15 @@
 
 // Memory allocation for the samples
 #define RESERVED_MEMORY_OFFSET_PHY (500*1024*1024)			// Physical memory address where we can start to save data (500 MB)
-#define RESERVED_MEMORY_SIZE_PHY (450*1024*1024)			// Memory we allocate for our application (max. 500 MB)
+#define RESERVED_MEMORY_SIZE_PHY (400*1024*1024)			// Memory we allocate for our application (max. 500 MB)
 #define SPI_BUFFER_OFFSET (RESERVED_MEMORY_OFFSET_PHY + 0)  // Memory size
 
 // Secondary memory allocation for the samples : output buffer
 /* The samples in this buffer go to the codec... indeed we
  * can inject whatever samples we want and circumvent the FPGA */
 
-#define SEC_MEMORY_OFFSET_PHY 0 // define them the same way the existing buffer is defined
-#define SEC_MEMORY_SIZE_PHY 0
-#define SEC_BUFFER_SPI_OFFSET 0
+#define SEC_MEMORY_OFFSET_PHY (900*1024*1024) // define them the same way the existing buffer is defined
+#define SEC_MEMORY_SIZE_PHY (100*1024*1024)
 
 // Define main parameters
 #define SAMPLING_FREQUENCY 48000							// fs
@@ -61,6 +60,7 @@
 
 int fd_dev_mem = 0;
 void *reserved_memory = NULL;
+void *output_memory = NULL;
 
 void open_physical_memory_device();
 void close_physical_memory_device();
@@ -116,10 +116,12 @@ int main(int argc, char **argv) {
 	uint32_t j=0;
 	uint32_t i=0;
 	char filename[200];
-	char *filename_ssh = malloc(200);ifcon
+	char *filename_ssh = malloc(200);
 	printf("Duration of the acquisition: = %3.6f\n", duration);
 
 	uint16_t *dma_buffer = (uint16_t *) reserved_memory;
+	uint16_t *out_buffer = (uint16_t *) output_memory;
+
 
 	// Start SPI communication
 	SPI_System(num_samples);
@@ -134,11 +136,16 @@ int main(int argc, char **argv) {
 	   // Create .wav files
 	    write_wav(filename,num_samples_mic, buffer, SAMPLING_FREQUENCY);
 
-		}
-	printf(".wav files write");
-	sprintf(filename_ssh,"scp -r /home/lcav/audio/ lcav@10.42.0.1:~/Desktop/Master_Thesis/Repository/realtimeaudio/data/%s",audio_folder);
-	int a = system(filename_ssh);
-	printf("ssh finish");
+	}
+	printf("Playback of what was captured on the last mic");
+
+	for(i = 0; i < num_samples_mic; i++) {
+		out_buffer[i] = buffer[i];
+	}
+	//printf(".wav files write");
+	//sprintf(filename_ssh,"scp -r /home/lcav/audio/ lcav@10.42.0.1:~/Desktop/Master_Thesis/Repository/realtimeaudio/data/%s",audio_folder);
+	//int a = system(filename_ssh);
+	//printf("ssh finish");
 	munmap_fpga_peripherals();
 	close_physical_memory_device();
 	return 1;
@@ -193,6 +200,14 @@ void mmap_fpga_peripherals() {
            close(fd_dev_mem);
            exit(EXIT_FAILURE);
        }
+
+    output_memory = mmap(NULL, SEC_MEMORY_SIZE_PHY, PROT_READ | PROT_WRITE, MAP_SHARED, fd_dev_mem, SEC_MEMORY_OFFSET_PHY);
+    if (reserved_memory == MAP_FAILED) {
+           printf("Error: output_memory mmap() failed.\n");
+           printf("    errno = %s\n", strerror(errno));
+           close(fd_dev_mem);
+           exit(EXIT_FAILURE);
+    }
 
 }
 

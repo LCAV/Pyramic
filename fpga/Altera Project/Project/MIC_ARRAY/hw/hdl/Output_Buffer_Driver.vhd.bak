@@ -1,0 +1,25 @@
+-- Auxiliary memory controller
+-- Author: Corentin Ferry
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use IEEE.std_logic_unsigned.all;
+
+entity Output_Buffer_Driver is
+
+-- Global signals
+  clk         		  : IN std_logic;
+  reset_n        	  : IN std_logic;
+-- DMA Control signals
+  AM_Addr       	  : OUT std_logic_vector (31 DOWNTO 0);
+  AM_ByteEnable	  : OUT std_logic_vector (3 DOWNTO 0);
+  AM_BurstCount 	  : OUT std_logic_vector (2 DOWNTO 0);
+  AM_Write     	  : OUT std_logic;
+  AM_DataWrite  	  : OUT std_logic_vector (31 DOWNTO 0);
+  AM_WaitRequest	  : IN  std_logic;
+  
+  
+
+
+end Output_Buffer_Driver

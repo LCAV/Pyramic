@@ -1,4 +1,5 @@
 -- Juan Azcarreta Master Thesis
+-- Modified by: Corentin Ferry (EPFL)
 -- An FPGA based platform for many-channel audio acquisition
 -- SPI Controller Module VHDL Description
 -- 15th February 2016
@@ -12,8 +13,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use IEEE.math_real.all;
-
 
 ENTITY SPI_Controller IS
 	 GENERIC (

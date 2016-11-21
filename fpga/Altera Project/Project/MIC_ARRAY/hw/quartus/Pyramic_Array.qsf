@@ -1184,7 +1184,6 @@ set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name QIP_FILE Pyramic_Array/synthesis/Pyramic_Array.qip
 set_global_assignment -name VHDL_FILE ../hdl/Beamformer_Adder.vhd
 set_global_assignment -name VHDL_FILE ../hdl/DE1_SoC_top_level.vhd
-set_global_assignment -name VHDL_FILE ../hdl/DMA_Audio_Read.vhd
 set_global_assignment -name VHDL_FILE ../hdl/FIFO_Mic.vhd
 set_global_assignment -name VHDL_FILE ../hdl/FIFO_Streaming.vhd
 set_global_assignment -name VHDL_FILE ../hdl/SPI_Controller.vhd
@@ -1192,7 +1191,6 @@ set_global_assignment -name VHDL_FILE ../hdl/SPI_DMA.vhd
 set_global_assignment -name VHDL_FILE ../hdl/SPI_Slave.vhd
 set_global_assignment -name VHDL_FILE ../hdl/SPI_Streaming.vhd
 set_global_assignment -name VHDL_FILE ../hdl/SPI_System.vhd
-set_global_assignment -name QIP_FILE Mic_Array_GPA/synthesis/Mic_Array_GPA.qip
 set_global_assignment -name SIGNALTAP_FILE output_files/Filters_Test.stp
 set_global_assignment -name SIGNALTAP_FILE output_files/DMA_Test.stp
 set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to HPS_DDR3_RZQ -tag __hps_sdram_p0
@@ -1378,5 +1376,5 @@ set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to HPS_DDR3_DM[2] -
 set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to HPS_DDR3_DM[2] -tag __hps_sdram_p0
 set_instance_assignment -name IO_STANDARD "SSTL-15 CLASS I" -to HPS_DDR3_DM[3] -tag __hps_sdram_p0
 set_instance_assignment -name OUTPUT_TERMINATION "SERIES 50 OHM WITH CALIBRATION" -to HPS_DDR3_DM[3] -tag __hps_sdram_p0
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name VHDL_FILE ../hdl/Output_Buffer_Driver.vhd
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

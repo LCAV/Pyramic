@@ -347,11 +347,6 @@
    internal="Output_Switcher_1.source_select"
    type="conduit"
    dir="end" />
- <interface
-   name="pll_0_outclk3_audio"
-   internal="pll_1.outclk0"
-   type="clock"
-   dir="start" />
  <interface name="pll_0_sdram" internal="pll_0.outclk2" type="clock" dir="start" />
  <interface name="reset" internal="clk_0.clk_in_reset" type="reset" dir="end" />
  <interface
@@ -503,9 +498,9 @@
    kind="altera_up_avalon_audio"
    version="15.1"
    enabled="1">
-  <parameter name="AUTO_CLK_CLOCK_RATE" value="50000000" />
+  <parameter name="AUTO_CLK_CLOCK_RATE" value="12880000" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
-  <parameter name="audio_in" value="false" />
+  <parameter name="audio_in" value="true" />
   <parameter name="audio_out" value="true" />
   <parameter name="avalon_bus_type" value="Streaming" />
   <parameter name="dw" value="32" />
@@ -1186,7 +1181,7 @@
   <parameter name="gui_number_of_clocks" value="4" />
   <parameter name="gui_operation_mode" value="normal" />
   <parameter name="gui_output_clock_frequency0" value="50.0" />
-  <parameter name="gui_output_clock_frequency1" value="100.0" />
+  <parameter name="gui_output_clock_frequency1" value="48.0" />
   <parameter name="gui_output_clock_frequency10" value="100.0" />
   <parameter name="gui_output_clock_frequency11" value="100.0" />
   <parameter name="gui_output_clock_frequency12" value="100.0" />
@@ -1388,7 +1383,7 @@
   <parameter name="gui_multiply_factor" value="1" />
   <parameter name="gui_number_of_clocks" value="1" />
   <parameter name="gui_operation_mode" value="direct" />
-  <parameter name="gui_output_clock_frequency0" value="12.288" />
+  <parameter name="gui_output_clock_frequency0" value="12.88" />
   <parameter name="gui_output_clock_frequency1" value="100.0" />
   <parameter name="gui_output_clock_frequency10" value="100.0" />
   <parameter name="gui_output_clock_frequency11" value="100.0" />
@@ -1467,10 +1462,10 @@
   <parameter name="gui_ps_units9" value="ps" />
   <parameter name="gui_refclk1_frequency" value="100.0" />
   <parameter name="gui_refclk_switch" value="false" />
-  <parameter name="gui_reference_clock_frequency" value="12.5" />
+  <parameter name="gui_reference_clock_frequency" value="48.0" />
   <parameter name="gui_switchover_delay" value="0" />
   <parameter name="gui_switchover_mode">Automatic Switchover</parameter>
-  <parameter name="gui_use_locked" value="true" />
+  <parameter name="gui_use_locked" value="false" />
  </module>
  <module
    name="sysid"
@@ -1576,13 +1571,13 @@
    version="16.0"
    start="pll_0.outclk0"
    end="audio_and_video_config_0.clk" />
+ <connection kind="clock" version="16.0" start="pll_0.outclk0" end="FIR_LEFT.clk" />
+ <connection kind="clock" version="16.0" start="pll_0.outclk0" end="FIR_RIGHT.clk" />
  <connection
    kind="clock"
    version="16.0"
-   start="pll_0.outclk0"
+   start="pll_1.outclk0"
    end="audio_controller.clk" />
- <connection kind="clock" version="16.0" start="pll_0.outclk0" end="FIR_LEFT.clk" />
- <connection kind="clock" version="16.0" start="pll_0.outclk0" end="FIR_RIGHT.clk" />
  <connection
    kind="clock"
    version="16.0"
@@ -1601,12 +1596,12 @@
  <connection
    kind="clock"
    version="16.0"
-   start="pll_0.outclk0"
+   start="pll_1.outclk0"
    end="Output_Switcher_1.clock" />
  <connection
    kind="clock"
    version="16.0"
-   start="pll_0.outclk0"
+   start="pll_1.outclk0"
    end="Output_Switcher_0.clock" />
  <connection
    kind="clock"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="Pyramic_Array" kind="system" version="16.0" fabric="QSYS">
  <!-- Format version 16.0 211 (Future versions may contain additional information.) -->
- <!-- 2016.11.21.10:14:00 -->
+ <!-- 2016.11.21.11:17:31 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1479719385</value>
+  <value>1479723420</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -3736,19 +3736,19 @@ parameters are a RESULT of the module parameters. -->
    <type>avalon_streaming</type>
    <isStart>true</isStart>
    <port>
-    <name>avalon_streaming_source_ready</name>
+    <name>Out_Avalon_Ready</name>
     <direction>Input</direction>
     <width>1</width>
     <role>ready</role>
    </port>
    <port>
-    <name>avalon_streaming_source_data</name>
+    <name>Out_Avalon_Data</name>
     <direction>Output</direction>
     <width>32</width>
     <role>data</role>
    </port>
    <port>
-    <name>avalon_streaming_source_valid</name>
+    <name>Out_Avalon_Valid</name>
     <direction>Output</direction>
     <width>1</width>
     <role>valid</role>
@@ -4496,19 +4496,19 @@ parameters are a RESULT of the module parameters. -->
    <type>avalon_streaming</type>
    <isStart>true</isStart>
    <port>
-    <name>avalon_streaming_source_ready</name>
+    <name>Out_Avalon_Ready</name>
     <direction>Input</direction>
     <width>1</width>
     <role>ready</role>
    </port>
    <port>
-    <name>avalon_streaming_source_data</name>
+    <name>Out_Avalon_Data</name>
     <direction>Output</direction>
     <width>32</width>
     <role>data</role>
    </port>
    <port>
-    <name>avalon_streaming_source_valid</name>
+    <name>Out_Avalon_Valid</name>
     <direction>Output</direction>
     <width>1</width>
     <role>valid</role>
@@ -6487,7 +6487,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="audio_in">
    <type>boolean</type>
-   <value>false</value>
+   <value>true</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -7249,6 +7249,18 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <type>conduit</type>
    <isStart>false</isStart>
+   <port>
+    <name>AUD_ADCDAT</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>export</role>
+   </port>
+   <port>
+    <name>AUD_ADCLRCK</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>export</role>
+   </port>
    <port>
     <name>AUD_BCLK</name>
     <direction>Input</direction>
@@ -53237,7 +53249,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="gui_use_locked">
    <type>boolean</type>
-   <value>true</value>
+   <value>false</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -57050,55 +57062,6 @@ parameters are a RESULT of the module parameters. -->
     <role>clk</role>
    </port>
   </interface>
-  <interface name="locked" kind="conduit_end" version="16.0">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <assignment>
-    <name>ui.blockdiagram.direction</name>
-    <value>OUTPUT</value>
-   </assignment>
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
-   <port>
-    <name>locked</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>export</role>
-   </port>
-  </interface>
  </module>
  <module
    name="sysid"
@@ -57113,7 +57076,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1479719385</value>
+   <value>1479723420</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -57133,7 +57096,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1479719385</value>
+   <value>1479723420</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -57149,7 +57112,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1479719385</value>
+   <value>1479723420</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -66686,7 +66649,7 @@ parameters are a RESULT of the module parameters. -->
   <version>1.0</version>
  </plugin>
  <plugin>
-  <instanceCount>10</instanceCount>
+  <instanceCount>9</instanceCount>
   <name>conduit_end</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
@@ -66942,5 +66905,5 @@ parameters are a RESULT of the module parameters. -->
   <version>16.0</version>
  </plugin>
  <reportVersion>16.0 211</reportVersion>
- <uniqueIdentifier>34E6AD190767000001588627AF67</uniqueIdentifier>
+ <uniqueIdentifier>525400F01A1B000001588663A805</uniqueIdentifier>
 </EnsembleReport>

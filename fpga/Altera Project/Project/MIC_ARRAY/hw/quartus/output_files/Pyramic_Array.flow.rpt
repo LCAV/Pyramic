@@ -1,5 +1,5 @@
 Flow report for Pyramic_Array
-Mon Oct 10 14:51:19 2016
+Mon Nov 21 14:14:11 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -41,25 +41,25 @@ agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Mon Oct 10 14:50:36 2016       ;
+; Flow Status                     ; Successful - Mon Nov 21 14:14:11 2016       ;
 ; Quartus Prime Version           ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                   ; Pyramic_Array                               ;
 ; Top-level Entity Name           ; DE1_SoC_top_level                           ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CSEMA5F31C6                                ;
 ; Timing Models                   ; Final                                       ;
-; Logic utilization (in ALMs)     ; 2,195 / 32,070 ( 7 % )                      ;
-; Total registers                 ; 3831                                        ;
-; Total pins                      ; 201 / 457 ( 44 % )                          ;
+; Logic utilization (in ALMs)     ; N/A                                         ;
+; Total registers                 ; 4209                                        ;
+; Total pins                      ; 201                                         ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 511,700 / 4,065,280 ( 13 % )                ;
-; Total DSP Blocks                ; 4 / 87 ( 5 % )                              ;
+; Total block memory bits         ; 511,700                                     ;
+; Total DSP Blocks                ; 4                                           ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
 ; Total HSSI TX PCSs              ; 0                                           ;
 ; Total HSSI PMA TX Serializers   ; 0                                           ;
-; Total PLLs                      ; 1 / 6 ( 17 % )                              ;
-; Total DLLs                      ; 1 / 4 ( 25 % )                              ;
+; Total PLLs                      ; 2                                           ;
+; Total DLLs                      ; 1                                           ;
 +---------------------------------+---------------------------------------------+
 
 
@@ -68,7 +68,7 @@ agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 10/10/2016 14:42:46 ;
+; Start date & time ; 11/21/2016 14:08:52 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; Pyramic_Array       ;
 +-------------------+---------------------+
@@ -79,21 +79,21 @@ agreement for further details.
 +---------------------------------------+-----------------------------------------------------------------------------+---------------+-----------------------------------+------------+
 ; Assignment Name                       ; Value                                                                       ; Default Value ; Entity Name                       ; Section Id ;
 +---------------------------------------+-----------------------------------------------------------------------------+---------------+-----------------------------------+------------+
-; COMPILER_SIGNATURE_ID                 ; 0.147610336303336                                                           ; --            ; --                                ; --         ;
+; COMPILER_SIGNATURE_ID                 ; 0.147973372812017                                                           ; --            ; --                                ; --         ;
 ; ECO_REGENERATE_REPORT                 ; On                                                                          ; Off           ; --                                ; --         ;
 ; ENABLE_SIGNALTAP                      ; On                                                                          ; --            ; --                                ; --         ;
-; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_auto_inst_init.pre.c ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sequencer.pre.h                ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/emif.pre.xml                   ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sequencer.pre.c                ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/tclrpt.pre.c                   ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/system.pre.h                   ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/tclrpt.pre.h                   ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_auto.pre.h           ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_auto_ac_init.pre.c   ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
 ; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sdram_io.pre.h                 ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_defines.pre.h        ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
 ; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/alt_types.pre.h                ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
+; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/system.pre.h                   ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
+; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sequencer.pre.c                ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
+; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sequencer.pre.h                ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
+; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/tclrpt.pre.c                   ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
+; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/tclrpt.pre.h                   ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
+; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_defines.pre.h        ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
+; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_auto_ac_init.pre.c   ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
+; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_auto_inst_init.pre.c ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
+; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_auto.pre.h           ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
+; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/emif.pre.xml                   ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
 ; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/hps.pre.xml                              ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
 ; HPS_PARTITION                         ; On                                                                          ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
 ; MAX_CORE_JUNCTION_TEMP                ; 85                                                                          ; --            ; --                                ; --         ;
@@ -101,18 +101,18 @@ agreement for further details.
 ; MISC_FILE                             ; Pyramic_Array/synthesis/../Pyramic_Array.cmp                                ; --            ; --                                ; --         ;
 ; MISC_FILE                             ; Pyramic_Array/synthesis/Pyramic_Array_hps_0_hps.svd                         ; --            ; --                                ; --         ;
 ; MISC_FILE                             ; Pyramic_Array/synthesis/../../Pyramic_Array.qsys                            ; --            ; --                                ; --         ;
-; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_auto_inst_init.pre.c ; --            ; --                                ; --         ;
-; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/sequencer.pre.h                ; --            ; --                                ; --         ;
-; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/emif.pre.xml                   ; --            ; --                                ; --         ;
-; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/sequencer.pre.c                ; --            ; --                                ; --         ;
-; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/tclrpt.pre.c                   ; --            ; --                                ; --         ;
-; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/system.pre.h                   ; --            ; --                                ; --         ;
-; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/tclrpt.pre.h                   ; --            ; --                                ; --         ;
-; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_auto.pre.h           ; --            ; --                                ; --         ;
-; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_auto_ac_init.pre.c   ; --            ; --                                ; --         ;
 ; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/sdram_io.pre.h                 ; --            ; --                                ; --         ;
-; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_defines.pre.h        ; --            ; --                                ; --         ;
 ; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/alt_types.pre.h                ; --            ; --                                ; --         ;
+; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/system.pre.h                   ; --            ; --                                ; --         ;
+; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/sequencer.pre.c                ; --            ; --                                ; --         ;
+; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/sequencer.pre.h                ; --            ; --                                ; --         ;
+; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/tclrpt.pre.c                   ; --            ; --                                ; --         ;
+; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/tclrpt.pre.h                   ; --            ; --                                ; --         ;
+; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_defines.pre.h        ; --            ; --                                ; --         ;
+; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_auto_ac_init.pre.c   ; --            ; --                                ; --         ;
+; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_auto_inst_init.pre.c ; --            ; --                                ; --         ;
+; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/sequencer_auto.pre.h           ; --            ; --                                ; --         ;
+; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/sequencer/emif.pre.xml                   ; --            ; --                                ; --         ;
 ; MISC_FILE                             ; Pyramic_Array/synthesis/submodules/hps.pre.xml                              ; --            ; --                                ; --         ;
 ; PARTITION_COLOR                       ; 16764057                                                                    ; --            ; DE1_SoC_top_level                 ; Top        ;
 ; PARTITION_FITTER_PRESERVATION_LEVEL   ; PLACEMENT_AND_ROUTING                                                       ; --            ; DE1_SoC_top_level                 ; Top        ;
@@ -122,7 +122,7 @@ agreement for further details.
 ; PROJECT_OUTPUT_DIRECTORY              ; output_files                                                                ; --            ; --                                ; --         ;
 ; SLD_FILE                              ; Pyramic_Array/synthesis/Pyramic_Array.regmap                                ; --            ; --                                ; --         ;
 ; SLD_FILE                              ; Pyramic_Array/synthesis/Pyramic_Array.debuginfo                             ; --            ; --                                ; --         ;
-; SLD_INFO                              ; QSYS_NAME Pyramic_Array HAS_SOPCINFO 1 GENERATION_ID 1470104789             ; --            ; --                                ; --         ;
+; SLD_INFO                              ; QSYS_NAME Pyramic_Array HAS_SOPCINFO 1 GENERATION_ID 1479723420             ; --            ; --                                ; --         ;
 ; SOPCINFO_FILE                         ; Pyramic_Array/synthesis/../../Pyramic_Array.sopcinfo                        ; --            ; --                                ; --         ;
 ; SYNTHESIS_ONLY_QIP                    ; On                                                                          ; --            ; --                                ; --         ;
 ; TOP_LEVEL_ENTITY                      ; DE1_SoC_top_level                                                           ; Pyramic_Array ; --                                ; --         ;
@@ -131,38 +131,29 @@ agreement for further details.
 +---------------------------------------+-----------------------------------------------------------------------------+---------------+-----------------------------------+------------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------+
-; Flow Elapsed Time                                                                                                             ;
-+---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
-+---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:51     ; 1.0                     ; 1797 MB             ; 00:01:16                           ;
-; Fitter                    ; 00:02:13     ; 1.0                     ; 3774 MB             ; 00:03:09                           ;
-; Assembler                 ; 00:00:10     ; 1.0                     ; 1410 MB             ; 00:00:11                           ;
-; TimeQuest Timing Analyzer ; 00:00:41     ; 1.0                     ; 2341 MB             ; 00:00:41                           ;
-; Total                     ; 00:03:55     ; --                      ; --                  ; 00:05:17                           ;
-+---------------------------+--------------+-------------------------+---------------------+------------------------------------+
++--------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                        ;
++----------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++----------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Analysis & Synthesis ; 00:00:51     ; 1.0                     ; 1807 MB             ; 00:01:16                           ;
+; Total                ; 00:00:51     ; --                      ; --                  ; 00:01:16                           ;
++----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
-+--------------------------------------------------------------------------------------+
-; Flow OS Summary                                                                      ;
-+---------------------------+------------------+---------+------------+----------------+
-; Module Name               ; Machine Hostname ; OS Name ; OS Version ; Processor type ;
-+---------------------------+------------------+---------+------------+----------------+
-; Analysis & Synthesis      ; lappc21.epfl.ch  ; Red Hat ; Red Hat    ; x86_64         ;
-; Fitter                    ; lappc21.epfl.ch  ; Red Hat ; Red Hat    ; x86_64         ;
-; Assembler                 ; lappc21.epfl.ch  ; Red Hat ; Red Hat    ; x86_64         ;
-; TimeQuest Timing Analyzer ; lappc21.epfl.ch  ; Red Hat ; Red Hat    ; x86_64         ;
-+---------------------------+------------------+---------+------------+----------------+
++---------------------------------------------------------------------------------+
+; Flow OS Summary                                                                 ;
++----------------------+------------------+---------+------------+----------------+
+; Module Name          ; Machine Hostname ; OS Name ; OS Version ; Processor type ;
++----------------------+------------------+---------+------------+----------------+
+; Analysis & Synthesis ; lappc21.epfl.ch  ; Red Hat ; Red Hat    ; x86_64         ;
++----------------------+------------------+---------+------------+----------------+
 
 
 ------------
 ; Flow Log ;
 ------------
 quartus_map --read_settings_files=on --write_settings_files=off Pyramic_Array -c Pyramic_Array
-quartus_fit --read_settings_files=off --write_settings_files=off Pyramic_Array -c Pyramic_Array
-quartus_asm --read_settings_files=off --write_settings_files=off Pyramic_Array -c Pyramic_Array
-quartus_sta Pyramic_Array -c Pyramic_Array
 
 
 

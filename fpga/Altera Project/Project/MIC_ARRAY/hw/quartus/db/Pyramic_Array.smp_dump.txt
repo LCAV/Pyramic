@@ -64,6 +64,24 @@ SPI_state.Waiting5 0 0 1 0 0 0 0 0 0 0 0 1
 SPI_state.Waiting6 0 1 0 0 0 0 0 0 0 0 0 1 
 SPI_state.Waiting7 1 0 0 0 0 0 0 0 0 0 0 1 
 
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|Output_Buffer_Driver:output_switcher_1|stateM
+Name stateM.s_read_memory stateM.s_wait_memory stateM.s_init_dma_read stateM.s_read_avalon stateM.s_wait_avalon_in stateM.s_idle 
+stateM.s_idle 0 0 0 0 0 0 
+stateM.s_wait_avalon_in 0 0 0 0 1 1 
+stateM.s_read_avalon 0 0 0 1 0 1 
+stateM.s_init_dma_read 0 0 1 0 0 1 
+stateM.s_wait_memory 0 1 0 0 0 1 
+stateM.s_read_memory 1 0 0 0 0 1 
+
+State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|Output_Buffer_Driver:output_switcher_0|stateM
+Name stateM.s_read_memory stateM.s_wait_memory stateM.s_init_dma_read stateM.s_read_avalon stateM.s_wait_avalon_in stateM.s_idle 
+stateM.s_idle 0 0 0 0 0 0 
+stateM.s_wait_avalon_in 0 0 0 0 1 1 
+stateM.s_read_avalon 0 0 0 1 0 1 
+stateM.s_init_dma_read 0 0 1 0 0 1 
+stateM.s_wait_memory 0 1 0 0 0 1 
+stateM.s_read_memory 1 0 0 0 0 1 
+
 State Machine - |DE1_SoC_top_level|Pyramic_Array:u0|Pyramic_Array_FIR_LEFT:fir_right|Pyramic_Array_FIR_LEFT_ast:Pyramic_Array_FIR_LEFT_ast_inst|auk_dspip_avalon_streaming_source_hpfir:source|source_state
 Name source_state.end1 source_state.st_err source_state.run1 source_state.sop source_state.start 
 source_state.start 0 0 0 0 0 

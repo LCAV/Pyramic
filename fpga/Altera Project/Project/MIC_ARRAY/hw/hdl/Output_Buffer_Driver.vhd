@@ -44,7 +44,7 @@ port
 	
 -- Signals for Avalon Streaming Source (typically connected to the codec, but can be connected elsewhere)
 -- Avalon ST source interface
-	Out_Avalon_Data  : out std_logic_vector (SAMPLE_WIDTH DOWNTO 0);
+	Out_Avalon_Data  : out std_logic_vector ((SAMPLE_WIDTH -1) DOWNTO 0);
 	Out_Avalon_Valid : OUT std_logic;
 	Out_Avalon_Ready : in  std_logic
   
@@ -60,14 +60,14 @@ signal stateM: state_type;
 type state_stream_type is (s_wait, s_transmit1, s_transmit2, s_transmit3);
 signal StateMStream: state_type;
 
-signal SndAddr : unsigned(32 DOWNTO 0);
+signal SndAddr : unsigned(31 DOWNTO 0);
 signal signal_holder : std_logic_vector((SAMPLE_WIDTH - 1) DOWNTO 0);
 
 -- We will determine more precisely these later on
-constant base_read_addr : unsigned := "1101011010010011101001000000"; --225000000; -- 900 MB
-constant sound_len : unsigned := "1011111010111100001000000"; --25000000; -- 100 MB
-constant be_left : unsigned = "1100";
-constant be_right : unsigned = "0011";
+constant base_read_addr : unsigned := "00001101011010010011101001000000"; --225000000; -- 900 MiB --rendre programmable 
+constant sound_len : unsigned      := "00000001011111010111100001000000"; --25000000; -- 100 MiB
+constant be_left : unsigned := "1100";
+constant be_right : unsigned := "0011";
 
 begin
 
@@ -87,7 +87,8 @@ begin
 				if Use_Memory = '1' then
 					stateM <= s_init_dma_read;
 				else
-					stateM <= s_wait_avalon_in;
+					--stateM <= s_wait_avalon_in;
+					stateM <= s_init_dma_read;
 				end if;
 			when s_wait_avalon_in =>
 				-- let's wait for the axuiliary avalon interface to be ready...
@@ -109,7 +110,7 @@ begin
 			when s_init_dma_read =>
 				-- initialize dma transfer
 				DMA_Addr <= std_logic_vector(SndAddr);
-				if Is_Leftight = '1' then
+				if Is_LeftRight = '1' then
 					DMA_ByteEnable <= std_logic_vector(be_left); 
 				else
 					DMA_ByteEnable <= std_logic_vector(be_right);

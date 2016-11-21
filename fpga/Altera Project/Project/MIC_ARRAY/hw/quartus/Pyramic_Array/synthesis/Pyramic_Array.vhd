@@ -8,7 +8,9 @@ use IEEE.numeric_std.all;
 
 entity Pyramic_Array is
 	port (
-		audio_0_external_interface_BCLK                  : in    std_logic                     := '0';             --                  audio_0_external_interface.BCLK
+		audio_0_external_interface_ADCDAT                : in    std_logic                     := '0';             --                  audio_0_external_interface.ADCDAT
+		audio_0_external_interface_ADCLRCK               : in    std_logic                     := '0';             --                                            .ADCLRCK
+		audio_0_external_interface_BCLK                  : in    std_logic                     := '0';             --                                            .BCLK
 		audio_0_external_interface_DACDAT                : out   std_logic;                                        --                                            .DACDAT
 		audio_0_external_interface_DACLRCK               : in    std_logic                     := '0';             --                                            .DACLRCK
 		audio_and_video_config_0_external_interface_SDAT : inout std_logic                     := '0';             -- audio_and_video_config_0_external_interface.SDAT
@@ -129,22 +131,22 @@ architecture rtl of Pyramic_Array is
 			SAMPLE_WIDTH : natural := 32
 		);
 		port (
-			clk                           : in  std_logic                     := 'X';             -- clk
-			reset_n                       : in  std_logic                     := 'X';             -- reset_n
-			Use_Memory                    : in  std_logic                     := 'X';             -- new_signal
-			Is_LeftRight                  : in  std_logic                     := 'X';             -- new_signal_1
-			DMA_Addr                      : out std_logic_vector(31 downto 0);                    -- address
-			DMA_ByteEnable                : out std_logic_vector(3 downto 0);                     -- byteenable
-			DMA_Read                      : out std_logic;                                        -- read
-			DMA_Data                      : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
-			DMA_Valid                     : in  std_logic                     := 'X';             -- readdatavalid
-			DMA_WaitRequest               : in  std_logic                     := 'X';             -- waitrequest
-			In_Avalon_Ready               : out std_logic;                                        -- ready
-			In_Avalon_Valid               : in  std_logic                     := 'X';             -- valid
-			In_Avalon_Data                : in  std_logic_vector(31 downto 0) := (others => 'X'); -- data
-			avalon_streaming_source_ready : in  std_logic                     := 'X';             -- ready
-			avalon_streaming_source_data  : out std_logic_vector(31 downto 0);                    -- data
-			avalon_streaming_source_valid : out std_logic                                         -- valid
+			clk              : in  std_logic                     := 'X';             -- clk
+			reset_n          : in  std_logic                     := 'X';             -- reset_n
+			Use_Memory       : in  std_logic                     := 'X';             -- new_signal
+			Is_LeftRight     : in  std_logic                     := 'X';             -- new_signal_1
+			DMA_Addr         : out std_logic_vector(31 downto 0);                    -- address
+			DMA_ByteEnable   : out std_logic_vector(3 downto 0);                     -- byteenable
+			DMA_Read         : out std_logic;                                        -- read
+			DMA_Data         : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			DMA_Valid        : in  std_logic                     := 'X';             -- readdatavalid
+			DMA_WaitRequest  : in  std_logic                     := 'X';             -- waitrequest
+			In_Avalon_Ready  : out std_logic;                                        -- ready
+			In_Avalon_Valid  : in  std_logic                     := 'X';             -- valid
+			In_Avalon_Data   : in  std_logic_vector(31 downto 0) := (others => 'X'); -- data
+			Out_Avalon_Ready : in  std_logic                     := 'X';             -- ready
+			Out_Avalon_Data  : out std_logic_vector(31 downto 0);                    -- data
+			Out_Avalon_Valid : out std_logic                                         -- valid
 		);
 	end component Output_Buffer_Driver;
 
@@ -229,6 +231,8 @@ architecture rtl of Pyramic_Array is
 			to_dac_right_channel_data    : in  std_logic_vector(31 downto 0) := (others => 'X'); -- data
 			to_dac_right_channel_valid   : in  std_logic                     := 'X';             -- valid
 			to_dac_right_channel_ready   : out std_logic;                                        -- ready
+			AUD_ADCDAT                   : in  std_logic                     := 'X';             -- export
+			AUD_ADCLRCK                  : in  std_logic                     := 'X';             -- export
 			AUD_BCLK                     : in  std_logic                     := 'X';             -- export
 			AUD_DACDAT                   : out std_logic;                                        -- export
 			AUD_DACLRCK                  : in  std_logic                     := 'X'              -- export
@@ -673,12 +677,12 @@ architecture rtl of Pyramic_Array is
 		);
 	end component pyramic_array_rst_controller_001;
 
-	signal output_switcher_0_audio_streaming_source_valid                                : std_logic;                     -- Output_Switcher_0:avalon_streaming_source_valid -> audio_controller:to_dac_left_channel_valid
-	signal output_switcher_0_audio_streaming_source_data                                 : std_logic_vector(31 downto 0); -- Output_Switcher_0:avalon_streaming_source_data -> audio_controller:to_dac_left_channel_data
-	signal output_switcher_0_audio_streaming_source_ready                                : std_logic;                     -- audio_controller:to_dac_left_channel_ready -> Output_Switcher_0:avalon_streaming_source_ready
-	signal output_switcher_1_audio_streaming_source_valid                                : std_logic;                     -- Output_Switcher_1:avalon_streaming_source_valid -> audio_controller:to_dac_right_channel_valid
-	signal output_switcher_1_audio_streaming_source_data                                 : std_logic_vector(31 downto 0); -- Output_Switcher_1:avalon_streaming_source_data -> audio_controller:to_dac_right_channel_data
-	signal output_switcher_1_audio_streaming_source_ready                                : std_logic;                     -- audio_controller:to_dac_right_channel_ready -> Output_Switcher_1:avalon_streaming_source_ready
+	signal output_switcher_0_audio_streaming_source_valid                                : std_logic;                     -- Output_Switcher_0:Out_Avalon_Valid -> audio_controller:to_dac_left_channel_valid
+	signal output_switcher_0_audio_streaming_source_data                                 : std_logic_vector(31 downto 0); -- Output_Switcher_0:Out_Avalon_Data -> audio_controller:to_dac_left_channel_data
+	signal output_switcher_0_audio_streaming_source_ready                                : std_logic;                     -- audio_controller:to_dac_left_channel_ready -> Output_Switcher_0:Out_Avalon_Ready
+	signal output_switcher_1_audio_streaming_source_valid                                : std_logic;                     -- Output_Switcher_1:Out_Avalon_Valid -> audio_controller:to_dac_right_channel_valid
+	signal output_switcher_1_audio_streaming_source_data                                 : std_logic_vector(31 downto 0); -- Output_Switcher_1:Out_Avalon_Data -> audio_controller:to_dac_right_channel_data
+	signal output_switcher_1_audio_streaming_source_ready                                : std_logic;                     -- audio_controller:to_dac_right_channel_ready -> Output_Switcher_1:Out_Avalon_Ready
 	signal beamformer_left_source_beam_valid                                             : std_logic;                     -- Beamformer_LEFT:Audio_Valid -> Output_Switcher_0:In_Avalon_Valid
 	signal beamformer_left_source_beam_data                                              : std_logic_vector(31 downto 0); -- Beamformer_LEFT:Audio_data -> Output_Switcher_0:In_Avalon_Data
 	signal beamformer_left_source_beam_ready                                             : std_logic;                     -- Output_Switcher_0:In_Avalon_Ready -> Beamformer_LEFT:Audio_Ready
@@ -892,22 +896,22 @@ begin
 			SAMPLE_WIDTH => 32
 		)
 		port map (
-			clk                           => pll_0_outclk0_clk,                              --                  clock.clk
-			reset_n                       => rst_controller_reset_out_reset_ports_inv,       --                  reset.reset_n
-			Use_Memory                    => output_switcher_0_source_select_new_signal,     --          source_select.new_signal
-			Is_LeftRight                  => output_switcher_0_source_select_new_signal_1,   --                       .new_signal_1
-			DMA_Addr                      => output_switcher_0_dma_address,                  --                    DMA.address
-			DMA_ByteEnable                => output_switcher_0_dma_byteenable,               --                       .byteenable
-			DMA_Read                      => output_switcher_0_dma_read,                     --                       .read
-			DMA_Data                      => output_switcher_0_dma_readdata,                 --                       .readdata
-			DMA_Valid                     => output_switcher_0_dma_readdatavalid,            --                       .readdatavalid
-			DMA_WaitRequest               => output_switcher_0_dma_waitrequest,              --                       .waitrequest
-			In_Avalon_Ready               => beamformer_left_source_beam_ready,              --   Audio_Streaming_Sink.ready
-			In_Avalon_Valid               => beamformer_left_source_beam_valid,              --                       .valid
-			In_Avalon_Data                => beamformer_left_source_beam_data,               --                       .data
-			avalon_streaming_source_ready => output_switcher_0_audio_streaming_source_ready, -- Audio_Streaming_Source.ready
-			avalon_streaming_source_data  => output_switcher_0_audio_streaming_source_data,  --                       .data
-			avalon_streaming_source_valid => output_switcher_0_audio_streaming_source_valid  --                       .valid
+			clk              => pll_0_outclk0_clk,                              --                  clock.clk
+			reset_n          => rst_controller_reset_out_reset_ports_inv,       --                  reset.reset_n
+			Use_Memory       => output_switcher_0_source_select_new_signal,     --          source_select.new_signal
+			Is_LeftRight     => output_switcher_0_source_select_new_signal_1,   --                       .new_signal_1
+			DMA_Addr         => output_switcher_0_dma_address,                  --                    DMA.address
+			DMA_ByteEnable   => output_switcher_0_dma_byteenable,               --                       .byteenable
+			DMA_Read         => output_switcher_0_dma_read,                     --                       .read
+			DMA_Data         => output_switcher_0_dma_readdata,                 --                       .readdata
+			DMA_Valid        => output_switcher_0_dma_readdatavalid,            --                       .readdatavalid
+			DMA_WaitRequest  => output_switcher_0_dma_waitrequest,              --                       .waitrequest
+			In_Avalon_Ready  => beamformer_left_source_beam_ready,              --   Audio_Streaming_Sink.ready
+			In_Avalon_Valid  => beamformer_left_source_beam_valid,              --                       .valid
+			In_Avalon_Data   => beamformer_left_source_beam_data,               --                       .data
+			Out_Avalon_Ready => output_switcher_0_audio_streaming_source_ready, -- Audio_Streaming_Source.ready
+			Out_Avalon_Data  => output_switcher_0_audio_streaming_source_data,  --                       .data
+			Out_Avalon_Valid => output_switcher_0_audio_streaming_source_valid  --                       .valid
 		);
 
 	output_switcher_1 : component Output_Buffer_Driver
@@ -915,22 +919,22 @@ begin
 			SAMPLE_WIDTH => 32
 		)
 		port map (
-			clk                           => pll_0_outclk0_clk,                              --                  clock.clk
-			reset_n                       => rst_controller_reset_out_reset_ports_inv,       --                  reset.reset_n
-			Use_Memory                    => output_switcher_1_source_select_new_signal,     --          source_select.new_signal
-			Is_LeftRight                  => output_switcher_1_source_select_new_signal_1,   --                       .new_signal_1
-			DMA_Addr                      => output_switcher_1_dma_address,                  --                    DMA.address
-			DMA_ByteEnable                => output_switcher_1_dma_byteenable,               --                       .byteenable
-			DMA_Read                      => output_switcher_1_dma_read,                     --                       .read
-			DMA_Data                      => output_switcher_1_dma_readdata,                 --                       .readdata
-			DMA_Valid                     => output_switcher_1_dma_readdatavalid,            --                       .readdatavalid
-			DMA_WaitRequest               => output_switcher_1_dma_waitrequest,              --                       .waitrequest
-			In_Avalon_Ready               => beamformer_right_source_beam_ready,             --   Audio_Streaming_Sink.ready
-			In_Avalon_Valid               => beamformer_right_source_beam_valid,             --                       .valid
-			In_Avalon_Data                => beamformer_right_source_beam_data,              --                       .data
-			avalon_streaming_source_ready => output_switcher_1_audio_streaming_source_ready, -- Audio_Streaming_Source.ready
-			avalon_streaming_source_data  => output_switcher_1_audio_streaming_source_data,  --                       .data
-			avalon_streaming_source_valid => output_switcher_1_audio_streaming_source_valid  --                       .valid
+			clk              => pll_0_outclk0_clk,                              --                  clock.clk
+			reset_n          => rst_controller_reset_out_reset_ports_inv,       --                  reset.reset_n
+			Use_Memory       => output_switcher_1_source_select_new_signal,     --          source_select.new_signal
+			Is_LeftRight     => output_switcher_1_source_select_new_signal_1,   --                       .new_signal_1
+			DMA_Addr         => output_switcher_1_dma_address,                  --                    DMA.address
+			DMA_ByteEnable   => output_switcher_1_dma_byteenable,               --                       .byteenable
+			DMA_Read         => output_switcher_1_dma_read,                     --                       .read
+			DMA_Data         => output_switcher_1_dma_readdata,                 --                       .readdata
+			DMA_Valid        => output_switcher_1_dma_readdatavalid,            --                       .readdatavalid
+			DMA_WaitRequest  => output_switcher_1_dma_waitrequest,              --                       .waitrequest
+			In_Avalon_Ready  => beamformer_right_source_beam_ready,             --   Audio_Streaming_Sink.ready
+			In_Avalon_Valid  => beamformer_right_source_beam_valid,             --                       .valid
+			In_Avalon_Data   => beamformer_right_source_beam_data,              --                       .data
+			Out_Avalon_Ready => output_switcher_1_audio_streaming_source_ready, -- Audio_Streaming_Source.ready
+			Out_Avalon_Data  => output_switcher_1_audio_streaming_source_data,  --                       .data
+			Out_Avalon_Valid => output_switcher_1_audio_streaming_source_valid  --                       .valid
 		);
 
 	spi_system_0 : component SPI_System
@@ -1012,7 +1016,9 @@ begin
 			to_dac_right_channel_data    => output_switcher_1_audio_streaming_source_data,  --   avalon_right_channel_sink.data
 			to_dac_right_channel_valid   => output_switcher_1_audio_streaming_source_valid, --                            .valid
 			to_dac_right_channel_ready   => output_switcher_1_audio_streaming_source_ready, --                            .ready
-			AUD_BCLK                     => audio_0_external_interface_BCLK,                --          external_interface.export
+			AUD_ADCDAT                   => audio_0_external_interface_ADCDAT,              --          external_interface.export
+			AUD_ADCLRCK                  => audio_0_external_interface_ADCLRCK,             --                            .export
+			AUD_BCLK                     => audio_0_external_interface_BCLK,                --                            .export
 			AUD_DACDAT                   => audio_0_external_interface_DACDAT,              --                            .export
 			AUD_DACLRCK                  => audio_0_external_interface_DACLRCK              --                            .export
 		);
@@ -1144,7 +1150,7 @@ begin
 			refclk   => pll_0_outclk0_clk,       --  refclk.clk
 			rst      => reset_reset_n_ports_inv, --   reset.reset
 			outclk_0 => pll_0_outclk3_audio_clk, -- outclk0.clk
-			locked   => open                     --  locked.export
+			locked   => open                     -- (terminated)
 		);
 
 	sysid : component Pyramic_Array_sysid

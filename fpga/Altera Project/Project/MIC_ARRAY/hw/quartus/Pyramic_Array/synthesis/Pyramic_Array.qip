@@ -2,7 +2,7 @@ set_global_assignment -entity "Pyramic_Array" -library "Pyramic_Array" -name IP_
 set_global_assignment -entity "Pyramic_Array" -library "Pyramic_Array" -name IP_TOOL_VERSION "16.0"
 set_global_assignment -entity "Pyramic_Array" -library "Pyramic_Array" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -library "Pyramic_Array" -name SOPCINFO_FILE [file join $::quartus(qip_path) "../../Pyramic_Array.sopcinfo"]
-set_global_assignment -entity "Pyramic_Array" -library "Pyramic_Array" -name SLD_INFO "QSYS_NAME Pyramic_Array HAS_SOPCINFO 1 GENERATION_ID 1479719385"
+set_global_assignment -entity "Pyramic_Array" -library "Pyramic_Array" -name SLD_INFO "QSYS_NAME Pyramic_Array HAS_SOPCINFO 1 GENERATION_ID 1479723420"
 set_global_assignment -library "Pyramic_Array" -name MISC_FILE [file join $::quartus(qip_path) "../Pyramic_Array.cmp"]
 set_global_assignment -library "Pyramic_Array" -name SLD_FILE [file join $::quartus(qip_path) "Pyramic_Array.regmap"]
 set_global_assignment -library "Pyramic_Array" -name MISC_FILE [file join $::quartus(qip_path) "Pyramic_Array_hps_0_hps.svd"]
@@ -17,7 +17,7 @@ set_global_assignment -entity "Pyramic_Array" -library "Pyramic_Array" -name IP_
 set_global_assignment -entity "Pyramic_Array" -library "Pyramic_Array" -name IP_COMPONENT_REPORT_HIERARCHY "On"
 set_global_assignment -entity "Pyramic_Array" -library "Pyramic_Array" -name IP_COMPONENT_INTERNAL "Off"
 set_global_assignment -entity "Pyramic_Array" -library "Pyramic_Array" -name IP_COMPONENT_VERSION "MS4w"
-set_global_assignment -entity "Pyramic_Array" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTQ3OTcxOTM4NQ==::QXV0byBHRU5FUkFUSU9OX0lE"
+set_global_assignment -entity "Pyramic_Array" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTQ3OTcyMzQyMA==::QXV0byBHRU5FUkFUSU9OX0lE"
 set_global_assignment -entity "Pyramic_Array" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfRkFNSUxZ::Q3ljbG9uZSBW::QXV0byBERVZJQ0VfRkFNSUxZ"
 set_global_assignment -entity "Pyramic_Array" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0U=::NUNTRU1BNUYzMUM2::QXV0byBERVZJQ0U="
 set_global_assignment -entity "Pyramic_Array" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfU1BFRURHUkFERQ==::Ng==::QXV0byBERVZJQ0VfU1BFRURHUkFERQ=="
@@ -910,7 +910,7 @@ set_global_assignment -entity "Pyramic_Array_pll_1" -library "Pyramic_Array" -na
 set_global_assignment -entity "Pyramic_Array_pll_1" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "Z3VpX2ZyYWN0aW9uYWxfY291dA==::MzI=::RnJhY3Rpb25hbCBjYXJyeSBvdXQ="
 set_global_assignment -entity "Pyramic_Array_pll_1" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "Z3VpX2RzbV9vdXRfc2Vs::MXN0X29yZGVy::RFNNIE9yZGVy"
 set_global_assignment -entity "Pyramic_Array_pll_1" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "b3BlcmF0aW9uX21vZGU=::ZGlyZWN0::b3BlcmF0aW9uX21vZGU="
-set_global_assignment -entity "Pyramic_Array_pll_1" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "Z3VpX3VzZV9sb2NrZWQ=::dHJ1ZQ==::RW5hYmxlIGxvY2tlZCBvdXRwdXQgcG9ydA=="
+set_global_assignment -entity "Pyramic_Array_pll_1" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "Z3VpX3VzZV9sb2NrZWQ=::ZmFsc2U=::RW5hYmxlIGxvY2tlZCBvdXRwdXQgcG9ydA=="
 set_global_assignment -entity "Pyramic_Array_pll_1" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "Z3VpX2VuX2Fkdl9wYXJhbXM=::ZmFsc2U=::RW5hYmxlIHBoeXNpY2FsIG91dHB1dCBjbG9jayBwYXJhbWV0ZXJz"
 set_global_assignment -entity "Pyramic_Array_pll_1" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "Z3VpX251bWJlcl9vZl9jbG9ja3M=::MQ==::TnVtYmVyIE9mIENsb2Nrcw=="
 set_global_assignment -entity "Pyramic_Array_pll_1" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "bnVtYmVyX29mX2Nsb2Nrcw==::MQ==::bnVtYmVyX29mX2Nsb2Nrcw=="
@@ -7270,7 +7270,7 @@ set_global_assignment -entity "Pyramic_Array_audio_controller" -library "Pyramic
 set_global_assignment -entity "Pyramic_Array_audio_controller" -library "Pyramic_Array" -name IP_COMPONENT_VERSION "MTUuMQ=="
 set_global_assignment -entity "Pyramic_Array_audio_controller" -library "Pyramic_Array" -name IP_COMPONENT_DESCRIPTION "QXVkaW8gQ29udHJvbGxlciBmb3IgREUtc2VyaWVzIEJvYXJkcw=="
 set_global_assignment -entity "Pyramic_Array_audio_controller" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "YXZhbG9uX2J1c190eXBl::U3RyZWFtaW5n::QXZhbG9uIFR5cGU="
-set_global_assignment -entity "Pyramic_Array_audio_controller" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "YXVkaW9faW4=::ZmFsc2U=::QXVkaW8gSW4="
+set_global_assignment -entity "Pyramic_Array_audio_controller" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "YXVkaW9faW4=::dHJ1ZQ==::QXVkaW8gSW4="
 set_global_assignment -entity "Pyramic_Array_audio_controller" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "YXVkaW9fb3V0::dHJ1ZQ==::QXVkaW8gT3V0"
 set_global_assignment -entity "Pyramic_Array_audio_controller" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "ZHc=::MzI=::RGF0YSBXaWR0aDo="
 set_global_assignment -entity "Pyramic_Array_audio_controller" -library "Pyramic_Array" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfRkFNSUxZ::Q3ljbG9uZSBW::QXV0byBERVZJQ0VfRkFNSUxZ"
@@ -7441,12 +7441,28 @@ set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::
 set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/Pyramic_Array_hps_0.v"]
 set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/Pyramic_Array_hps_0_hps_io.v"]
 set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram.v"]
-set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_mem_if_dll_cyclonev.sv"]
-set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_mem_if_oct_cyclonev.sv"]
-set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_mem_if_hard_memory_controller_top_cyclonev.sv"]
-set_global_assignment -library "Pyramic_Array" -name SOURCE_FILE [file join $::quartus(qip_path) "submodules/hps_inst_ROM.hex"]
-set_global_assignment -library "Pyramic_Array" -name SOURCE_FILE [file join $::quartus(qip_path) "submodules/hps_AC_ROM.hex"]
-set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_mem_if_hhp_qseq_synth_top.v"]
+set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_pll.sv"]
+set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_clock_pair_generator.v"]
+set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_acv_hard_addr_cmd_pads.v"]
+set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_acv_hard_memphy.v"]
+set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_acv_ldc.v"]
+set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_acv_hard_io_pads.v"]
+set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_generic_ddio.v"]
+set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_reset.v"]
+set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_reset_sync.v"]
+set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_phy_csr.sv"]
+set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_iss_probe.v"]
+set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0.sv"]
+set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_altdqdqs.v"]
+set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altdq_dqs2_acv_connect_to_hard_phy_cyclonev.sv"]
+set_global_assignment -library "Pyramic_Array" -name SOURCE_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0.ppf"]
+set_global_assignment -library "Pyramic_Array" -name SDC_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0.sdc"]
+set_global_assignment -library "Pyramic_Array" -name TCL_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_timing.tcl"]
+set_global_assignment -library "Pyramic_Array" -name TCL_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_report_timing.tcl"]
+set_global_assignment -library "Pyramic_Array" -name TCL_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_report_timing_core.tcl"]
+set_global_assignment -library "Pyramic_Array" -name TCL_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_pin_map.tcl"]
+set_global_assignment -library "Pyramic_Array" -name TCL_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_pin_assignments.tcl"]
+set_global_assignment -library "Pyramic_Array" -name TCL_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_parameters.tcl"]
 set_instance_assignment -entity "Pyramic_Array_hps_0_hps_io_border" -library "Pyramic_Array" -name HPS_ISW_FILE [file join $::quartus(qip_path) "submodules/sequencer/sdram_io.pre.h"]
 set_global_assignment -library "Pyramic_Array" -name MISC_FILE [file join $::quartus(qip_path) "submodules/sequencer/sdram_io.pre.h"]
 set_instance_assignment -entity "Pyramic_Array_hps_0_hps_io_border" -library "Pyramic_Array" -name HPS_ISW_FILE [file join $::quartus(qip_path) "submodules/sequencer/alt_types.pre.h"]
@@ -7471,28 +7487,12 @@ set_instance_assignment -entity "Pyramic_Array_hps_0_hps_io_border" -library "Py
 set_global_assignment -library "Pyramic_Array" -name MISC_FILE [file join $::quartus(qip_path) "submodules/sequencer/sequencer_auto.pre.h"]
 set_instance_assignment -entity "Pyramic_Array_hps_0_hps_io_border" -library "Pyramic_Array" -name HPS_ISW_FILE [file join $::quartus(qip_path) "submodules/sequencer/emif.pre.xml"]
 set_global_assignment -library "Pyramic_Array" -name MISC_FILE [file join $::quartus(qip_path) "submodules/sequencer/emif.pre.xml"]
-set_global_assignment -library "Pyramic_Array" -name TCL_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_parameters.tcl"]
-set_global_assignment -library "Pyramic_Array" -name TCL_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_pin_assignments.tcl"]
-set_global_assignment -library "Pyramic_Array" -name TCL_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_pin_map.tcl"]
-set_global_assignment -library "Pyramic_Array" -name TCL_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_report_timing_core.tcl"]
-set_global_assignment -library "Pyramic_Array" -name TCL_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_report_timing.tcl"]
-set_global_assignment -library "Pyramic_Array" -name TCL_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_timing.tcl"]
-set_global_assignment -library "Pyramic_Array" -name SDC_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0.sdc"]
-set_global_assignment -library "Pyramic_Array" -name SOURCE_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0.ppf"]
-set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altdq_dqs2_acv_connect_to_hard_phy_cyclonev.sv"]
-set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_altdqdqs.v"]
-set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0.sv"]
-set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_iss_probe.v"]
-set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_phy_csr.sv"]
-set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_reset_sync.v"]
-set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_reset.v"]
-set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_generic_ddio.v"]
-set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_acv_hard_io_pads.v"]
-set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_acv_ldc.v"]
-set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_acv_hard_memphy.v"]
-set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_acv_hard_addr_cmd_pads.v"]
-set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_p0_clock_pair_generator.v"]
-set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/hps_sdram_pll.sv"]
+set_global_assignment -library "Pyramic_Array" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_mem_if_hhp_qseq_synth_top.v"]
+set_global_assignment -library "Pyramic_Array" -name SOURCE_FILE [file join $::quartus(qip_path) "submodules/hps_AC_ROM.hex"]
+set_global_assignment -library "Pyramic_Array" -name SOURCE_FILE [file join $::quartus(qip_path) "submodules/hps_inst_ROM.hex"]
+set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_mem_if_hard_memory_controller_top_cyclonev.sv"]
+set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_mem_if_oct_cyclonev.sv"]
+set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_mem_if_dll_cyclonev.sv"]
 set_global_assignment -library "Pyramic_Array" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/Pyramic_Array_hps_0_hps_io_border.sv"]
 set_global_assignment -library "Pyramic_Array" -name SDC_FILE [file join $::quartus(qip_path) "submodules/Pyramic_Array_hps_0_hps_io_border.sdc"]
 set_instance_assignment -entity "Pyramic_Array_hps_0_hps_io_border" -library "Pyramic_Array" -name HPS_ISW_FILE [file join $::quartus(qip_path) "submodules/hps.pre.xml"]
