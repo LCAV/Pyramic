@@ -60,7 +60,6 @@ Info: Pyramic_Array.FIR_RIGHT.avalon_streaming_source/Beamformer_RIGHT.Sink_FIR:
 Info: Pyramic_Array.FIR_RIGHT.avalon_streaming_source/Beamformer_RIGHT.Sink_FIR: The source has a error signal of 2 bits, but the sink does not. Avalon-ST Adapter will be inserted.
 Warning: Pyramic_Array.audio_controller.avalon_left_channel_source: audio_controller.avalon_left_channel_source must be connected to an Avalon-ST sink
 Warning: Pyramic_Array.audio_controller.avalon_right_channel_source: audio_controller.avalon_right_channel_source must be connected to an Avalon-ST sink
-Warning: Pyramic_Array.pll_1: pll_1.locked must be exported, or connected to a matching conduit.
 Warning: Pyramic_Array.jtag_uart_0: Interrupt sender jtag_uart_0.irq is not connected to an interrupt receiver
 Warning: Pyramic_Array.jtag_uart_0: jtag_uart_0.avalon_jtag_slave must be connected to an Avalon-MM master
 Warning: Pyramic_Array.sysid: sysid.control_slave must be connected to an Avalon-MM master
@@ -90,7 +89,7 @@ Warning: hps_0: "Configuration/HPS-to-FPGA user 0 clock frequency" (desired_cfg_
 Warning: hps_0: 1 or more output clock frequencies cannot be achieved precisely, consider revising desired output clock frequencies.
 Info: hps_0: "Pyramic_Array" instantiated altera_hps "hps_0"
 Info: jtag_uart_0: Starting RTL generation for module 'Pyramic_Array_jtag_uart_0'
-Info: jtag_uart_0:   Generation command is [exec /opt/altera/16.0/quartus/linux64/perl/bin/perl -I /opt/altera/16.0/quartus/linux64/perl/lib -I /opt/altera/16.0/quartus/sopc_builder/bin/europa -I /opt/altera/16.0/quartus/sopc_builder/bin/perl_lib -I /opt/altera/16.0/quartus/sopc_builder/bin -I /opt/altera/16.0/quartus/../ip/altera/sopc_builder_ip/common -I /opt/altera/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- /opt/altera/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=Pyramic_Array_jtag_uart_0 --dir=/tmp/alt7126_8434065381338142558.dir/0045_jtag_uart_0_gen/ --quartus_dir=/opt/altera/16.0/quartus --verilog --config=/tmp/alt7126_8434065381338142558.dir/0045_jtag_uart_0_gen//Pyramic_Array_jtag_uart_0_component_configuration.pl  --do_build_sim=0  ]
+Info: jtag_uart_0:   Generation command is [exec /opt/altera/16.0/quartus/linux64/perl/bin/perl -I /opt/altera/16.0/quartus/linux64/perl/lib -I /opt/altera/16.0/quartus/sopc_builder/bin/europa -I /opt/altera/16.0/quartus/sopc_builder/bin/perl_lib -I /opt/altera/16.0/quartus/sopc_builder/bin -I /opt/altera/16.0/quartus/../ip/altera/sopc_builder_ip/common -I /opt/altera/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- /opt/altera/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=Pyramic_Array_jtag_uart_0 --dir=/tmp/alt7126_8645961353493160728.dir/0007_jtag_uart_0_gen/ --quartus_dir=/opt/altera/16.0/quartus --verilog --config=/tmp/alt7126_8645961353493160728.dir/0007_jtag_uart_0_gen//Pyramic_Array_jtag_uart_0_component_configuration.pl  --do_build_sim=0  ]
 Info: jtag_uart_0: Done RTL generation for module 'Pyramic_Array_jtag_uart_0'
 Info: jtag_uart_0: "Pyramic_Array" instantiated altera_avalon_jtag_uart "jtag_uart_0"
 Info: pll_0: "Pyramic_Array" instantiated altera_pll "pll_0"

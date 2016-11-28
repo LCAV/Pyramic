@@ -49,10 +49,7 @@
 			hps_0_io_hps_io_gpio_inst_GPIO35                 : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO35
 			hps_0_io_hps_io_gpio_inst_GPIO53                 : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO53
 			hps_0_io_hps_io_gpio_inst_GPIO54                 : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO54
-			output_switcher_0_source_select_new_signal       : in    std_logic                     := 'X';             -- new_signal
-			output_switcher_0_source_select_new_signal_1     : in    std_logic                     := 'X';             -- new_signal_1
-			output_switcher_1_source_select_new_signal       : in    std_logic                     := 'X';             -- new_signal
-			output_switcher_1_source_select_new_signal_1     : in    std_logic                     := 'X';             -- new_signal_1
+			pll_0_outclk3_audio_clk                          : out   std_logic;                                        -- clk
 			pll_0_sdram_clk                                  : out   std_logic;                                        -- clk
 			reset_reset_n                                    : in    std_logic                     := 'X';             -- reset_n
 			spi_system_0_spi_interface_convst0               : out   std_logic;                                        -- convst0
@@ -130,10 +127,7 @@
 			hps_0_io_hps_io_gpio_inst_GPIO35                 => CONNECTED_TO_hps_0_io_hps_io_gpio_inst_GPIO35,                 --                                            .hps_io_gpio_inst_GPIO35
 			hps_0_io_hps_io_gpio_inst_GPIO53                 => CONNECTED_TO_hps_0_io_hps_io_gpio_inst_GPIO53,                 --                                            .hps_io_gpio_inst_GPIO53
 			hps_0_io_hps_io_gpio_inst_GPIO54                 => CONNECTED_TO_hps_0_io_hps_io_gpio_inst_GPIO54,                 --                                            .hps_io_gpio_inst_GPIO54
-			output_switcher_0_source_select_new_signal       => CONNECTED_TO_output_switcher_0_source_select_new_signal,       --             output_switcher_0_source_select.new_signal
-			output_switcher_0_source_select_new_signal_1     => CONNECTED_TO_output_switcher_0_source_select_new_signal_1,     --                                            .new_signal_1
-			output_switcher_1_source_select_new_signal       => CONNECTED_TO_output_switcher_1_source_select_new_signal,       --             output_switcher_1_source_select.new_signal
-			output_switcher_1_source_select_new_signal_1     => CONNECTED_TO_output_switcher_1_source_select_new_signal_1,     --                                            .new_signal_1
+			pll_0_outclk3_audio_clk                          => CONNECTED_TO_pll_0_outclk3_audio_clk,                          --                         pll_0_outclk3_audio.clk
 			pll_0_sdram_clk                                  => CONNECTED_TO_pll_0_sdram_clk,                                  --                                 pll_0_sdram.clk
 			reset_reset_n                                    => CONNECTED_TO_reset_reset_n,                                    --                                       reset.reset_n
 			spi_system_0_spi_interface_convst0               => CONNECTED_TO_spi_system_0_spi_interface_convst0,               --                  spi_system_0_spi_interface.convst0

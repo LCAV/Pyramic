@@ -7,44 +7,43 @@
 
 `timescale 1 ps / 1 ps
 module Pyramic_Array_avalon_st_adapter_002 #(
-		parameter inBitsPerSymbol = 32,
+		parameter inBitsPerSymbol = 22,
 		parameter inUsePackets    = 1,
-		parameter inDataWidth     = 32,
-		parameter inChannelWidth  = 6,
-		parameter inErrorWidth    = 2,
+		parameter inDataWidth     = 22,
+		parameter inChannelWidth  = 0,
+		parameter inErrorWidth    = 0,
 		parameter inUseEmptyPort  = 0,
 		parameter inUseValid      = 1,
-		parameter inUseReady      = 0,
+		parameter inUseReady      = 1,
 		parameter inReadyLatency  = 0,
-		parameter outDataWidth    = 32,
-		parameter outChannelWidth = 6,
-		parameter outErrorWidth   = 0,
+		parameter outDataWidth    = 22,
+		parameter outChannelWidth = 0,
+		parameter outErrorWidth   = 2,
 		parameter outUseEmptyPort = 0,
 		parameter outUseValid     = 1,
-		parameter outUseReady     = 1,
+		parameter outUseReady     = 0,
 		parameter outReadyLatency = 0
 	) (
 		input  wire        in_clk_0_clk,        // in_clk_0.clk
 		input  wire        in_rst_0_reset,      // in_rst_0.reset
-		input  wire [31:0] in_0_data,           //     in_0.data
+		input  wire [21:0] in_0_data,           //     in_0.data
 		input  wire        in_0_valid,          //         .valid
+		output wire        in_0_ready,          //         .ready
 		input  wire        in_0_startofpacket,  //         .startofpacket
 		input  wire        in_0_endofpacket,    //         .endofpacket
-		input  wire [1:0]  in_0_error,          //         .error
-		input  wire [5:0]  in_0_channel,        //         .channel
-		output wire [31:0] out_0_data,          //    out_0.data
+		output wire [21:0] out_0_data,          //    out_0.data
 		output wire        out_0_valid,         //         .valid
-		input  wire        out_0_ready,         //         .ready
 		output wire        out_0_startofpacket, //         .startofpacket
 		output wire        out_0_endofpacket,   //         .endofpacket
-		output wire [5:0]  out_0_channel        //         .channel
+		output wire [1:0]  out_0_error          //         .error
 	);
 
 	wire         error_adapter_0_out_valid;         // error_adapter_0:out_valid -> timing_adapter_0:in_valid
-	wire  [31:0] error_adapter_0_out_data;          // error_adapter_0:out_data -> timing_adapter_0:in_data
-	wire   [5:0] error_adapter_0_out_channel;       // error_adapter_0:out_channel -> timing_adapter_0:in_channel
+	wire  [21:0] error_adapter_0_out_data;          // error_adapter_0:out_data -> timing_adapter_0:in_data
+	wire         error_adapter_0_out_ready;         // timing_adapter_0:in_ready -> error_adapter_0:out_ready
 	wire         error_adapter_0_out_startofpacket; // error_adapter_0:out_startofpacket -> timing_adapter_0:in_startofpacket
 	wire         error_adapter_0_out_endofpacket;   // error_adapter_0:out_endofpacket -> timing_adapter_0:in_endofpacket
+	wire   [1:0] error_adapter_0_out_error;         // error_adapter_0:out_error -> timing_adapter_0:in_error
 
 	generate
 		// If any of the display statements (or deliberately broken
@@ -52,7 +51,7 @@ module Pyramic_Array_avalon_st_adapter_002 #(
 		// has been instantiated this module with a set of parameters different
 		// from those it was generated for.  This will usually result in a
 		// non-functioning system.
-		if (inBitsPerSymbol != 32)
+		if (inBitsPerSymbol != 22)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -70,7 +69,7 @@ module Pyramic_Array_avalon_st_adapter_002 #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					inusepackets_check ( .error(1'b1) );
 		end
-		if (inDataWidth != 32)
+		if (inDataWidth != 22)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -79,7 +78,7 @@ module Pyramic_Array_avalon_st_adapter_002 #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					indatawidth_check ( .error(1'b1) );
 		end
-		if (inChannelWidth != 6)
+		if (inChannelWidth != 0)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -88,7 +87,7 @@ module Pyramic_Array_avalon_st_adapter_002 #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					inchannelwidth_check ( .error(1'b1) );
 		end
-		if (inErrorWidth != 2)
+		if (inErrorWidth != 0)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -115,7 +114,7 @@ module Pyramic_Array_avalon_st_adapter_002 #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					inusevalid_check ( .error(1'b1) );
 		end
-		if (inUseReady != 0)
+		if (inUseReady != 1)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -133,7 +132,7 @@ module Pyramic_Array_avalon_st_adapter_002 #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					inreadylatency_check ( .error(1'b1) );
 		end
-		if (outDataWidth != 32)
+		if (outDataWidth != 22)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -142,7 +141,7 @@ module Pyramic_Array_avalon_st_adapter_002 #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					outdatawidth_check ( .error(1'b1) );
 		end
-		if (outChannelWidth != 6)
+		if (outChannelWidth != 0)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -151,7 +150,7 @@ module Pyramic_Array_avalon_st_adapter_002 #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					outchannelwidth_check ( .error(1'b1) );
 		end
-		if (outErrorWidth != 0)
+		if (outErrorWidth != 2)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -178,7 +177,7 @@ module Pyramic_Array_avalon_st_adapter_002 #(
 			instantiated_with_wrong_parameters_error_see_comment_above
 					outusevalid_check ( .error(1'b1) );
 		end
-		if (outUseReady != 1)
+		if (outUseReady != 0)
 		begin
 			initial begin
 				$display("Generated module instantiated with wrong parameters");
@@ -203,15 +202,15 @@ module Pyramic_Array_avalon_st_adapter_002 #(
 		.reset_n           (~in_rst_0_reset),                   // reset.reset_n
 		.in_data           (in_0_data),                         //    in.data
 		.in_valid          (in_0_valid),                        //      .valid
+		.in_ready          (in_0_ready),                        //      .ready
 		.in_startofpacket  (in_0_startofpacket),                //      .startofpacket
 		.in_endofpacket    (in_0_endofpacket),                  //      .endofpacket
-		.in_error          (in_0_error),                        //      .error
-		.in_channel        (in_0_channel),                      //      .channel
 		.out_data          (error_adapter_0_out_data),          //   out.data
 		.out_valid         (error_adapter_0_out_valid),         //      .valid
+		.out_ready         (error_adapter_0_out_ready),         //      .ready
 		.out_startofpacket (error_adapter_0_out_startofpacket), //      .startofpacket
 		.out_endofpacket   (error_adapter_0_out_endofpacket),   //      .endofpacket
-		.out_channel       (error_adapter_0_out_channel)        //      .channel
+		.out_error         (error_adapter_0_out_error)          //      .error
 	);
 
 	Pyramic_Array_avalon_st_adapter_002_timing_adapter_0 timing_adapter_0 (
@@ -219,15 +218,15 @@ module Pyramic_Array_avalon_st_adapter_002 #(
 		.reset_n           (~in_rst_0_reset),                   // reset.reset_n
 		.in_data           (error_adapter_0_out_data),          //    in.data
 		.in_valid          (error_adapter_0_out_valid),         //      .valid
+		.in_ready          (error_adapter_0_out_ready),         //      .ready
 		.in_startofpacket  (error_adapter_0_out_startofpacket), //      .startofpacket
 		.in_endofpacket    (error_adapter_0_out_endofpacket),   //      .endofpacket
-		.in_channel        (error_adapter_0_out_channel),       //      .channel
+		.in_error          (error_adapter_0_out_error),         //      .error
 		.out_data          (out_0_data),                        //   out.data
 		.out_valid         (out_0_valid),                       //      .valid
-		.out_ready         (out_0_ready),                       //      .ready
 		.out_startofpacket (out_0_startofpacket),               //      .startofpacket
 		.out_endofpacket   (out_0_endofpacket),                 //      .endofpacket
-		.out_channel       (out_0_channel)                      //      .channel
+		.out_error         (out_0_error)                        //      .error
 	);
 
 endmodule

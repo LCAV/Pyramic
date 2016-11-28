@@ -21,7 +21,7 @@ ENTITY SPI_Controller IS
 			);
     PORT (
     -- System signals
-    clk     			   :     in std_logic;  	-- clk will be 48 MHz, enough to respect timings  
+    clk     			   :     in std_logic;  	-- Juan: clk will be 48 MHz, enough to respect timings ; CF: clock IS 48 MHz
     reset_n   			   :     in std_logic;
     -- Interface with ADC
 	 reset					:		out std_logic;
@@ -38,7 +38,7 @@ ENTITY SPI_Controller IS
     CONVST1     			:     out std_logic;
     CONVST2     			:     out std_logic;
     CS_n     				:     out std_logic;    
-    SCLK    				:     out std_logic;		-- SCLK will be 12.5 MHz, enough to respect timings
+    SCLK    				:     out std_logic;		-- Juan: SCLK will be 12.5 MHz, enough to respect timings; CF: with clk=48 MHz it is now 12.0 MHz
     -- Interface with slave
     Start   				:     in std_logic;
     -- Interface with DMA
@@ -54,7 +54,7 @@ END SPI_Controller;
 ARCHITECTURE comp OF SPI_Controller IS
 
 -- FPGA cock settings
-constant CLK_PERIOD      : time := 20 ns;
+constant CLK_PERIOD      : time := 20.83 ns;
 constant SCLK_PERIOD 	 : integer := 4;		 -- Period scale factor between clk to SCLK
 -- Channel Number and sample resolution
 constant RESOLUTION 		 : integer := 16;		 --  Sample Depth of audio signals
@@ -93,6 +93,7 @@ signal CntBit 		  : integer range 0 to RESOLUTION - 1 ;
 signal CntChannel   : integer range 0 to MICS_N - 1;
 signal sel_int		  : integer range 0 to BURST_COUNT;
 signal array_number : integer range 0 to ARRAY_N - 1;
+signal tickCount    : integer range 0 to 1023; -- we zill only use up to 1004
 
 -- Frequency divider signals
 signal SCLK_counter : integer range 0 to 5 ;
@@ -191,6 +192,7 @@ END GENERATE G1;
 					CntBit	    	  <= RESOLUTION-1; 
 					reset				  <= '0';
 					CS_n_signal <= '1';
+					tickCount         <= 0;
 		
 			elsif rising_edge(clk) then
 			-- If Stop deasserted by DMA unit
@@ -199,19 +201,23 @@ END GENERATE G1;
 				case SPI_state is
 					when Idle 		=>	
 					-- If Start asserted by Slave unit
+						t2 <= 0;
 						if Start = '1'  then					
 							SPI_state <= Waiting1;
 							reset <= '0';							
 						end if;	
-						-- Waiting states to fill timing requirements of ADC regarding reset signal(60 ns high pulse width)
+						-- Waiting states to fill timing requirements of ADC regarding reset signal (50 ns min high pulse width, p.7)
+						-- 48 MHz : 1 cycle = 20.83333 ns which means 3 waiting cycles
 					when Waiting1 	=>	 SPI_state <= Waiting2; reset <= '1';
 					when Waiting2 	=>	 SPI_state <= Waiting3; 
 					when Waiting3 	=>	 SPI_state <= Waiting4; 
-					when Waiting4 	=>	 SPI_state <= Waiting5; reset <= '0';
-					when Waiting5 	=>	 SPI_state <= Waiting6; 
-					when Waiting6 	=>	 SPI_state <= Waiting7; 
-
-					when Waiting7 	=>	
+					when Waiting4 	=>	 SPI_state <= Waiting5; reset <= '0'; -- t1 starts here
+					when Waiting5 	=>	 SPI_state <= Waiting6; -- t1 : 20.8333 ns
+					--when Waiting6 	=>	 SPI_state <= Waiting7; -- t1 : 41.6667 ns
+					
+					-- Here: 6 cycles spent
+					
+					when Waiting6 	=>	-- chqnged Waiting7 to Waiting6 so that t1 < 40 ns is respected
 						wrreq <= (others => '0'); 
 						CONVST <= '0';
 						if t2 < 4 then		-- Deassert and assert CONVST after 80 ns according ADC Datasheet (check Note 1 in the header of this file) 
@@ -220,27 +226,44 @@ END GENERATE G1;
 							t2 <= 0;
 							SPI_state <= Wait_For_Conversion;
 							CONVST <= '1';
-						
+							tickCount <= 0;
 						end if;
-					when Wait_For_Conversion =>
+					-- Here: 10 cycles spent
+					
+					when Wait_For_Conversion => -- Max 40 or 45 ns depending on voltage, at most 3 cycles
 					-- Do no write in FIFO
 						wrreq <= (others => '0'); 
 						if busy_sig2 = '1' then
 							-- When busy = '1' the conversion starts
 							SPI_state <= Converting;
 						end if;
-						
+						tickCount <= tickCount + 1;
+					-- Here: 13 cycles spent
+					
+					
 					when Converting =>		
 						-- Detect busy falling edge of busy to acknowledge the conversion has finished
 						if busy_sig2 = '0'  then
 						-- Start SPI Transmission
 								CS_n_signal <= '0';
 								SPI_state <= Transmission;	
-						end if;		
-						
+						end if;
+						tickCount <= tickCount + 1;
+					-- Here: unknown time spent, but that doesn't matter. 
+					
 					when Transmission =>
-						if SCLK_falling = '1' then   -- Detect SCLK falling edge
+						if SCLK_falling = '1' then   -- Detect SCLK falling edge (CF: 12.0 MHz, 4 cycles)
 							-- Serial In - Parallel out register
+							-- CF: this means reading bit by bit, and shifting the obtained result
+							-- at each round. Doing that 16 times yields the full value
+							
+							-- TIMINGS : one mic channel for all ADCs is 16 * SCLK, we have 8 to do so
+							-- the transmission for 8 * 16 bits per ADC will last 10.666667 us
+							-- (8 * 16 * 4 = 512 clock cycles for reading all 8 samples)
+							
+							-- If we read continuously, we then have a frequency of 93750 Hz, we want 48000
+							-- thus in the next external 'if' we will count precisely how many cycles we need to achieve that
+							
 							   -- MISO00 - J4
 								po(CntChannel)(15 downto 1) <= po(CntChannel)(14 downto 0);
 								po(CntChannel)(0) <= MISO_00;
@@ -259,16 +282,17 @@ END GENERATE G1;
 								-- MISO21 - J2
 								po(40 + CntChannel)(15 downto 1) <= po(40 + CntChannel)(14 downto 0);
 								po(40 + CntChannel)(0) <= MISO_21;
-							if CntBit >0  then
-								CntBit <= CntBit - 1;	
+							if CntBit > 0  then -- 15 times this one per channel
+								CntBit <= CntBit - 1;
 							else
 							-- Span all the bits (16 per sample)
-								CntBit <= RESOLUTION-1;
-								if CntChannel > 0 then		
+								CntBit <= RESOLUTION - 1; -- 15
+								if CntChannel > 0 then	
 								-- Span all the channels (8 per ADC, i.e, per board)
 									CntChannel <= CntChannel - 1;
-								else	
+								else
 								-- When finish stop writing, start again in next array
+								-- CF: i think he meant next sample !
 									SPI_state <= Wait_For_Conversion;
 									wrreq <= (others => '1');
 									CntChannel <= CHANNELS - 1;
@@ -276,16 +300,23 @@ END GENERATE G1;
 								end if;
 							end if;
 						 end if;
-						-- Read During Conversion. Start conversion after 3.28 us the conversion starts(to obtain a period of 48 kHz)
-						-- To change the sampling frequency (up to 50 kHz), changethe conditions in the following if function:
-						 if CntChannel = CHANNELS - 3 then
-							if CntBit = 6 then
-									CONVST <= '0';
-							 elsif CntBit = 5 then
-									CONVST <= '1';
-							 end if;
-						 end if;
-						 
+						-- CF's comment:
+					   -- We "Read during Conversion".
+						-- We want to have exactly 1000 cycles between each conversion start.
+						-- We don't know precisely how many cycles were spent for converting the signal,
+						-- thus it is a very bad idea to rely on that duration to sample at exactly 48 kHz.
+						-- Thus, the conversion timer is set there.
+						-- mettre ca dans une machine a etats separee; 
+						if tickCount = 1000 then
+							CONVST <= '1';
+						elsif tickCount = 1004 then
+							CONVST <= '0';
+							tickCount <= 5; -- take the 4 extra cycles into account
+						else
+							tickCount <= tickCount + 1;
+						end if;
+						
+
 				  when others => null;
 					end case;
 				  

@@ -49,10 +49,7 @@ module Pyramic_Array (
 	hps_0_io_hps_io_gpio_inst_GPIO35,
 	hps_0_io_hps_io_gpio_inst_GPIO53,
 	hps_0_io_hps_io_gpio_inst_GPIO54,
-	output_switcher_0_source_select_new_signal,
-	output_switcher_0_source_select_new_signal_1,
-	output_switcher_1_source_select_new_signal,
-	output_switcher_1_source_select_new_signal_1,
+	pll_0_outclk3_audio_clk,
 	pll_0_sdram_clk,
 	reset_reset_n,
 	spi_system_0_spi_interface_convst0,
@@ -126,10 +123,7 @@ module Pyramic_Array (
 	inout		hps_0_io_hps_io_gpio_inst_GPIO35;
 	inout		hps_0_io_hps_io_gpio_inst_GPIO53;
 	inout		hps_0_io_hps_io_gpio_inst_GPIO54;
-	input		output_switcher_0_source_select_new_signal;
-	input		output_switcher_0_source_select_new_signal_1;
-	input		output_switcher_1_source_select_new_signal;
-	input		output_switcher_1_source_select_new_signal_1;
+	output		pll_0_outclk3_audio_clk;
 	output		pll_0_sdram_clk;
 	input		reset_reset_n;
 	output		spi_system_0_spi_interface_convst0;

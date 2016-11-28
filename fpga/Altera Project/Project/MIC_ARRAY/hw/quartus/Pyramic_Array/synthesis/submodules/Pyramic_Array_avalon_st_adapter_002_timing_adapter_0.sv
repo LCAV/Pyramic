@@ -37,38 +37,38 @@
 // ------------------------------------------
 // Generation parameters:
 //   output_name:        Pyramic_Array_avalon_st_adapter_002_timing_adapter_0
-//   in_use_ready:       false
-//   out_use_ready:      true
+//   in_use_ready:       true
+//   out_use_ready:      false
 //   in_use_valid:       true
 //   out_use_valid:      true
 //   use_packets:        true
 //   use_empty:          0
 //   empty_width:        0
-//   data_width:         32
-//   channel_width:      6
-//   error_width:        0
+//   data_width:         22
+//   channel_width:      0
+//   error_width:        2
 //   in_ready_latency:   0
 //   out_ready_latency:  0
-//   in_payload_width:   40
-//   out_payload_width:  40
-//   in_payload_map:     in_data,in_startofpacket,in_endofpacket,in_channel
-//   out_payload_map:    out_data,out_startofpacket,out_endofpacket,out_channel
+//   in_payload_width:   26
+//   out_payload_width:  26
+//   in_payload_map:     in_data,in_startofpacket,in_endofpacket,in_error
+//   out_payload_map:    out_data,out_startofpacket,out_endofpacket,out_error
 // ------------------------------------------
 
 
 
 module Pyramic_Array_avalon_st_adapter_002_timing_adapter_0
 (  
+ output reg         in_ready,
  input               in_valid,
- input     [32-1: 0]  in_data,
- input     [6-1: 0]  in_channel,
+ input     [22-1: 0]  in_data,
+ input     [2-1: 0] in_error,
  input              in_startofpacket,
  input              in_endofpacket,
  // Interface: out
- input               out_ready,
  output reg          out_valid,
- output reg [32-1: 0] out_data,
- output reg [6-1: 0] out_channel,
+ output reg [22-1: 0] out_data,
+ output reg [2-1: 0] out_error,
  output reg          out_startofpacket,
  output reg          out_endofpacket,
   // Interface: clk
@@ -82,29 +82,23 @@ module Pyramic_Array_avalon_st_adapter_002_timing_adapter_0
    //| Signal Declarations
    // ---------------------------------------------------------------------
    
-   reg [40-1:0]   in_payload;
-   reg [40-1:0]   out_payload;
+   reg [26-1:0]   in_payload;
+   reg [26-1:0]   out_payload;
    reg [1-1:0]   ready;   
-   reg           in_ready;
-   // synthesis translate_off
-   always @(negedge in_ready) begin
-      $display("%m: The downstream component is backpressuring by deasserting ready, but the upstream component can't be backpressured.");
-   end
-   // synthesis translate_on   
 
    // ---------------------------------------------------------------------
    //| Payload Mapping
    // ---------------------------------------------------------------------
    always @* begin
-     in_payload = {in_data,in_startofpacket,in_endofpacket,in_channel};
-     {out_data,out_startofpacket,out_endofpacket,out_channel} = out_payload;
+     in_payload = {in_data,in_startofpacket,in_endofpacket,in_error};
+     {out_data,out_startofpacket,out_endofpacket,out_error} = out_payload;
    end
 
    // ---------------------------------------------------------------------
    //| Ready & valid signals.
    // ---------------------------------------------------------------------
    always_comb begin
-     ready[0]    = out_ready;
+     ready[0] = 1;
      out_valid = in_valid;
      out_payload = in_payload;
      in_ready    = ready[0];

@@ -109,8 +109,8 @@ localparam AUD_LINE_OUT_RC	= 9'h07B;
 localparam AUD_ADC_PATH		= 9'd149;
 localparam AUD_DAC_PATH		= 9'h006;
 localparam AUD_POWER			= 9'h000;
-localparam AUD_DATA_FORMAT	= 9'd77;
-localparam AUD_SAMPLE_CTRL	= 9'd24;
+localparam AUD_DATA_FORMAT	= 9'd65;
+localparam AUD_SAMPLE_CTRL	= 9'd0;
 localparam AUD_SET_ACTIVE	= 9'h001;
 
 // Serial Bus Controller parameters

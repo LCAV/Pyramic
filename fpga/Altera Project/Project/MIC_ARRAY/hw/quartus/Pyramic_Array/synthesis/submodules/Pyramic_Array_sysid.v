@@ -49,7 +49,7 @@ module Pyramic_Array_sysid (
 
   wire    [ 31: 0] readdata;
   //control_slave, which is an e_avalon_slave
-  assign readdata = address ? 1479723420 : 1;
+  assign readdata = address ? 1480349430 : 1;
 
 endmodule
 

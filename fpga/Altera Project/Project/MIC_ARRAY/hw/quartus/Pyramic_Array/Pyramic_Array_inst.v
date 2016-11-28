@@ -48,10 +48,7 @@
 		.hps_0_io_hps_io_gpio_inst_GPIO35                 (<connected-to-hps_0_io_hps_io_gpio_inst_GPIO35>),                 //                                            .hps_io_gpio_inst_GPIO35
 		.hps_0_io_hps_io_gpio_inst_GPIO53                 (<connected-to-hps_0_io_hps_io_gpio_inst_GPIO53>),                 //                                            .hps_io_gpio_inst_GPIO53
 		.hps_0_io_hps_io_gpio_inst_GPIO54                 (<connected-to-hps_0_io_hps_io_gpio_inst_GPIO54>),                 //                                            .hps_io_gpio_inst_GPIO54
-		.output_switcher_0_source_select_new_signal       (<connected-to-output_switcher_0_source_select_new_signal>),       //             output_switcher_0_source_select.new_signal
-		.output_switcher_0_source_select_new_signal_1     (<connected-to-output_switcher_0_source_select_new_signal_1>),     //                                            .new_signal_1
-		.output_switcher_1_source_select_new_signal       (<connected-to-output_switcher_1_source_select_new_signal>),       //             output_switcher_1_source_select.new_signal
-		.output_switcher_1_source_select_new_signal_1     (<connected-to-output_switcher_1_source_select_new_signal_1>),     //                                            .new_signal_1
+		.pll_0_outclk3_audio_clk                          (<connected-to-pll_0_outclk3_audio_clk>),                          //                         pll_0_outclk3_audio.clk
 		.pll_0_sdram_clk                                  (<connected-to-pll_0_sdram_clk>),                                  //                                 pll_0_sdram.clk
 		.reset_reset_n                                    (<connected-to-reset_reset_n>),                                    //                                       reset.reset_n
 		.spi_system_0_spi_interface_convst0               (<connected-to-spi_system_0_spi_interface_convst0>),               //                  spi_system_0_spi_interface.convst0

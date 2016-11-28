@@ -57,10 +57,6 @@ entity Pyramic_Array is
 		hps_0_io_hps_io_gpio_inst_GPIO35                 : inout std_logic                     := '0';             --                                            .hps_io_gpio_inst_GPIO35
 		hps_0_io_hps_io_gpio_inst_GPIO53                 : inout std_logic                     := '0';             --                                            .hps_io_gpio_inst_GPIO53
 		hps_0_io_hps_io_gpio_inst_GPIO54                 : inout std_logic                     := '0';             --                                            .hps_io_gpio_inst_GPIO54
-		output_switcher_0_source_select_new_signal       : in    std_logic                     := '0';             --             output_switcher_0_source_select.new_signal
-		output_switcher_0_source_select_new_signal_1     : in    std_logic                     := '0';             --                                            .new_signal_1
-		output_switcher_1_source_select_new_signal       : in    std_logic                     := '0';             --             output_switcher_1_source_select.new_signal
-		output_switcher_1_source_select_new_signal_1     : in    std_logic                     := '0';             --                                            .new_signal_1
 		pll_0_outclk3_audio_clk                          : out   std_logic;                                        --                         pll_0_outclk3_audio.clk
 		pll_0_sdram_clk                                  : out   std_logic;                                        --                                 pll_0_sdram.clk
 		reset_reset_n                                    : in    std_logic                     := '0';             --                                       reset.reset_n
@@ -131,22 +127,31 @@ architecture rtl of Pyramic_Array is
 			SAMPLE_WIDTH : natural := 32
 		);
 		port (
-			clk              : in  std_logic                     := 'X';             -- clk
-			reset_n          : in  std_logic                     := 'X';             -- reset_n
-			Use_Memory       : in  std_logic                     := 'X';             -- new_signal
-			Is_LeftRight     : in  std_logic                     := 'X';             -- new_signal_1
-			DMA_Addr         : out std_logic_vector(31 downto 0);                    -- address
-			DMA_ByteEnable   : out std_logic_vector(3 downto 0);                     -- byteenable
-			DMA_Read         : out std_logic;                                        -- read
-			DMA_Data         : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
-			DMA_Valid        : in  std_logic                     := 'X';             -- readdatavalid
-			DMA_WaitRequest  : in  std_logic                     := 'X';             -- waitrequest
-			In_Avalon_Ready  : out std_logic;                                        -- ready
-			In_Avalon_Valid  : in  std_logic                     := 'X';             -- valid
-			In_Avalon_Data   : in  std_logic_vector(31 downto 0) := (others => 'X'); -- data
-			Out_Avalon_Ready : in  std_logic                     := 'X';             -- ready
-			Out_Avalon_Data  : out std_logic_vector(31 downto 0);                    -- data
-			Out_Avalon_Valid : out std_logic                                         -- valid
+			clk                  : in  std_logic                     := 'X';             -- clk
+			reset_n              : in  std_logic                     := 'X';             -- reset_n
+			DMA_Addr             : out std_logic_vector(31 downto 0);                    -- address
+			DMA_ByteEnable       : out std_logic_vector(3 downto 0);                     -- byteenable
+			DMA_Read             : out std_logic;                                        -- read
+			DMA_Data             : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			DMA_WaitRequest      : in  std_logic                     := 'X';             -- waitrequest
+			DMA_ReadDataValid    : in  std_logic                     := 'X';             -- readdatavalid
+			Cfg_Avalon_Address   : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- address
+			Cfg_Avalon_Read      : in  std_logic                     := 'X';             -- read
+			Cfg_Avalon_Write     : in  std_logic                     := 'X';             -- write
+			Cfg_Avalon_ReadData  : out std_logic_vector(31 downto 0);                    -- readdata
+			Cfg_Avalon_WriteData : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			STSink_In_R_ready    : out std_logic;                                        -- ready
+			STSink_In_R_data     : in  std_logic_vector(15 downto 0) := (others => 'X'); -- data
+			STSink_In_R_valid    : in  std_logic                     := 'X';             -- valid
+			STSink_In_L_ready    : out std_logic;                                        -- ready
+			STSink_In_L_data     : in  std_logic_vector(15 downto 0) := (others => 'X'); -- data
+			STSink_In_L_valid    : in  std_logic                     := 'X';             -- valid
+			Out_R_Avalon_ready   : in  std_logic                     := 'X';             -- ready
+			Out_R_Avalon_data    : out std_logic_vector(31 downto 0);                    -- data
+			Out_R_Avalon_valid   : out std_logic;                                        -- valid
+			Out_L_Avalon_ready   : in  std_logic                     := 'X';             -- ready
+			Out_L_Avalon_data    : out std_logic_vector(31 downto 0);                    -- data
+			Out_L_Avalon_valid   : out std_logic                                         -- valid
 		);
 	end component Output_Buffer_Driver;
 
@@ -364,15 +369,6 @@ architecture rtl of Pyramic_Array is
 		);
 	end component Pyramic_Array_pll_0;
 
-	component Pyramic_Array_pll_1 is
-		port (
-			refclk   : in  std_logic := 'X'; -- clk
-			rst      : in  std_logic := 'X'; -- reset
-			outclk_0 : out std_logic;        -- clk
-			locked   : out std_logic         -- export
-		);
-	end component Pyramic_Array_pll_1;
-
 	component Pyramic_Array_sysid is
 		port (
 			clock    : in  std_logic                     := 'X'; -- clk
@@ -393,12 +389,6 @@ architecture rtl of Pyramic_Array is
 			Output_Switcher_0_DMA_read                                         : in  std_logic                     := 'X';             -- read
 			Output_Switcher_0_DMA_readdata                                     : out std_logic_vector(31 downto 0);                    -- readdata
 			Output_Switcher_0_DMA_readdatavalid                                : out std_logic;                                        -- readdatavalid
-			Output_Switcher_1_DMA_address                                      : in  std_logic_vector(31 downto 0) := (others => 'X'); -- address
-			Output_Switcher_1_DMA_waitrequest                                  : out std_logic;                                        -- waitrequest
-			Output_Switcher_1_DMA_byteenable                                   : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
-			Output_Switcher_1_DMA_read                                         : in  std_logic                     := 'X';             -- read
-			Output_Switcher_1_DMA_readdata                                     : out std_logic_vector(31 downto 0);                    -- readdata
-			Output_Switcher_1_DMA_readdatavalid                                : out std_logic;                                        -- readdatavalid
 			SPI_System_0_avalon_master_address                                 : in  std_logic_vector(31 downto 0) := (others => 'X'); -- address
 			SPI_System_0_avalon_master_waitrequest                             : out std_logic;                                        -- waitrequest
 			SPI_System_0_avalon_master_burstcount                              : in  std_logic_vector(2 downto 0)  := (others => 'X'); -- burstcount
@@ -465,6 +455,11 @@ architecture rtl of Pyramic_Array is
 			audio_and_video_config_0_avalon_av_config_slave_writedata           : out std_logic_vector(31 downto 0);                    -- writedata
 			audio_and_video_config_0_avalon_av_config_slave_byteenable          : out std_logic_vector(3 downto 0);                     -- byteenable
 			audio_and_video_config_0_avalon_av_config_slave_waitrequest         : in  std_logic                     := 'X';             -- waitrequest
+			Output_Switcher_0_cfg_avalon_address                                : out std_logic_vector(7 downto 0);                     -- address
+			Output_Switcher_0_cfg_avalon_write                                  : out std_logic;                                        -- write
+			Output_Switcher_0_cfg_avalon_read                                   : out std_logic;                                        -- read
+			Output_Switcher_0_cfg_avalon_readdata                               : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			Output_Switcher_0_cfg_avalon_writedata                              : out std_logic_vector(31 downto 0);                    -- writedata
 			SPI_System_0_avalon_slave_address                                   : out std_logic_vector(2 downto 0);                     -- address
 			SPI_System_0_avalon_slave_write                                     : out std_logic;                                        -- write
 			SPI_System_0_avalon_slave_read                                      : out std_logic;                                        -- read
@@ -474,6 +469,37 @@ architecture rtl of Pyramic_Array is
 	end component Pyramic_Array_mm_interconnect_1;
 
 	component Pyramic_Array_avalon_st_adapter is
+		generic (
+			inBitsPerSymbol : integer := 8;
+			inUsePackets    : integer := 0;
+			inDataWidth     : integer := 8;
+			inChannelWidth  : integer := 3;
+			inErrorWidth    : integer := 2;
+			inUseEmptyPort  : integer := 0;
+			inUseValid      : integer := 1;
+			inUseReady      : integer := 1;
+			inReadyLatency  : integer := 0;
+			outDataWidth    : integer := 32;
+			outChannelWidth : integer := 3;
+			outErrorWidth   : integer := 2;
+			outUseEmptyPort : integer := 0;
+			outUseValid     : integer := 1;
+			outUseReady     : integer := 1;
+			outReadyLatency : integer := 0
+		);
+		port (
+			in_clk_0_clk   : in  std_logic                     := 'X';             -- clk
+			in_rst_0_reset : in  std_logic                     := 'X';             -- reset
+			in_0_data      : in  std_logic_vector(31 downto 0) := (others => 'X'); -- data
+			in_0_valid     : in  std_logic                     := 'X';             -- valid
+			in_0_ready     : out std_logic;                                        -- ready
+			out_0_data     : out std_logic_vector(15 downto 0);                    -- data
+			out_0_valid    : out std_logic;                                        -- valid
+			out_0_ready    : in  std_logic                     := 'X'              -- ready
+		);
+	end component Pyramic_Array_avalon_st_adapter;
+
+	component Pyramic_Array_avalon_st_adapter_002 is
 		generic (
 			inBitsPerSymbol : integer := 8;
 			inUsePackets    : integer := 0;
@@ -506,9 +532,9 @@ architecture rtl of Pyramic_Array is
 			out_0_endofpacket   : out std_logic;                                        -- endofpacket
 			out_0_error         : out std_logic_vector(1 downto 0)                      -- error
 		);
-	end component Pyramic_Array_avalon_st_adapter;
+	end component Pyramic_Array_avalon_st_adapter_002;
 
-	component Pyramic_Array_avalon_st_adapter_002 is
+	component Pyramic_Array_avalon_st_adapter_004 is
 		generic (
 			inBitsPerSymbol : integer := 8;
 			inUsePackets    : integer := 0;
@@ -543,7 +569,7 @@ architecture rtl of Pyramic_Array is
 			out_0_endofpacket   : out std_logic;                                        -- endofpacket
 			out_0_channel       : out std_logic_vector(5 downto 0)                      -- channel
 		);
-	end component Pyramic_Array_avalon_st_adapter_002;
+	end component Pyramic_Array_avalon_st_adapter_004;
 
 	component pyramic_array_rst_controller is
 		generic (
@@ -574,11 +600,11 @@ architecture rtl of Pyramic_Array is
 		);
 		port (
 			reset_in0      : in  std_logic := 'X'; -- reset
+			reset_in1      : in  std_logic := 'X'; -- reset
 			clk            : in  std_logic := 'X'; -- clk
 			reset_out      : out std_logic;        -- reset
 			reset_req      : out std_logic;        -- reset_req
 			reset_req_in0  : in  std_logic := 'X'; -- reset_req
-			reset_in1      : in  std_logic := 'X'; -- reset
 			reset_req_in1  : in  std_logic := 'X'; -- reset_req
 			reset_in2      : in  std_logic := 'X'; -- reset
 			reset_req_in2  : in  std_logic := 'X'; -- reset_req
@@ -611,7 +637,7 @@ architecture rtl of Pyramic_Array is
 		);
 	end component pyramic_array_rst_controller;
 
-	component pyramic_array_rst_controller_001 is
+	component pyramic_array_rst_controller_002 is
 		generic (
 			NUM_RESET_INPUTS          : integer := 6;
 			OUTPUT_RESET_SYNC_EDGES   : string  := "deassert";
@@ -640,11 +666,11 @@ architecture rtl of Pyramic_Array is
 		);
 		port (
 			reset_in0      : in  std_logic := 'X'; -- reset
-			reset_in1      : in  std_logic := 'X'; -- reset
 			clk            : in  std_logic := 'X'; -- clk
 			reset_out      : out std_logic;        -- reset
 			reset_req      : out std_logic;        -- reset_req
 			reset_req_in0  : in  std_logic := 'X'; -- reset_req
+			reset_in1      : in  std_logic := 'X'; -- reset
 			reset_req_in1  : in  std_logic := 'X'; -- reset_req
 			reset_in2      : in  std_logic := 'X'; -- reset
 			reset_req_in2  : in  std_logic := 'X'; -- reset_req
@@ -675,33 +701,21 @@ architecture rtl of Pyramic_Array is
 			reset_in15     : in  std_logic := 'X'; -- reset
 			reset_req_in15 : in  std_logic := 'X'  -- reset_req
 		);
-	end component pyramic_array_rst_controller_001;
+	end component pyramic_array_rst_controller_002;
 
-	signal output_switcher_0_audio_streaming_source_valid                                : std_logic;                     -- Output_Switcher_0:Out_Avalon_Valid -> audio_controller:to_dac_left_channel_valid
-	signal output_switcher_0_audio_streaming_source_data                                 : std_logic_vector(31 downto 0); -- Output_Switcher_0:Out_Avalon_Data -> audio_controller:to_dac_left_channel_data
-	signal output_switcher_0_audio_streaming_source_ready                                : std_logic;                     -- audio_controller:to_dac_left_channel_ready -> Output_Switcher_0:Out_Avalon_Ready
-	signal output_switcher_1_audio_streaming_source_valid                                : std_logic;                     -- Output_Switcher_1:Out_Avalon_Valid -> audio_controller:to_dac_right_channel_valid
-	signal output_switcher_1_audio_streaming_source_data                                 : std_logic_vector(31 downto 0); -- Output_Switcher_1:Out_Avalon_Data -> audio_controller:to_dac_right_channel_data
-	signal output_switcher_1_audio_streaming_source_ready                                : std_logic;                     -- audio_controller:to_dac_right_channel_ready -> Output_Switcher_1:Out_Avalon_Ready
-	signal beamformer_left_source_beam_valid                                             : std_logic;                     -- Beamformer_LEFT:Audio_Valid -> Output_Switcher_0:In_Avalon_Valid
-	signal beamformer_left_source_beam_data                                              : std_logic_vector(31 downto 0); -- Beamformer_LEFT:Audio_data -> Output_Switcher_0:In_Avalon_Data
-	signal beamformer_left_source_beam_ready                                             : std_logic;                     -- Output_Switcher_0:In_Avalon_Ready -> Beamformer_LEFT:Audio_Ready
-	signal beamformer_right_source_beam_valid                                            : std_logic;                     -- Beamformer_RIGHT:Audio_Valid -> Output_Switcher_1:In_Avalon_Valid
-	signal beamformer_right_source_beam_data                                             : std_logic_vector(31 downto 0); -- Beamformer_RIGHT:Audio_data -> Output_Switcher_1:In_Avalon_Data
-	signal beamformer_right_source_beam_ready                                            : std_logic;                     -- Output_Switcher_1:In_Avalon_Ready -> Beamformer_RIGHT:Audio_Ready
-	signal pll_0_outclk0_clk                                                             : std_logic;                     -- pll_0:outclk_0 -> [Beamformer_LEFT:clk, Beamformer_RIGHT:clk, FIR_LEFT:clk, FIR_RIGHT:clk, Output_Switcher_0:clk, Output_Switcher_1:clk, SPI_System_0:clk, audio_and_video_config_0:clk, audio_controller:clk, avalon_st_adapter:in_clk_0_clk, avalon_st_adapter_001:in_clk_0_clk, avalon_st_adapter_002:in_clk_0_clk, avalon_st_adapter_003:in_clk_0_clk, hps_0:f2h_sdram0_clk, hps_0:h2f_lw_axi_clk, jtag_uart_0:clk, mm_interconnect_0:pll_0_outclk0_clk, mm_interconnect_1:pll_0_outclk0_clk, pll_1:refclk, rst_controller:clk, rst_controller_001:clk, rst_controller_003:clk, sysid:clock]
+	signal output_switcher_0_out_l_avalon_valid                                          : std_logic;                     -- Output_Switcher_0:Out_L_Avalon_valid -> audio_controller:to_dac_left_channel_valid
+	signal output_switcher_0_out_l_avalon_data                                           : std_logic_vector(31 downto 0); -- Output_Switcher_0:Out_L_Avalon_data -> audio_controller:to_dac_left_channel_data
+	signal output_switcher_0_out_l_avalon_ready                                          : std_logic;                     -- audio_controller:to_dac_left_channel_ready -> Output_Switcher_0:Out_L_Avalon_ready
+	signal output_switcher_0_out_r_avalon_valid                                          : std_logic;                     -- Output_Switcher_0:Out_R_Avalon_valid -> audio_controller:to_dac_right_channel_valid
+	signal output_switcher_0_out_r_avalon_data                                           : std_logic_vector(31 downto 0); -- Output_Switcher_0:Out_R_Avalon_data -> audio_controller:to_dac_right_channel_data
+	signal output_switcher_0_out_r_avalon_ready                                          : std_logic;                     -- audio_controller:to_dac_right_channel_ready -> Output_Switcher_0:Out_R_Avalon_ready
+	signal pll_0_outclk0_clk                                                             : std_logic;                     -- pll_0:outclk_0 -> [Beamformer_LEFT:clk, Beamformer_RIGHT:clk, FIR_LEFT:clk, FIR_RIGHT:clk, Output_Switcher_0:clk, SPI_System_0:clk, audio_and_video_config_0:clk, audio_controller:clk, avalon_st_adapter:in_clk_0_clk, avalon_st_adapter_001:in_clk_0_clk, avalon_st_adapter_002:in_clk_0_clk, avalon_st_adapter_003:in_clk_0_clk, avalon_st_adapter_004:in_clk_0_clk, avalon_st_adapter_005:in_clk_0_clk, hps_0:f2h_sdram0_clk, hps_0:h2f_lw_axi_clk, jtag_uart_0:clk, mm_interconnect_0:pll_0_outclk0_clk, mm_interconnect_1:pll_0_outclk0_clk, rst_controller:clk, rst_controller_002:clk, sysid:clock]
 	signal output_switcher_0_dma_readdata                                                : std_logic_vector(31 downto 0); -- mm_interconnect_0:Output_Switcher_0_DMA_readdata -> Output_Switcher_0:DMA_Data
 	signal output_switcher_0_dma_waitrequest                                             : std_logic;                     -- mm_interconnect_0:Output_Switcher_0_DMA_waitrequest -> Output_Switcher_0:DMA_WaitRequest
 	signal output_switcher_0_dma_address                                                 : std_logic_vector(31 downto 0); -- Output_Switcher_0:DMA_Addr -> mm_interconnect_0:Output_Switcher_0_DMA_address
 	signal output_switcher_0_dma_byteenable                                              : std_logic_vector(3 downto 0);  -- Output_Switcher_0:DMA_ByteEnable -> mm_interconnect_0:Output_Switcher_0_DMA_byteenable
 	signal output_switcher_0_dma_read                                                    : std_logic;                     -- Output_Switcher_0:DMA_Read -> mm_interconnect_0:Output_Switcher_0_DMA_read
-	signal output_switcher_0_dma_readdatavalid                                           : std_logic;                     -- mm_interconnect_0:Output_Switcher_0_DMA_readdatavalid -> Output_Switcher_0:DMA_Valid
-	signal output_switcher_1_dma_readdata                                                : std_logic_vector(31 downto 0); -- mm_interconnect_0:Output_Switcher_1_DMA_readdata -> Output_Switcher_1:DMA_Data
-	signal output_switcher_1_dma_waitrequest                                             : std_logic;                     -- mm_interconnect_0:Output_Switcher_1_DMA_waitrequest -> Output_Switcher_1:DMA_WaitRequest
-	signal output_switcher_1_dma_address                                                 : std_logic_vector(31 downto 0); -- Output_Switcher_1:DMA_Addr -> mm_interconnect_0:Output_Switcher_1_DMA_address
-	signal output_switcher_1_dma_byteenable                                              : std_logic_vector(3 downto 0);  -- Output_Switcher_1:DMA_ByteEnable -> mm_interconnect_0:Output_Switcher_1_DMA_byteenable
-	signal output_switcher_1_dma_read                                                    : std_logic;                     -- Output_Switcher_1:DMA_Read -> mm_interconnect_0:Output_Switcher_1_DMA_read
-	signal output_switcher_1_dma_readdatavalid                                           : std_logic;                     -- mm_interconnect_0:Output_Switcher_1_DMA_readdatavalid -> Output_Switcher_1:DMA_Valid
+	signal output_switcher_0_dma_readdatavalid                                           : std_logic;                     -- mm_interconnect_0:Output_Switcher_0_DMA_readdatavalid -> Output_Switcher_0:DMA_ReadDataValid
 	signal spi_system_0_avalon_master_waitrequest                                        : std_logic;                     -- mm_interconnect_0:SPI_System_0_avalon_master_waitrequest -> SPI_System_0:AM_WaitRequest
 	signal spi_system_0_avalon_master_address                                            : std_logic_vector(31 downto 0); -- SPI_System_0:AM_Addr -> mm_interconnect_0:SPI_System_0_avalon_master_address
 	signal spi_system_0_avalon_master_byteenable                                         : std_logic_vector(3 downto 0);  -- SPI_System_0:AM_ByteEnable -> mm_interconnect_0:SPI_System_0_avalon_master_byteenable
@@ -765,59 +779,74 @@ architecture rtl of Pyramic_Array is
 	signal mm_interconnect_1_spi_system_0_avalon_slave_read                              : std_logic;                     -- mm_interconnect_1:SPI_System_0_avalon_slave_read -> SPI_System_0:AS_Read
 	signal mm_interconnect_1_spi_system_0_avalon_slave_write                             : std_logic;                     -- mm_interconnect_1:SPI_System_0_avalon_slave_write -> SPI_System_0:AS_Write
 	signal mm_interconnect_1_spi_system_0_avalon_slave_writedata                         : std_logic_vector(31 downto 0); -- mm_interconnect_1:SPI_System_0_avalon_slave_writedata -> SPI_System_0:AS_WriteData
-	signal spi_system_0_source_left_valid                                                : std_logic;                     -- SPI_System_0:Source_Valid_Left -> avalon_st_adapter:in_0_valid
-	signal spi_system_0_source_left_data                                                 : std_logic_vector(21 downto 0); -- SPI_System_0:Source_Data_Left -> avalon_st_adapter:in_0_data
-	signal spi_system_0_source_left_ready                                                : std_logic;                     -- avalon_st_adapter:in_0_ready -> SPI_System_0:Source_Ready_Left
-	signal spi_system_0_source_left_startofpacket                                        : std_logic;                     -- SPI_System_0:Source_sop_Left -> avalon_st_adapter:in_0_startofpacket
-	signal spi_system_0_source_left_endofpacket                                          : std_logic;                     -- SPI_System_0:Source_eop_Left -> avalon_st_adapter:in_0_endofpacket
-	signal avalon_st_adapter_out_0_valid                                                 : std_logic;                     -- avalon_st_adapter:out_0_valid -> FIR_LEFT:ast_sink_valid
-	signal avalon_st_adapter_out_0_data                                                  : std_logic_vector(21 downto 0); -- avalon_st_adapter:out_0_data -> FIR_LEFT:ast_sink_data
-	signal avalon_st_adapter_out_0_startofpacket                                         : std_logic;                     -- avalon_st_adapter:out_0_startofpacket -> FIR_LEFT:ast_sink_sop
-	signal avalon_st_adapter_out_0_endofpacket                                           : std_logic;                     -- avalon_st_adapter:out_0_endofpacket -> FIR_LEFT:ast_sink_eop
-	signal avalon_st_adapter_out_0_error                                                 : std_logic_vector(1 downto 0);  -- avalon_st_adapter:out_0_error -> FIR_LEFT:ast_sink_error
-	signal spi_system_0_source_right_valid                                               : std_logic;                     -- SPI_System_0:Source_Valid_Right -> avalon_st_adapter_001:in_0_valid
-	signal spi_system_0_source_right_data                                                : std_logic_vector(21 downto 0); -- SPI_System_0:Source_Data_Right -> avalon_st_adapter_001:in_0_data
-	signal spi_system_0_source_right_ready                                               : std_logic;                     -- avalon_st_adapter_001:in_0_ready -> SPI_System_0:Source_Ready_Right
-	signal spi_system_0_source_right_startofpacket                                       : std_logic;                     -- SPI_System_0:Source_sop_Right -> avalon_st_adapter_001:in_0_startofpacket
-	signal spi_system_0_source_right_endofpacket                                         : std_logic;                     -- SPI_System_0:Source_eop_Right -> avalon_st_adapter_001:in_0_endofpacket
-	signal avalon_st_adapter_001_out_0_valid                                             : std_logic;                     -- avalon_st_adapter_001:out_0_valid -> FIR_RIGHT:ast_sink_valid
-	signal avalon_st_adapter_001_out_0_data                                              : std_logic_vector(21 downto 0); -- avalon_st_adapter_001:out_0_data -> FIR_RIGHT:ast_sink_data
-	signal avalon_st_adapter_001_out_0_startofpacket                                     : std_logic;                     -- avalon_st_adapter_001:out_0_startofpacket -> FIR_RIGHT:ast_sink_sop
-	signal avalon_st_adapter_001_out_0_endofpacket                                       : std_logic;                     -- avalon_st_adapter_001:out_0_endofpacket -> FIR_RIGHT:ast_sink_eop
-	signal avalon_st_adapter_001_out_0_error                                             : std_logic_vector(1 downto 0);  -- avalon_st_adapter_001:out_0_error -> FIR_RIGHT:ast_sink_error
-	signal fir_left_avalon_streaming_source_valid                                        : std_logic;                     -- FIR_LEFT:ast_source_valid -> avalon_st_adapter_002:in_0_valid
-	signal fir_left_avalon_streaming_source_data                                         : std_logic_vector(31 downto 0); -- FIR_LEFT:ast_source_data -> avalon_st_adapter_002:in_0_data
-	signal fir_left_avalon_streaming_source_channel                                      : std_logic_vector(5 downto 0);  -- FIR_LEFT:ast_source_channel -> avalon_st_adapter_002:in_0_channel
-	signal fir_left_avalon_streaming_source_startofpacket                                : std_logic;                     -- FIR_LEFT:ast_source_sop -> avalon_st_adapter_002:in_0_startofpacket
-	signal fir_left_avalon_streaming_source_error                                        : std_logic_vector(1 downto 0);  -- FIR_LEFT:ast_source_error -> avalon_st_adapter_002:in_0_error
-	signal fir_left_avalon_streaming_source_endofpacket                                  : std_logic;                     -- FIR_LEFT:ast_source_eop -> avalon_st_adapter_002:in_0_endofpacket
-	signal avalon_st_adapter_002_out_0_valid                                             : std_logic;                     -- avalon_st_adapter_002:out_0_valid -> Beamformer_LEFT:FIR_Valid
-	signal avalon_st_adapter_002_out_0_data                                              : std_logic_vector(31 downto 0); -- avalon_st_adapter_002:out_0_data -> Beamformer_LEFT:FIR_data
-	signal avalon_st_adapter_002_out_0_ready                                             : std_logic;                     -- Beamformer_LEFT:FIR_Ready -> avalon_st_adapter_002:out_0_ready
-	signal avalon_st_adapter_002_out_0_channel                                           : std_logic_vector(5 downto 0);  -- avalon_st_adapter_002:out_0_channel -> Beamformer_LEFT:FIR_channel
-	signal avalon_st_adapter_002_out_0_startofpacket                                     : std_logic;                     -- avalon_st_adapter_002:out_0_startofpacket -> Beamformer_LEFT:FIR_sop
-	signal avalon_st_adapter_002_out_0_endofpacket                                       : std_logic;                     -- avalon_st_adapter_002:out_0_endofpacket -> Beamformer_LEFT:FIR_eop
-	signal fir_right_avalon_streaming_source_valid                                       : std_logic;                     -- FIR_RIGHT:ast_source_valid -> avalon_st_adapter_003:in_0_valid
-	signal fir_right_avalon_streaming_source_data                                        : std_logic_vector(31 downto 0); -- FIR_RIGHT:ast_source_data -> avalon_st_adapter_003:in_0_data
-	signal fir_right_avalon_streaming_source_channel                                     : std_logic_vector(5 downto 0);  -- FIR_RIGHT:ast_source_channel -> avalon_st_adapter_003:in_0_channel
-	signal fir_right_avalon_streaming_source_startofpacket                               : std_logic;                     -- FIR_RIGHT:ast_source_sop -> avalon_st_adapter_003:in_0_startofpacket
-	signal fir_right_avalon_streaming_source_error                                       : std_logic_vector(1 downto 0);  -- FIR_RIGHT:ast_source_error -> avalon_st_adapter_003:in_0_error
-	signal fir_right_avalon_streaming_source_endofpacket                                 : std_logic;                     -- FIR_RIGHT:ast_source_eop -> avalon_st_adapter_003:in_0_endofpacket
-	signal avalon_st_adapter_003_out_0_valid                                             : std_logic;                     -- avalon_st_adapter_003:out_0_valid -> Beamformer_RIGHT:FIR_Valid
-	signal avalon_st_adapter_003_out_0_data                                              : std_logic_vector(31 downto 0); -- avalon_st_adapter_003:out_0_data -> Beamformer_RIGHT:FIR_data
-	signal avalon_st_adapter_003_out_0_ready                                             : std_logic;                     -- Beamformer_RIGHT:FIR_Ready -> avalon_st_adapter_003:out_0_ready
-	signal avalon_st_adapter_003_out_0_channel                                           : std_logic_vector(5 downto 0);  -- avalon_st_adapter_003:out_0_channel -> Beamformer_RIGHT:FIR_channel
-	signal avalon_st_adapter_003_out_0_startofpacket                                     : std_logic;                     -- avalon_st_adapter_003:out_0_startofpacket -> Beamformer_RIGHT:FIR_sop
-	signal avalon_st_adapter_003_out_0_endofpacket                                       : std_logic;                     -- avalon_st_adapter_003:out_0_endofpacket -> Beamformer_RIGHT:FIR_eop
-	signal rst_controller_reset_out_reset                                                : std_logic;                     -- rst_controller:reset_out -> [audio_and_video_config_0:reset, audio_controller:reset, avalon_st_adapter:in_rst_0_reset, avalon_st_adapter_001:in_rst_0_reset, avalon_st_adapter_002:in_rst_0_reset, avalon_st_adapter_003:in_rst_0_reset, mm_interconnect_0:Output_Switcher_0_reset_reset_bridge_in_reset_reset, mm_interconnect_1:audio_and_video_config_0_reset_reset_bridge_in_reset_reset, rst_controller_reset_out_reset:in]
-	signal rst_controller_001_reset_out_reset                                            : std_logic;                     -- rst_controller_001:reset_out -> rst_controller_001_reset_out_reset:in
+	signal mm_interconnect_1_output_switcher_0_cfg_avalon_readdata                       : std_logic_vector(31 downto 0); -- Output_Switcher_0:Cfg_Avalon_ReadData -> mm_interconnect_1:Output_Switcher_0_cfg_avalon_readdata
+	signal mm_interconnect_1_output_switcher_0_cfg_avalon_address                        : std_logic_vector(7 downto 0);  -- mm_interconnect_1:Output_Switcher_0_cfg_avalon_address -> Output_Switcher_0:Cfg_Avalon_Address
+	signal mm_interconnect_1_output_switcher_0_cfg_avalon_read                           : std_logic;                     -- mm_interconnect_1:Output_Switcher_0_cfg_avalon_read -> Output_Switcher_0:Cfg_Avalon_Read
+	signal mm_interconnect_1_output_switcher_0_cfg_avalon_write                          : std_logic;                     -- mm_interconnect_1:Output_Switcher_0_cfg_avalon_write -> Output_Switcher_0:Cfg_Avalon_Write
+	signal mm_interconnect_1_output_switcher_0_cfg_avalon_writedata                      : std_logic_vector(31 downto 0); -- mm_interconnect_1:Output_Switcher_0_cfg_avalon_writedata -> Output_Switcher_0:Cfg_Avalon_WriteData
+	signal beamformer_left_source_beam_valid                                             : std_logic;                     -- Beamformer_LEFT:Audio_Valid -> avalon_st_adapter:in_0_valid
+	signal beamformer_left_source_beam_data                                              : std_logic_vector(31 downto 0); -- Beamformer_LEFT:Audio_data -> avalon_st_adapter:in_0_data
+	signal beamformer_left_source_beam_ready                                             : std_logic;                     -- avalon_st_adapter:in_0_ready -> Beamformer_LEFT:Audio_Ready
+	signal avalon_st_adapter_out_0_valid                                                 : std_logic;                     -- avalon_st_adapter:out_0_valid -> Output_Switcher_0:STSink_In_L_valid
+	signal avalon_st_adapter_out_0_data                                                  : std_logic_vector(15 downto 0); -- avalon_st_adapter:out_0_data -> Output_Switcher_0:STSink_In_L_data
+	signal avalon_st_adapter_out_0_ready                                                 : std_logic;                     -- Output_Switcher_0:STSink_In_L_ready -> avalon_st_adapter:out_0_ready
+	signal beamformer_right_source_beam_valid                                            : std_logic;                     -- Beamformer_RIGHT:Audio_Valid -> avalon_st_adapter_001:in_0_valid
+	signal beamformer_right_source_beam_data                                             : std_logic_vector(31 downto 0); -- Beamformer_RIGHT:Audio_data -> avalon_st_adapter_001:in_0_data
+	signal beamformer_right_source_beam_ready                                            : std_logic;                     -- avalon_st_adapter_001:in_0_ready -> Beamformer_RIGHT:Audio_Ready
+	signal avalon_st_adapter_001_out_0_valid                                             : std_logic;                     -- avalon_st_adapter_001:out_0_valid -> Output_Switcher_0:STSink_In_R_valid
+	signal avalon_st_adapter_001_out_0_data                                              : std_logic_vector(15 downto 0); -- avalon_st_adapter_001:out_0_data -> Output_Switcher_0:STSink_In_R_data
+	signal avalon_st_adapter_001_out_0_ready                                             : std_logic;                     -- Output_Switcher_0:STSink_In_R_ready -> avalon_st_adapter_001:out_0_ready
+	signal spi_system_0_source_left_valid                                                : std_logic;                     -- SPI_System_0:Source_Valid_Left -> avalon_st_adapter_002:in_0_valid
+	signal spi_system_0_source_left_data                                                 : std_logic_vector(21 downto 0); -- SPI_System_0:Source_Data_Left -> avalon_st_adapter_002:in_0_data
+	signal spi_system_0_source_left_ready                                                : std_logic;                     -- avalon_st_adapter_002:in_0_ready -> SPI_System_0:Source_Ready_Left
+	signal spi_system_0_source_left_startofpacket                                        : std_logic;                     -- SPI_System_0:Source_sop_Left -> avalon_st_adapter_002:in_0_startofpacket
+	signal spi_system_0_source_left_endofpacket                                          : std_logic;                     -- SPI_System_0:Source_eop_Left -> avalon_st_adapter_002:in_0_endofpacket
+	signal avalon_st_adapter_002_out_0_valid                                             : std_logic;                     -- avalon_st_adapter_002:out_0_valid -> FIR_LEFT:ast_sink_valid
+	signal avalon_st_adapter_002_out_0_data                                              : std_logic_vector(21 downto 0); -- avalon_st_adapter_002:out_0_data -> FIR_LEFT:ast_sink_data
+	signal avalon_st_adapter_002_out_0_startofpacket                                     : std_logic;                     -- avalon_st_adapter_002:out_0_startofpacket -> FIR_LEFT:ast_sink_sop
+	signal avalon_st_adapter_002_out_0_endofpacket                                       : std_logic;                     -- avalon_st_adapter_002:out_0_endofpacket -> FIR_LEFT:ast_sink_eop
+	signal avalon_st_adapter_002_out_0_error                                             : std_logic_vector(1 downto 0);  -- avalon_st_adapter_002:out_0_error -> FIR_LEFT:ast_sink_error
+	signal spi_system_0_source_right_valid                                               : std_logic;                     -- SPI_System_0:Source_Valid_Right -> avalon_st_adapter_003:in_0_valid
+	signal spi_system_0_source_right_data                                                : std_logic_vector(21 downto 0); -- SPI_System_0:Source_Data_Right -> avalon_st_adapter_003:in_0_data
+	signal spi_system_0_source_right_ready                                               : std_logic;                     -- avalon_st_adapter_003:in_0_ready -> SPI_System_0:Source_Ready_Right
+	signal spi_system_0_source_right_startofpacket                                       : std_logic;                     -- SPI_System_0:Source_sop_Right -> avalon_st_adapter_003:in_0_startofpacket
+	signal spi_system_0_source_right_endofpacket                                         : std_logic;                     -- SPI_System_0:Source_eop_Right -> avalon_st_adapter_003:in_0_endofpacket
+	signal avalon_st_adapter_003_out_0_valid                                             : std_logic;                     -- avalon_st_adapter_003:out_0_valid -> FIR_RIGHT:ast_sink_valid
+	signal avalon_st_adapter_003_out_0_data                                              : std_logic_vector(21 downto 0); -- avalon_st_adapter_003:out_0_data -> FIR_RIGHT:ast_sink_data
+	signal avalon_st_adapter_003_out_0_startofpacket                                     : std_logic;                     -- avalon_st_adapter_003:out_0_startofpacket -> FIR_RIGHT:ast_sink_sop
+	signal avalon_st_adapter_003_out_0_endofpacket                                       : std_logic;                     -- avalon_st_adapter_003:out_0_endofpacket -> FIR_RIGHT:ast_sink_eop
+	signal avalon_st_adapter_003_out_0_error                                             : std_logic_vector(1 downto 0);  -- avalon_st_adapter_003:out_0_error -> FIR_RIGHT:ast_sink_error
+	signal fir_left_avalon_streaming_source_valid                                        : std_logic;                     -- FIR_LEFT:ast_source_valid -> avalon_st_adapter_004:in_0_valid
+	signal fir_left_avalon_streaming_source_data                                         : std_logic_vector(31 downto 0); -- FIR_LEFT:ast_source_data -> avalon_st_adapter_004:in_0_data
+	signal fir_left_avalon_streaming_source_channel                                      : std_logic_vector(5 downto 0);  -- FIR_LEFT:ast_source_channel -> avalon_st_adapter_004:in_0_channel
+	signal fir_left_avalon_streaming_source_startofpacket                                : std_logic;                     -- FIR_LEFT:ast_source_sop -> avalon_st_adapter_004:in_0_startofpacket
+	signal fir_left_avalon_streaming_source_error                                        : std_logic_vector(1 downto 0);  -- FIR_LEFT:ast_source_error -> avalon_st_adapter_004:in_0_error
+	signal fir_left_avalon_streaming_source_endofpacket                                  : std_logic;                     -- FIR_LEFT:ast_source_eop -> avalon_st_adapter_004:in_0_endofpacket
+	signal avalon_st_adapter_004_out_0_valid                                             : std_logic;                     -- avalon_st_adapter_004:out_0_valid -> Beamformer_LEFT:FIR_Valid
+	signal avalon_st_adapter_004_out_0_data                                              : std_logic_vector(31 downto 0); -- avalon_st_adapter_004:out_0_data -> Beamformer_LEFT:FIR_data
+	signal avalon_st_adapter_004_out_0_ready                                             : std_logic;                     -- Beamformer_LEFT:FIR_Ready -> avalon_st_adapter_004:out_0_ready
+	signal avalon_st_adapter_004_out_0_channel                                           : std_logic_vector(5 downto 0);  -- avalon_st_adapter_004:out_0_channel -> Beamformer_LEFT:FIR_channel
+	signal avalon_st_adapter_004_out_0_startofpacket                                     : std_logic;                     -- avalon_st_adapter_004:out_0_startofpacket -> Beamformer_LEFT:FIR_sop
+	signal avalon_st_adapter_004_out_0_endofpacket                                       : std_logic;                     -- avalon_st_adapter_004:out_0_endofpacket -> Beamformer_LEFT:FIR_eop
+	signal fir_right_avalon_streaming_source_valid                                       : std_logic;                     -- FIR_RIGHT:ast_source_valid -> avalon_st_adapter_005:in_0_valid
+	signal fir_right_avalon_streaming_source_data                                        : std_logic_vector(31 downto 0); -- FIR_RIGHT:ast_source_data -> avalon_st_adapter_005:in_0_data
+	signal fir_right_avalon_streaming_source_channel                                     : std_logic_vector(5 downto 0);  -- FIR_RIGHT:ast_source_channel -> avalon_st_adapter_005:in_0_channel
+	signal fir_right_avalon_streaming_source_startofpacket                               : std_logic;                     -- FIR_RIGHT:ast_source_sop -> avalon_st_adapter_005:in_0_startofpacket
+	signal fir_right_avalon_streaming_source_error                                       : std_logic_vector(1 downto 0);  -- FIR_RIGHT:ast_source_error -> avalon_st_adapter_005:in_0_error
+	signal fir_right_avalon_streaming_source_endofpacket                                 : std_logic;                     -- FIR_RIGHT:ast_source_eop -> avalon_st_adapter_005:in_0_endofpacket
+	signal avalon_st_adapter_005_out_0_valid                                             : std_logic;                     -- avalon_st_adapter_005:out_0_valid -> Beamformer_RIGHT:FIR_Valid
+	signal avalon_st_adapter_005_out_0_data                                              : std_logic_vector(31 downto 0); -- avalon_st_adapter_005:out_0_data -> Beamformer_RIGHT:FIR_data
+	signal avalon_st_adapter_005_out_0_ready                                             : std_logic;                     -- Beamformer_RIGHT:FIR_Ready -> avalon_st_adapter_005:out_0_ready
+	signal avalon_st_adapter_005_out_0_channel                                           : std_logic_vector(5 downto 0);  -- avalon_st_adapter_005:out_0_channel -> Beamformer_RIGHT:FIR_channel
+	signal avalon_st_adapter_005_out_0_startofpacket                                     : std_logic;                     -- avalon_st_adapter_005:out_0_startofpacket -> Beamformer_RIGHT:FIR_sop
+	signal avalon_st_adapter_005_out_0_endofpacket                                       : std_logic;                     -- avalon_st_adapter_005:out_0_endofpacket -> Beamformer_RIGHT:FIR_eop
+	signal rst_controller_reset_out_reset                                                : std_logic;                     -- rst_controller:reset_out -> [audio_and_video_config_0:reset, audio_controller:reset, avalon_st_adapter:in_rst_0_reset, avalon_st_adapter_001:in_rst_0_reset, avalon_st_adapter_002:in_rst_0_reset, avalon_st_adapter_003:in_rst_0_reset, avalon_st_adapter_004:in_rst_0_reset, avalon_st_adapter_005:in_rst_0_reset, mm_interconnect_0:Output_Switcher_0_reset_reset_bridge_in_reset_reset, mm_interconnect_1:audio_and_video_config_0_reset_reset_bridge_in_reset_reset, rst_controller_reset_out_reset:in]
 	signal hps_0_h2f_reset_reset                                                         : std_logic;                     -- hps_0:h2f_rst_n -> hps_0_h2f_reset_reset:in
-	signal rst_controller_002_reset_out_reset                                            : std_logic;                     -- rst_controller_002:reset_out -> pll_0:rst
-	signal rst_controller_003_reset_out_reset                                            : std_logic;                     -- rst_controller_003:reset_out -> [mm_interconnect_0:hps_0_f2h_sdram0_data_translator_reset_reset_bridge_in_reset_reset, mm_interconnect_1:hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset]
-	signal reset_reset_n_ports_inv                                                       : std_logic;                     -- reset_reset_n:inv -> [pll_1:rst, rst_controller:reset_in0, rst_controller_001:reset_in0, rst_controller_002:reset_in0]
-	signal rst_controller_reset_out_reset_ports_inv                                      : std_logic;                     -- rst_controller_reset_out_reset:inv -> [Beamformer_LEFT:reset_n, Beamformer_RIGHT:reset_n, FIR_LEFT:reset_n, FIR_RIGHT:reset_n, Output_Switcher_0:reset_n, Output_Switcher_1:reset_n, SPI_System_0:reset_n]
-	signal rst_controller_001_reset_out_reset_ports_inv                                  : std_logic;                     -- rst_controller_001_reset_out_reset:inv -> [jtag_uart_0:rst_n, sysid:reset_n]
-	signal hps_0_h2f_reset_reset_ports_inv                                               : std_logic;                     -- hps_0_h2f_reset_reset:inv -> [rst_controller_001:reset_in1, rst_controller_002:reset_in1, rst_controller_003:reset_in0]
+	signal rst_controller_001_reset_out_reset                                            : std_logic;                     -- rst_controller_001:reset_out -> pll_0:rst
+	signal rst_controller_002_reset_out_reset                                            : std_logic;                     -- rst_controller_002:reset_out -> [mm_interconnect_0:hps_0_f2h_sdram0_data_translator_reset_reset_bridge_in_reset_reset, mm_interconnect_1:hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset]
+	signal reset_reset_n_ports_inv                                                       : std_logic;                     -- reset_reset_n:inv -> [rst_controller:reset_in0, rst_controller_001:reset_in0]
+	signal rst_controller_reset_out_reset_ports_inv                                      : std_logic;                     -- rst_controller_reset_out_reset:inv -> [Beamformer_LEFT:reset_n, Beamformer_RIGHT:reset_n, FIR_LEFT:reset_n, FIR_RIGHT:reset_n, Output_Switcher_0:reset_n, SPI_System_0:reset_n, jtag_uart_0:rst_n, sysid:reset_n]
+	signal hps_0_h2f_reset_reset_ports_inv                                               : std_logic;                     -- hps_0_h2f_reset_reset:inv -> [rst_controller:reset_in1, rst_controller_001:reset_in1, rst_controller_002:reset_in0]
 
 begin
 
@@ -831,12 +860,12 @@ begin
 			Audio_Ready => beamformer_left_source_beam_ready,         -- Source_Beam.ready
 			Audio_Valid => beamformer_left_source_beam_valid,         --            .valid
 			Audio_data  => beamformer_left_source_beam_data,          --            .data
-			FIR_data    => avalon_st_adapter_002_out_0_data,          --    Sink_FIR.data
-			FIR_Valid   => avalon_st_adapter_002_out_0_valid,         --            .valid
-			FIR_Ready   => avalon_st_adapter_002_out_0_ready,         --            .ready
-			FIR_sop     => avalon_st_adapter_002_out_0_startofpacket, --            .startofpacket
-			FIR_eop     => avalon_st_adapter_002_out_0_endofpacket,   --            .endofpacket
-			FIR_channel => avalon_st_adapter_002_out_0_channel        --            .channel
+			FIR_data    => avalon_st_adapter_004_out_0_data,          --    Sink_FIR.data
+			FIR_Valid   => avalon_st_adapter_004_out_0_valid,         --            .valid
+			FIR_Ready   => avalon_st_adapter_004_out_0_ready,         --            .ready
+			FIR_sop     => avalon_st_adapter_004_out_0_startofpacket, --            .startofpacket
+			FIR_eop     => avalon_st_adapter_004_out_0_endofpacket,   --            .endofpacket
+			FIR_channel => avalon_st_adapter_004_out_0_channel        --            .channel
 		);
 
 	beamformer_right : component Beamformer_Adder
@@ -849,23 +878,23 @@ begin
 			Audio_Ready => beamformer_right_source_beam_ready,        -- Source_Beam.ready
 			Audio_Valid => beamformer_right_source_beam_valid,        --            .valid
 			Audio_data  => beamformer_right_source_beam_data,         --            .data
-			FIR_data    => avalon_st_adapter_003_out_0_data,          --    Sink_FIR.data
-			FIR_Valid   => avalon_st_adapter_003_out_0_valid,         --            .valid
-			FIR_Ready   => avalon_st_adapter_003_out_0_ready,         --            .ready
-			FIR_sop     => avalon_st_adapter_003_out_0_startofpacket, --            .startofpacket
-			FIR_eop     => avalon_st_adapter_003_out_0_endofpacket,   --            .endofpacket
-			FIR_channel => avalon_st_adapter_003_out_0_channel        --            .channel
+			FIR_data    => avalon_st_adapter_005_out_0_data,          --    Sink_FIR.data
+			FIR_Valid   => avalon_st_adapter_005_out_0_valid,         --            .valid
+			FIR_Ready   => avalon_st_adapter_005_out_0_ready,         --            .ready
+			FIR_sop     => avalon_st_adapter_005_out_0_startofpacket, --            .startofpacket
+			FIR_eop     => avalon_st_adapter_005_out_0_endofpacket,   --            .endofpacket
+			FIR_channel => avalon_st_adapter_005_out_0_channel        --            .channel
 		);
 
 	fir_left : component Pyramic_Array_FIR_LEFT
 		port map (
 			clk                => pll_0_outclk0_clk,                              --                     clk.clk
 			reset_n            => rst_controller_reset_out_reset_ports_inv,       --                     rst.reset_n
-			ast_sink_data      => avalon_st_adapter_out_0_data,                   --   avalon_streaming_sink.data
-			ast_sink_valid     => avalon_st_adapter_out_0_valid,                  --                        .valid
-			ast_sink_error     => avalon_st_adapter_out_0_error,                  --                        .error
-			ast_sink_sop       => avalon_st_adapter_out_0_startofpacket,          --                        .startofpacket
-			ast_sink_eop       => avalon_st_adapter_out_0_endofpacket,            --                        .endofpacket
+			ast_sink_data      => avalon_st_adapter_002_out_0_data,               --   avalon_streaming_sink.data
+			ast_sink_valid     => avalon_st_adapter_002_out_0_valid,              --                        .valid
+			ast_sink_error     => avalon_st_adapter_002_out_0_error,              --                        .error
+			ast_sink_sop       => avalon_st_adapter_002_out_0_startofpacket,      --                        .startofpacket
+			ast_sink_eop       => avalon_st_adapter_002_out_0_endofpacket,        --                        .endofpacket
 			ast_source_data    => fir_left_avalon_streaming_source_data,          -- avalon_streaming_source.data
 			ast_source_valid   => fir_left_avalon_streaming_source_valid,         --                        .valid
 			ast_source_error   => fir_left_avalon_streaming_source_error,         --                        .error
@@ -878,11 +907,11 @@ begin
 		port map (
 			clk                => pll_0_outclk0_clk,                               --                     clk.clk
 			reset_n            => rst_controller_reset_out_reset_ports_inv,        --                     rst.reset_n
-			ast_sink_data      => avalon_st_adapter_001_out_0_data,                --   avalon_streaming_sink.data
-			ast_sink_valid     => avalon_st_adapter_001_out_0_valid,               --                        .valid
-			ast_sink_error     => avalon_st_adapter_001_out_0_error,               --                        .error
-			ast_sink_sop       => avalon_st_adapter_001_out_0_startofpacket,       --                        .startofpacket
-			ast_sink_eop       => avalon_st_adapter_001_out_0_endofpacket,         --                        .endofpacket
+			ast_sink_data      => avalon_st_adapter_003_out_0_data,                --   avalon_streaming_sink.data
+			ast_sink_valid     => avalon_st_adapter_003_out_0_valid,               --                        .valid
+			ast_sink_error     => avalon_st_adapter_003_out_0_error,               --                        .error
+			ast_sink_sop       => avalon_st_adapter_003_out_0_startofpacket,       --                        .startofpacket
+			ast_sink_eop       => avalon_st_adapter_003_out_0_endofpacket,         --                        .endofpacket
 			ast_source_data    => fir_right_avalon_streaming_source_data,          -- avalon_streaming_source.data
 			ast_source_valid   => fir_right_avalon_streaming_source_valid,         --                        .valid
 			ast_source_error   => fir_right_avalon_streaming_source_error,         --                        .error
@@ -896,45 +925,31 @@ begin
 			SAMPLE_WIDTH => 32
 		)
 		port map (
-			clk              => pll_0_outclk0_clk,                              --                  clock.clk
-			reset_n          => rst_controller_reset_out_reset_ports_inv,       --                  reset.reset_n
-			Use_Memory       => output_switcher_0_source_select_new_signal,     --          source_select.new_signal
-			Is_LeftRight     => output_switcher_0_source_select_new_signal_1,   --                       .new_signal_1
-			DMA_Addr         => output_switcher_0_dma_address,                  --                    DMA.address
-			DMA_ByteEnable   => output_switcher_0_dma_byteenable,               --                       .byteenable
-			DMA_Read         => output_switcher_0_dma_read,                     --                       .read
-			DMA_Data         => output_switcher_0_dma_readdata,                 --                       .readdata
-			DMA_Valid        => output_switcher_0_dma_readdatavalid,            --                       .readdatavalid
-			DMA_WaitRequest  => output_switcher_0_dma_waitrequest,              --                       .waitrequest
-			In_Avalon_Ready  => beamformer_left_source_beam_ready,              --   Audio_Streaming_Sink.ready
-			In_Avalon_Valid  => beamformer_left_source_beam_valid,              --                       .valid
-			In_Avalon_Data   => beamformer_left_source_beam_data,               --                       .data
-			Out_Avalon_Ready => output_switcher_0_audio_streaming_source_ready, -- Audio_Streaming_Source.ready
-			Out_Avalon_Data  => output_switcher_0_audio_streaming_source_data,  --                       .data
-			Out_Avalon_Valid => output_switcher_0_audio_streaming_source_valid  --                       .valid
-		);
-
-	output_switcher_1 : component Output_Buffer_Driver
-		generic map (
-			SAMPLE_WIDTH => 32
-		)
-		port map (
-			clk              => pll_0_outclk0_clk,                              --                  clock.clk
-			reset_n          => rst_controller_reset_out_reset_ports_inv,       --                  reset.reset_n
-			Use_Memory       => output_switcher_1_source_select_new_signal,     --          source_select.new_signal
-			Is_LeftRight     => output_switcher_1_source_select_new_signal_1,   --                       .new_signal_1
-			DMA_Addr         => output_switcher_1_dma_address,                  --                    DMA.address
-			DMA_ByteEnable   => output_switcher_1_dma_byteenable,               --                       .byteenable
-			DMA_Read         => output_switcher_1_dma_read,                     --                       .read
-			DMA_Data         => output_switcher_1_dma_readdata,                 --                       .readdata
-			DMA_Valid        => output_switcher_1_dma_readdatavalid,            --                       .readdatavalid
-			DMA_WaitRequest  => output_switcher_1_dma_waitrequest,              --                       .waitrequest
-			In_Avalon_Ready  => beamformer_right_source_beam_ready,             --   Audio_Streaming_Sink.ready
-			In_Avalon_Valid  => beamformer_right_source_beam_valid,             --                       .valid
-			In_Avalon_Data   => beamformer_right_source_beam_data,              --                       .data
-			Out_Avalon_Ready => output_switcher_1_audio_streaming_source_ready, -- Audio_Streaming_Source.ready
-			Out_Avalon_Data  => output_switcher_1_audio_streaming_source_data,  --                       .data
-			Out_Avalon_Valid => output_switcher_1_audio_streaming_source_valid  --                       .valid
+			clk                  => pll_0_outclk0_clk,                                        --        clock.clk
+			reset_n              => rst_controller_reset_out_reset_ports_inv,                 --        reset.reset_n
+			DMA_Addr             => output_switcher_0_dma_address,                            --          DMA.address
+			DMA_ByteEnable       => output_switcher_0_dma_byteenable,                         --             .byteenable
+			DMA_Read             => output_switcher_0_dma_read,                               --             .read
+			DMA_Data             => output_switcher_0_dma_readdata,                           --             .readdata
+			DMA_WaitRequest      => output_switcher_0_dma_waitrequest,                        --             .waitrequest
+			DMA_ReadDataValid    => output_switcher_0_dma_readdatavalid,                      --             .readdatavalid
+			Cfg_Avalon_Address   => mm_interconnect_1_output_switcher_0_cfg_avalon_address,   --   cfg_avalon.address
+			Cfg_Avalon_Read      => mm_interconnect_1_output_switcher_0_cfg_avalon_read,      --             .read
+			Cfg_Avalon_Write     => mm_interconnect_1_output_switcher_0_cfg_avalon_write,     --             .write
+			Cfg_Avalon_ReadData  => mm_interconnect_1_output_switcher_0_cfg_avalon_readdata,  --             .readdata
+			Cfg_Avalon_WriteData => mm_interconnect_1_output_switcher_0_cfg_avalon_writedata, --             .writedata
+			STSink_In_R_ready    => avalon_st_adapter_001_out_0_ready,                        --  STSink_In_R.ready
+			STSink_In_R_data     => avalon_st_adapter_001_out_0_data,                         --             .data
+			STSink_In_R_valid    => avalon_st_adapter_001_out_0_valid,                        --             .valid
+			STSink_In_L_ready    => avalon_st_adapter_out_0_ready,                            --  STSink_In_L.ready
+			STSink_In_L_data     => avalon_st_adapter_out_0_data,                             --             .data
+			STSink_In_L_valid    => avalon_st_adapter_out_0_valid,                            --             .valid
+			Out_R_Avalon_ready   => output_switcher_0_out_r_avalon_ready,                     -- Out_R_Avalon.ready
+			Out_R_Avalon_data    => output_switcher_0_out_r_avalon_data,                      --             .data
+			Out_R_Avalon_valid   => output_switcher_0_out_r_avalon_valid,                     --             .valid
+			Out_L_Avalon_ready   => output_switcher_0_out_l_avalon_ready,                     -- Out_L_Avalon.ready
+			Out_L_Avalon_data    => output_switcher_0_out_l_avalon_data,                      --             .data
+			Out_L_Avalon_valid   => output_switcher_0_out_l_avalon_valid                      --             .valid
 		);
 
 	spi_system_0 : component SPI_System
@@ -1002,25 +1017,25 @@ begin
 
 	audio_controller : component Pyramic_Array_audio_controller
 		port map (
-			clk                          => pll_0_outclk0_clk,                              --                         clk.clk
-			reset                        => rst_controller_reset_out_reset,                 --                       reset.reset
-			from_adc_left_channel_ready  => open,                                           --  avalon_left_channel_source.ready
-			from_adc_left_channel_data   => open,                                           --                            .data
-			from_adc_left_channel_valid  => open,                                           --                            .valid
-			from_adc_right_channel_ready => open,                                           -- avalon_right_channel_source.ready
-			from_adc_right_channel_data  => open,                                           --                            .data
-			from_adc_right_channel_valid => open,                                           --                            .valid
-			to_dac_left_channel_data     => output_switcher_0_audio_streaming_source_data,  --    avalon_left_channel_sink.data
-			to_dac_left_channel_valid    => output_switcher_0_audio_streaming_source_valid, --                            .valid
-			to_dac_left_channel_ready    => output_switcher_0_audio_streaming_source_ready, --                            .ready
-			to_dac_right_channel_data    => output_switcher_1_audio_streaming_source_data,  --   avalon_right_channel_sink.data
-			to_dac_right_channel_valid   => output_switcher_1_audio_streaming_source_valid, --                            .valid
-			to_dac_right_channel_ready   => output_switcher_1_audio_streaming_source_ready, --                            .ready
-			AUD_ADCDAT                   => audio_0_external_interface_ADCDAT,              --          external_interface.export
-			AUD_ADCLRCK                  => audio_0_external_interface_ADCLRCK,             --                            .export
-			AUD_BCLK                     => audio_0_external_interface_BCLK,                --                            .export
-			AUD_DACDAT                   => audio_0_external_interface_DACDAT,              --                            .export
-			AUD_DACLRCK                  => audio_0_external_interface_DACLRCK              --                            .export
+			clk                          => pll_0_outclk0_clk,                    --                         clk.clk
+			reset                        => rst_controller_reset_out_reset,       --                       reset.reset
+			from_adc_left_channel_ready  => open,                                 --  avalon_left_channel_source.ready
+			from_adc_left_channel_data   => open,                                 --                            .data
+			from_adc_left_channel_valid  => open,                                 --                            .valid
+			from_adc_right_channel_ready => open,                                 -- avalon_right_channel_source.ready
+			from_adc_right_channel_data  => open,                                 --                            .data
+			from_adc_right_channel_valid => open,                                 --                            .valid
+			to_dac_left_channel_data     => output_switcher_0_out_l_avalon_data,  --    avalon_left_channel_sink.data
+			to_dac_left_channel_valid    => output_switcher_0_out_l_avalon_valid, --                            .valid
+			to_dac_left_channel_ready    => output_switcher_0_out_l_avalon_ready, --                            .ready
+			to_dac_right_channel_data    => output_switcher_0_out_r_avalon_data,  --   avalon_right_channel_sink.data
+			to_dac_right_channel_valid   => output_switcher_0_out_r_avalon_valid, --                            .valid
+			to_dac_right_channel_ready   => output_switcher_0_out_r_avalon_ready, --                            .ready
+			AUD_ADCDAT                   => audio_0_external_interface_ADCDAT,    --          external_interface.export
+			AUD_ADCLRCK                  => audio_0_external_interface_ADCLRCK,   --                            .export
+			AUD_BCLK                     => audio_0_external_interface_BCLK,      --                            .export
+			AUD_DACDAT                   => audio_0_external_interface_DACDAT,    --                            .export
+			AUD_DACLRCK                  => audio_0_external_interface_DACLRCK    --                            .export
 		);
 
 	hps_0 : component Pyramic_Array_hps_0
@@ -1122,49 +1137,41 @@ begin
 
 	jtag_uart_0 : component Pyramic_Array_jtag_uart_0
 		port map (
-			clk            => pll_0_outclk0_clk,                            --               clk.clk
-			rst_n          => rst_controller_001_reset_out_reset_ports_inv, --             reset.reset_n
-			av_chipselect  => open,                                         -- avalon_jtag_slave.chipselect
-			av_address     => open,                                         --                  .address
-			av_read_n      => open,                                         --                  .read_n
-			av_readdata    => open,                                         --                  .readdata
-			av_write_n     => open,                                         --                  .write_n
-			av_writedata   => open,                                         --                  .writedata
-			av_waitrequest => open,                                         --                  .waitrequest
-			av_irq         => open                                          --               irq.irq
+			clk            => pll_0_outclk0_clk,                        --               clk.clk
+			rst_n          => rst_controller_reset_out_reset_ports_inv, --             reset.reset_n
+			av_chipselect  => open,                                     -- avalon_jtag_slave.chipselect
+			av_address     => open,                                     --                  .address
+			av_read_n      => open,                                     --                  .read_n
+			av_readdata    => open,                                     --                  .readdata
+			av_write_n     => open,                                     --                  .write_n
+			av_writedata   => open,                                     --                  .writedata
+			av_waitrequest => open,                                     --                  .waitrequest
+			av_irq         => open                                      --               irq.irq
 		);
 
 	pll_0 : component Pyramic_Array_pll_0
 		port map (
 			refclk   => clk_clk,                            --  refclk.clk
-			rst      => rst_controller_002_reset_out_reset, --   reset.reset
+			rst      => rst_controller_001_reset_out_reset, --   reset.reset
 			outclk_0 => pll_0_outclk0_clk,                  -- outclk0.clk
 			outclk_1 => open,                               -- outclk1.clk
 			outclk_2 => pll_0_sdram_clk,                    -- outclk2.clk
-			outclk_3 => open,                               -- outclk3.clk
+			outclk_3 => pll_0_outclk3_audio_clk,            -- outclk3.clk
 			locked   => open                                -- (terminated)
-		);
-
-	pll_1 : component Pyramic_Array_pll_1
-		port map (
-			refclk   => pll_0_outclk0_clk,       --  refclk.clk
-			rst      => reset_reset_n_ports_inv, --   reset.reset
-			outclk_0 => pll_0_outclk3_audio_clk, -- outclk0.clk
-			locked   => open                     -- (terminated)
 		);
 
 	sysid : component Pyramic_Array_sysid
 		port map (
-			clock    => pll_0_outclk0_clk,                            --           clk.clk
-			reset_n  => rst_controller_001_reset_out_reset_ports_inv, --         reset.reset_n
-			readdata => open,                                         -- control_slave.readdata
-			address  => open                                          --              .address
+			clock    => pll_0_outclk0_clk,                        --           clk.clk
+			reset_n  => rst_controller_reset_out_reset_ports_inv, --         reset.reset_n
+			readdata => open,                                     -- control_slave.readdata
+			address  => open                                      --              .address
 		);
 
 	mm_interconnect_0 : component Pyramic_Array_mm_interconnect_0
 		port map (
 			pll_0_outclk0_clk                                                  => pll_0_outclk0_clk,                                     --                                                pll_0_outclk0.clk
-			hps_0_f2h_sdram0_data_translator_reset_reset_bridge_in_reset_reset => rst_controller_003_reset_out_reset,                    -- hps_0_f2h_sdram0_data_translator_reset_reset_bridge_in_reset.reset
+			hps_0_f2h_sdram0_data_translator_reset_reset_bridge_in_reset_reset => rst_controller_002_reset_out_reset,                    -- hps_0_f2h_sdram0_data_translator_reset_reset_bridge_in_reset.reset
 			Output_Switcher_0_reset_reset_bridge_in_reset_reset                => rst_controller_reset_out_reset,                        --                Output_Switcher_0_reset_reset_bridge_in_reset.reset
 			Output_Switcher_0_DMA_address                                      => output_switcher_0_dma_address,                         --                                        Output_Switcher_0_DMA.address
 			Output_Switcher_0_DMA_waitrequest                                  => output_switcher_0_dma_waitrequest,                     --                                                             .waitrequest
@@ -1172,12 +1179,6 @@ begin
 			Output_Switcher_0_DMA_read                                         => output_switcher_0_dma_read,                            --                                                             .read
 			Output_Switcher_0_DMA_readdata                                     => output_switcher_0_dma_readdata,                        --                                                             .readdata
 			Output_Switcher_0_DMA_readdatavalid                                => output_switcher_0_dma_readdatavalid,                   --                                                             .readdatavalid
-			Output_Switcher_1_DMA_address                                      => output_switcher_1_dma_address,                         --                                        Output_Switcher_1_DMA.address
-			Output_Switcher_1_DMA_waitrequest                                  => output_switcher_1_dma_waitrequest,                     --                                                             .waitrequest
-			Output_Switcher_1_DMA_byteenable                                   => output_switcher_1_dma_byteenable,                      --                                                             .byteenable
-			Output_Switcher_1_DMA_read                                         => output_switcher_1_dma_read,                            --                                                             .read
-			Output_Switcher_1_DMA_readdata                                     => output_switcher_1_dma_readdata,                        --                                                             .readdata
-			Output_Switcher_1_DMA_readdatavalid                                => output_switcher_1_dma_readdatavalid,                   --                                                             .readdatavalid
 			SPI_System_0_avalon_master_address                                 => spi_system_0_avalon_master_address,                    --                                   SPI_System_0_avalon_master.address
 			SPI_System_0_avalon_master_waitrequest                             => spi_system_0_avalon_master_waitrequest,                --                                                             .waitrequest
 			SPI_System_0_avalon_master_burstcount                              => spi_system_0_avalon_master_burstcount,                 --                                                             .burstcount
@@ -1235,7 +1236,7 @@ begin
 			hps_0_h2f_lw_axi_master_rready                                      => hps_0_h2f_lw_axi_master_rready,                                                --                                                              .rready
 			pll_0_outclk0_clk                                                   => pll_0_outclk0_clk,                                                             --                                                 pll_0_outclk0.clk
 			audio_and_video_config_0_reset_reset_bridge_in_reset_reset          => rst_controller_reset_out_reset,                                                --          audio_and_video_config_0_reset_reset_bridge_in_reset.reset
-			hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset => rst_controller_003_reset_out_reset,                                            -- hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset.reset
+			hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset => rst_controller_002_reset_out_reset,                                            -- hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset.reset
 			audio_and_video_config_0_avalon_av_config_slave_address             => mm_interconnect_1_audio_and_video_config_0_avalon_av_config_slave_address,     --               audio_and_video_config_0_avalon_av_config_slave.address
 			audio_and_video_config_0_avalon_av_config_slave_write               => mm_interconnect_1_audio_and_video_config_0_avalon_av_config_slave_write,       --                                                              .write
 			audio_and_video_config_0_avalon_av_config_slave_read                => mm_interconnect_1_audio_and_video_config_0_avalon_av_config_slave_read,        --                                                              .read
@@ -1243,6 +1244,11 @@ begin
 			audio_and_video_config_0_avalon_av_config_slave_writedata           => mm_interconnect_1_audio_and_video_config_0_avalon_av_config_slave_writedata,   --                                                              .writedata
 			audio_and_video_config_0_avalon_av_config_slave_byteenable          => mm_interconnect_1_audio_and_video_config_0_avalon_av_config_slave_byteenable,  --                                                              .byteenable
 			audio_and_video_config_0_avalon_av_config_slave_waitrequest         => mm_interconnect_1_audio_and_video_config_0_avalon_av_config_slave_waitrequest, --                                                              .waitrequest
+			Output_Switcher_0_cfg_avalon_address                                => mm_interconnect_1_output_switcher_0_cfg_avalon_address,                        --                                  Output_Switcher_0_cfg_avalon.address
+			Output_Switcher_0_cfg_avalon_write                                  => mm_interconnect_1_output_switcher_0_cfg_avalon_write,                          --                                                              .write
+			Output_Switcher_0_cfg_avalon_read                                   => mm_interconnect_1_output_switcher_0_cfg_avalon_read,                           --                                                              .read
+			Output_Switcher_0_cfg_avalon_readdata                               => mm_interconnect_1_output_switcher_0_cfg_avalon_readdata,                       --                                                              .readdata
+			Output_Switcher_0_cfg_avalon_writedata                              => mm_interconnect_1_output_switcher_0_cfg_avalon_writedata,                      --                                                              .writedata
 			SPI_System_0_avalon_slave_address                                   => mm_interconnect_1_spi_system_0_avalon_slave_address,                           --                                     SPI_System_0_avalon_slave.address
 			SPI_System_0_avalon_slave_write                                     => mm_interconnect_1_spi_system_0_avalon_slave_write,                             --                                                              .write
 			SPI_System_0_avalon_slave_read                                      => mm_interconnect_1_spi_system_0_avalon_slave_read,                              --                                                              .read
@@ -1251,6 +1257,66 @@ begin
 		);
 
 	avalon_st_adapter : component Pyramic_Array_avalon_st_adapter
+		generic map (
+			inBitsPerSymbol => 8,
+			inUsePackets    => 0,
+			inDataWidth     => 32,
+			inChannelWidth  => 0,
+			inErrorWidth    => 0,
+			inUseEmptyPort  => 0,
+			inUseValid      => 1,
+			inUseReady      => 1,
+			inReadyLatency  => 0,
+			outDataWidth    => 16,
+			outChannelWidth => 0,
+			outErrorWidth   => 0,
+			outUseEmptyPort => 0,
+			outUseValid     => 1,
+			outUseReady     => 1,
+			outReadyLatency => 0
+		)
+		port map (
+			in_clk_0_clk   => pll_0_outclk0_clk,                 -- in_clk_0.clk
+			in_rst_0_reset => rst_controller_reset_out_reset,    -- in_rst_0.reset
+			in_0_data      => beamformer_left_source_beam_data,  --     in_0.data
+			in_0_valid     => beamformer_left_source_beam_valid, --         .valid
+			in_0_ready     => beamformer_left_source_beam_ready, --         .ready
+			out_0_data     => avalon_st_adapter_out_0_data,      --    out_0.data
+			out_0_valid    => avalon_st_adapter_out_0_valid,     --         .valid
+			out_0_ready    => avalon_st_adapter_out_0_ready      --         .ready
+		);
+
+	avalon_st_adapter_001 : component Pyramic_Array_avalon_st_adapter
+		generic map (
+			inBitsPerSymbol => 8,
+			inUsePackets    => 0,
+			inDataWidth     => 32,
+			inChannelWidth  => 0,
+			inErrorWidth    => 0,
+			inUseEmptyPort  => 0,
+			inUseValid      => 1,
+			inUseReady      => 1,
+			inReadyLatency  => 0,
+			outDataWidth    => 16,
+			outChannelWidth => 0,
+			outErrorWidth   => 0,
+			outUseEmptyPort => 0,
+			outUseValid     => 1,
+			outUseReady     => 1,
+			outReadyLatency => 0
+		)
+		port map (
+			in_clk_0_clk   => pll_0_outclk0_clk,                  -- in_clk_0.clk
+			in_rst_0_reset => rst_controller_reset_out_reset,     -- in_rst_0.reset
+			in_0_data      => beamformer_right_source_beam_data,  --     in_0.data
+			in_0_valid     => beamformer_right_source_beam_valid, --         .valid
+			in_0_ready     => beamformer_right_source_beam_ready, --         .ready
+			out_0_data     => avalon_st_adapter_001_out_0_data,   --    out_0.data
+			out_0_valid    => avalon_st_adapter_001_out_0_valid,  --         .valid
+			out_0_ready    => avalon_st_adapter_001_out_0_ready   --         .ready
+		);
+
+	avalon_st_adapter_002 : component Pyramic_Array_avalon_st_adapter_002
 		generic map (
 			inBitsPerSymbol => 22,
 			inUsePackets    => 1,
@@ -1270,21 +1336,21 @@ begin
 			outReadyLatency => 0
 		)
 		port map (
-			in_clk_0_clk        => pll_0_outclk0_clk,                      -- in_clk_0.clk
-			in_rst_0_reset      => rst_controller_reset_out_reset,         -- in_rst_0.reset
-			in_0_data           => spi_system_0_source_left_data,          --     in_0.data
-			in_0_valid          => spi_system_0_source_left_valid,         --         .valid
-			in_0_ready          => spi_system_0_source_left_ready,         --         .ready
-			in_0_startofpacket  => spi_system_0_source_left_startofpacket, --         .startofpacket
-			in_0_endofpacket    => spi_system_0_source_left_endofpacket,   --         .endofpacket
-			out_0_data          => avalon_st_adapter_out_0_data,           --    out_0.data
-			out_0_valid         => avalon_st_adapter_out_0_valid,          --         .valid
-			out_0_startofpacket => avalon_st_adapter_out_0_startofpacket,  --         .startofpacket
-			out_0_endofpacket   => avalon_st_adapter_out_0_endofpacket,    --         .endofpacket
-			out_0_error         => avalon_st_adapter_out_0_error           --         .error
+			in_clk_0_clk        => pll_0_outclk0_clk,                         -- in_clk_0.clk
+			in_rst_0_reset      => rst_controller_reset_out_reset,            -- in_rst_0.reset
+			in_0_data           => spi_system_0_source_left_data,             --     in_0.data
+			in_0_valid          => spi_system_0_source_left_valid,            --         .valid
+			in_0_ready          => spi_system_0_source_left_ready,            --         .ready
+			in_0_startofpacket  => spi_system_0_source_left_startofpacket,    --         .startofpacket
+			in_0_endofpacket    => spi_system_0_source_left_endofpacket,      --         .endofpacket
+			out_0_data          => avalon_st_adapter_002_out_0_data,          --    out_0.data
+			out_0_valid         => avalon_st_adapter_002_out_0_valid,         --         .valid
+			out_0_startofpacket => avalon_st_adapter_002_out_0_startofpacket, --         .startofpacket
+			out_0_endofpacket   => avalon_st_adapter_002_out_0_endofpacket,   --         .endofpacket
+			out_0_error         => avalon_st_adapter_002_out_0_error          --         .error
 		);
 
-	avalon_st_adapter_001 : component Pyramic_Array_avalon_st_adapter
+	avalon_st_adapter_003 : component Pyramic_Array_avalon_st_adapter_002
 		generic map (
 			inBitsPerSymbol => 22,
 			inUsePackets    => 1,
@@ -1311,14 +1377,14 @@ begin
 			in_0_ready          => spi_system_0_source_right_ready,           --         .ready
 			in_0_startofpacket  => spi_system_0_source_right_startofpacket,   --         .startofpacket
 			in_0_endofpacket    => spi_system_0_source_right_endofpacket,     --         .endofpacket
-			out_0_data          => avalon_st_adapter_001_out_0_data,          --    out_0.data
-			out_0_valid         => avalon_st_adapter_001_out_0_valid,         --         .valid
-			out_0_startofpacket => avalon_st_adapter_001_out_0_startofpacket, --         .startofpacket
-			out_0_endofpacket   => avalon_st_adapter_001_out_0_endofpacket,   --         .endofpacket
-			out_0_error         => avalon_st_adapter_001_out_0_error          --         .error
+			out_0_data          => avalon_st_adapter_003_out_0_data,          --    out_0.data
+			out_0_valid         => avalon_st_adapter_003_out_0_valid,         --         .valid
+			out_0_startofpacket => avalon_st_adapter_003_out_0_startofpacket, --         .startofpacket
+			out_0_endofpacket   => avalon_st_adapter_003_out_0_endofpacket,   --         .endofpacket
+			out_0_error         => avalon_st_adapter_003_out_0_error          --         .error
 		);
 
-	avalon_st_adapter_002 : component Pyramic_Array_avalon_st_adapter_002
+	avalon_st_adapter_004 : component Pyramic_Array_avalon_st_adapter_004
 		generic map (
 			inBitsPerSymbol => 32,
 			inUsePackets    => 1,
@@ -1346,15 +1412,15 @@ begin
 			in_0_endofpacket    => fir_left_avalon_streaming_source_endofpacket,   --         .endofpacket
 			in_0_error          => fir_left_avalon_streaming_source_error,         --         .error
 			in_0_channel        => fir_left_avalon_streaming_source_channel,       --         .channel
-			out_0_data          => avalon_st_adapter_002_out_0_data,               --    out_0.data
-			out_0_valid         => avalon_st_adapter_002_out_0_valid,              --         .valid
-			out_0_ready         => avalon_st_adapter_002_out_0_ready,              --         .ready
-			out_0_startofpacket => avalon_st_adapter_002_out_0_startofpacket,      --         .startofpacket
-			out_0_endofpacket   => avalon_st_adapter_002_out_0_endofpacket,        --         .endofpacket
-			out_0_channel       => avalon_st_adapter_002_out_0_channel             --         .channel
+			out_0_data          => avalon_st_adapter_004_out_0_data,               --    out_0.data
+			out_0_valid         => avalon_st_adapter_004_out_0_valid,              --         .valid
+			out_0_ready         => avalon_st_adapter_004_out_0_ready,              --         .ready
+			out_0_startofpacket => avalon_st_adapter_004_out_0_startofpacket,      --         .startofpacket
+			out_0_endofpacket   => avalon_st_adapter_004_out_0_endofpacket,        --         .endofpacket
+			out_0_channel       => avalon_st_adapter_004_out_0_channel             --         .channel
 		);
 
-	avalon_st_adapter_003 : component Pyramic_Array_avalon_st_adapter_002
+	avalon_st_adapter_005 : component Pyramic_Array_avalon_st_adapter_004
 		generic map (
 			inBitsPerSymbol => 32,
 			inUsePackets    => 1,
@@ -1382,80 +1448,15 @@ begin
 			in_0_endofpacket    => fir_right_avalon_streaming_source_endofpacket,   --         .endofpacket
 			in_0_error          => fir_right_avalon_streaming_source_error,         --         .error
 			in_0_channel        => fir_right_avalon_streaming_source_channel,       --         .channel
-			out_0_data          => avalon_st_adapter_003_out_0_data,                --    out_0.data
-			out_0_valid         => avalon_st_adapter_003_out_0_valid,               --         .valid
-			out_0_ready         => avalon_st_adapter_003_out_0_ready,               --         .ready
-			out_0_startofpacket => avalon_st_adapter_003_out_0_startofpacket,       --         .startofpacket
-			out_0_endofpacket   => avalon_st_adapter_003_out_0_endofpacket,         --         .endofpacket
-			out_0_channel       => avalon_st_adapter_003_out_0_channel              --         .channel
+			out_0_data          => avalon_st_adapter_005_out_0_data,                --    out_0.data
+			out_0_valid         => avalon_st_adapter_005_out_0_valid,               --         .valid
+			out_0_ready         => avalon_st_adapter_005_out_0_ready,               --         .ready
+			out_0_startofpacket => avalon_st_adapter_005_out_0_startofpacket,       --         .startofpacket
+			out_0_endofpacket   => avalon_st_adapter_005_out_0_endofpacket,         --         .endofpacket
+			out_0_channel       => avalon_st_adapter_005_out_0_channel              --         .channel
 		);
 
 	rst_controller : component pyramic_array_rst_controller
-		generic map (
-			NUM_RESET_INPUTS          => 1,
-			OUTPUT_RESET_SYNC_EDGES   => "deassert",
-			SYNC_DEPTH                => 2,
-			RESET_REQUEST_PRESENT     => 0,
-			RESET_REQ_WAIT_TIME       => 1,
-			MIN_RST_ASSERTION_TIME    => 3,
-			RESET_REQ_EARLY_DSRT_TIME => 1,
-			USE_RESET_REQUEST_IN0     => 0,
-			USE_RESET_REQUEST_IN1     => 0,
-			USE_RESET_REQUEST_IN2     => 0,
-			USE_RESET_REQUEST_IN3     => 0,
-			USE_RESET_REQUEST_IN4     => 0,
-			USE_RESET_REQUEST_IN5     => 0,
-			USE_RESET_REQUEST_IN6     => 0,
-			USE_RESET_REQUEST_IN7     => 0,
-			USE_RESET_REQUEST_IN8     => 0,
-			USE_RESET_REQUEST_IN9     => 0,
-			USE_RESET_REQUEST_IN10    => 0,
-			USE_RESET_REQUEST_IN11    => 0,
-			USE_RESET_REQUEST_IN12    => 0,
-			USE_RESET_REQUEST_IN13    => 0,
-			USE_RESET_REQUEST_IN14    => 0,
-			USE_RESET_REQUEST_IN15    => 0,
-			ADAPT_RESET_REQUEST       => 0
-		)
-		port map (
-			reset_in0      => reset_reset_n_ports_inv,        -- reset_in0.reset
-			clk            => pll_0_outclk0_clk,              --       clk.clk
-			reset_out      => rst_controller_reset_out_reset, -- reset_out.reset
-			reset_req      => open,                           -- (terminated)
-			reset_req_in0  => '0',                            -- (terminated)
-			reset_in1      => '0',                            -- (terminated)
-			reset_req_in1  => '0',                            -- (terminated)
-			reset_in2      => '0',                            -- (terminated)
-			reset_req_in2  => '0',                            -- (terminated)
-			reset_in3      => '0',                            -- (terminated)
-			reset_req_in3  => '0',                            -- (terminated)
-			reset_in4      => '0',                            -- (terminated)
-			reset_req_in4  => '0',                            -- (terminated)
-			reset_in5      => '0',                            -- (terminated)
-			reset_req_in5  => '0',                            -- (terminated)
-			reset_in6      => '0',                            -- (terminated)
-			reset_req_in6  => '0',                            -- (terminated)
-			reset_in7      => '0',                            -- (terminated)
-			reset_req_in7  => '0',                            -- (terminated)
-			reset_in8      => '0',                            -- (terminated)
-			reset_req_in8  => '0',                            -- (terminated)
-			reset_in9      => '0',                            -- (terminated)
-			reset_req_in9  => '0',                            -- (terminated)
-			reset_in10     => '0',                            -- (terminated)
-			reset_req_in10 => '0',                            -- (terminated)
-			reset_in11     => '0',                            -- (terminated)
-			reset_req_in11 => '0',                            -- (terminated)
-			reset_in12     => '0',                            -- (terminated)
-			reset_req_in12 => '0',                            -- (terminated)
-			reset_in13     => '0',                            -- (terminated)
-			reset_req_in13 => '0',                            -- (terminated)
-			reset_in14     => '0',                            -- (terminated)
-			reset_req_in14 => '0',                            -- (terminated)
-			reset_in15     => '0',                            -- (terminated)
-			reset_req_in15 => '0'                             -- (terminated)
-		);
-
-	rst_controller_001 : component pyramic_array_rst_controller_001
 		generic map (
 			NUM_RESET_INPUTS          => 2,
 			OUTPUT_RESET_SYNC_EDGES   => "deassert",
@@ -1483,9 +1484,74 @@ begin
 			ADAPT_RESET_REQUEST       => 0
 		)
 		port map (
+			reset_in0      => reset_reset_n_ports_inv,         -- reset_in0.reset
+			reset_in1      => hps_0_h2f_reset_reset_ports_inv, -- reset_in1.reset
+			clk            => pll_0_outclk0_clk,               --       clk.clk
+			reset_out      => rst_controller_reset_out_reset,  -- reset_out.reset
+			reset_req      => open,                            -- (terminated)
+			reset_req_in0  => '0',                             -- (terminated)
+			reset_req_in1  => '0',                             -- (terminated)
+			reset_in2      => '0',                             -- (terminated)
+			reset_req_in2  => '0',                             -- (terminated)
+			reset_in3      => '0',                             -- (terminated)
+			reset_req_in3  => '0',                             -- (terminated)
+			reset_in4      => '0',                             -- (terminated)
+			reset_req_in4  => '0',                             -- (terminated)
+			reset_in5      => '0',                             -- (terminated)
+			reset_req_in5  => '0',                             -- (terminated)
+			reset_in6      => '0',                             -- (terminated)
+			reset_req_in6  => '0',                             -- (terminated)
+			reset_in7      => '0',                             -- (terminated)
+			reset_req_in7  => '0',                             -- (terminated)
+			reset_in8      => '0',                             -- (terminated)
+			reset_req_in8  => '0',                             -- (terminated)
+			reset_in9      => '0',                             -- (terminated)
+			reset_req_in9  => '0',                             -- (terminated)
+			reset_in10     => '0',                             -- (terminated)
+			reset_req_in10 => '0',                             -- (terminated)
+			reset_in11     => '0',                             -- (terminated)
+			reset_req_in11 => '0',                             -- (terminated)
+			reset_in12     => '0',                             -- (terminated)
+			reset_req_in12 => '0',                             -- (terminated)
+			reset_in13     => '0',                             -- (terminated)
+			reset_req_in13 => '0',                             -- (terminated)
+			reset_in14     => '0',                             -- (terminated)
+			reset_req_in14 => '0',                             -- (terminated)
+			reset_in15     => '0',                             -- (terminated)
+			reset_req_in15 => '0'                              -- (terminated)
+		);
+
+	rst_controller_001 : component pyramic_array_rst_controller
+		generic map (
+			NUM_RESET_INPUTS          => 2,
+			OUTPUT_RESET_SYNC_EDGES   => "none",
+			SYNC_DEPTH                => 2,
+			RESET_REQUEST_PRESENT     => 0,
+			RESET_REQ_WAIT_TIME       => 1,
+			MIN_RST_ASSERTION_TIME    => 3,
+			RESET_REQ_EARLY_DSRT_TIME => 1,
+			USE_RESET_REQUEST_IN0     => 0,
+			USE_RESET_REQUEST_IN1     => 0,
+			USE_RESET_REQUEST_IN2     => 0,
+			USE_RESET_REQUEST_IN3     => 0,
+			USE_RESET_REQUEST_IN4     => 0,
+			USE_RESET_REQUEST_IN5     => 0,
+			USE_RESET_REQUEST_IN6     => 0,
+			USE_RESET_REQUEST_IN7     => 0,
+			USE_RESET_REQUEST_IN8     => 0,
+			USE_RESET_REQUEST_IN9     => 0,
+			USE_RESET_REQUEST_IN10    => 0,
+			USE_RESET_REQUEST_IN11    => 0,
+			USE_RESET_REQUEST_IN12    => 0,
+			USE_RESET_REQUEST_IN13    => 0,
+			USE_RESET_REQUEST_IN14    => 0,
+			USE_RESET_REQUEST_IN15    => 0,
+			ADAPT_RESET_REQUEST       => 0
+		)
+		port map (
 			reset_in0      => reset_reset_n_ports_inv,            -- reset_in0.reset
 			reset_in1      => hps_0_h2f_reset_reset_ports_inv,    -- reset_in1.reset
-			clk            => pll_0_outclk0_clk,                  --       clk.clk
+			clk            => open,                               --       clk.clk
 			reset_out      => rst_controller_001_reset_out_reset, -- reset_out.reset
 			reset_req      => open,                               -- (terminated)
 			reset_req_in0  => '0',                                -- (terminated)
@@ -1520,72 +1586,7 @@ begin
 			reset_req_in15 => '0'                                 -- (terminated)
 		);
 
-	rst_controller_002 : component pyramic_array_rst_controller_001
-		generic map (
-			NUM_RESET_INPUTS          => 2,
-			OUTPUT_RESET_SYNC_EDGES   => "none",
-			SYNC_DEPTH                => 2,
-			RESET_REQUEST_PRESENT     => 0,
-			RESET_REQ_WAIT_TIME       => 1,
-			MIN_RST_ASSERTION_TIME    => 3,
-			RESET_REQ_EARLY_DSRT_TIME => 1,
-			USE_RESET_REQUEST_IN0     => 0,
-			USE_RESET_REQUEST_IN1     => 0,
-			USE_RESET_REQUEST_IN2     => 0,
-			USE_RESET_REQUEST_IN3     => 0,
-			USE_RESET_REQUEST_IN4     => 0,
-			USE_RESET_REQUEST_IN5     => 0,
-			USE_RESET_REQUEST_IN6     => 0,
-			USE_RESET_REQUEST_IN7     => 0,
-			USE_RESET_REQUEST_IN8     => 0,
-			USE_RESET_REQUEST_IN9     => 0,
-			USE_RESET_REQUEST_IN10    => 0,
-			USE_RESET_REQUEST_IN11    => 0,
-			USE_RESET_REQUEST_IN12    => 0,
-			USE_RESET_REQUEST_IN13    => 0,
-			USE_RESET_REQUEST_IN14    => 0,
-			USE_RESET_REQUEST_IN15    => 0,
-			ADAPT_RESET_REQUEST       => 0
-		)
-		port map (
-			reset_in0      => reset_reset_n_ports_inv,            -- reset_in0.reset
-			reset_in1      => hps_0_h2f_reset_reset_ports_inv,    -- reset_in1.reset
-			clk            => open,                               --       clk.clk
-			reset_out      => rst_controller_002_reset_out_reset, -- reset_out.reset
-			reset_req      => open,                               -- (terminated)
-			reset_req_in0  => '0',                                -- (terminated)
-			reset_req_in1  => '0',                                -- (terminated)
-			reset_in2      => '0',                                -- (terminated)
-			reset_req_in2  => '0',                                -- (terminated)
-			reset_in3      => '0',                                -- (terminated)
-			reset_req_in3  => '0',                                -- (terminated)
-			reset_in4      => '0',                                -- (terminated)
-			reset_req_in4  => '0',                                -- (terminated)
-			reset_in5      => '0',                                -- (terminated)
-			reset_req_in5  => '0',                                -- (terminated)
-			reset_in6      => '0',                                -- (terminated)
-			reset_req_in6  => '0',                                -- (terminated)
-			reset_in7      => '0',                                -- (terminated)
-			reset_req_in7  => '0',                                -- (terminated)
-			reset_in8      => '0',                                -- (terminated)
-			reset_req_in8  => '0',                                -- (terminated)
-			reset_in9      => '0',                                -- (terminated)
-			reset_req_in9  => '0',                                -- (terminated)
-			reset_in10     => '0',                                -- (terminated)
-			reset_req_in10 => '0',                                -- (terminated)
-			reset_in11     => '0',                                -- (terminated)
-			reset_req_in11 => '0',                                -- (terminated)
-			reset_in12     => '0',                                -- (terminated)
-			reset_req_in12 => '0',                                -- (terminated)
-			reset_in13     => '0',                                -- (terminated)
-			reset_req_in13 => '0',                                -- (terminated)
-			reset_in14     => '0',                                -- (terminated)
-			reset_req_in14 => '0',                                -- (terminated)
-			reset_in15     => '0',                                -- (terminated)
-			reset_req_in15 => '0'                                 -- (terminated)
-		);
-
-	rst_controller_003 : component pyramic_array_rst_controller
+	rst_controller_002 : component pyramic_array_rst_controller_002
 		generic map (
 			NUM_RESET_INPUTS          => 1,
 			OUTPUT_RESET_SYNC_EDGES   => "deassert",
@@ -1615,7 +1616,7 @@ begin
 		port map (
 			reset_in0      => hps_0_h2f_reset_reset_ports_inv,    -- reset_in0.reset
 			clk            => pll_0_outclk0_clk,                  --       clk.clk
-			reset_out      => rst_controller_003_reset_out_reset, -- reset_out.reset
+			reset_out      => rst_controller_002_reset_out_reset, -- reset_out.reset
 			reset_req      => open,                               -- (terminated)
 			reset_req_in0  => '0',                                -- (terminated)
 			reset_in1      => '0',                                -- (terminated)
@@ -1653,8 +1654,6 @@ begin
 	reset_reset_n_ports_inv <= not reset_reset_n;
 
 	rst_controller_reset_out_reset_ports_inv <= not rst_controller_reset_out_reset;
-
-	rst_controller_001_reset_out_reset_ports_inv <= not rst_controller_001_reset_out_reset;
 
 	hps_0_h2f_reset_reset_ports_inv <= not hps_0_h2f_reset_reset;
 

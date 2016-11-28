@@ -1,5 +1,5 @@
 Flow report for Pyramic_Array
-Mon Nov 21 14:14:11 2016
+Mon Nov 28 13:26:45 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -41,7 +41,7 @@ agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Mon Nov 21 14:14:11 2016       ;
+; Flow Status                     ; Successful - Mon Nov 28 13:26:45 2016       ;
 ; Quartus Prime Version           ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                   ; Pyramic_Array                               ;
 ; Top-level Entity Name           ; DE1_SoC_top_level                           ;
@@ -49,7 +49,7 @@ agreement for further details.
 ; Device                          ; 5CSEMA5F31C6                                ;
 ; Timing Models                   ; Final                                       ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 4209                                        ;
+; Total registers                 ; 4218                                        ;
 ; Total pins                      ; 201                                         ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 511,700                                     ;
@@ -68,7 +68,7 @@ agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 11/21/2016 14:08:52 ;
+; Start date & time ; 11/28/2016 13:21:24 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; Pyramic_Array       ;
 +-------------------+---------------------+
@@ -79,7 +79,7 @@ agreement for further details.
 +---------------------------------------+-----------------------------------------------------------------------------+---------------+-----------------------------------+------------+
 ; Assignment Name                       ; Value                                                                       ; Default Value ; Entity Name                       ; Section Id ;
 +---------------------------------------+-----------------------------------------------------------------------------+---------------+-----------------------------------+------------+
-; COMPILER_SIGNATURE_ID                 ; 0.147973372812017                                                           ; --            ; --                                ; --         ;
+; COMPILER_SIGNATURE_ID                 ; 0.148033568025369                                                           ; --            ; --                                ; --         ;
 ; ECO_REGENERATE_REPORT                 ; On                                                                          ; Off           ; --                                ; --         ;
 ; ENABLE_SIGNALTAP                      ; On                                                                          ; --            ; --                                ; --         ;
 ; HPS_ISW_FILE                          ; Pyramic_Array/synthesis/submodules/sequencer/sdram_io.pre.h                 ; --            ; Pyramic_Array_hps_0_hps_io_border ; --         ;
@@ -136,8 +136,8 @@ agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:51     ; 1.0                     ; 1807 MB             ; 00:01:16                           ;
-; Total                ; 00:00:51     ; --                      ; --                  ; 00:01:16                           ;
+; Analysis & Synthesis ; 00:00:49     ; 1.0                     ; 1777 MB             ; 00:01:16                           ;
+; Total                ; 00:00:49     ; --                      ; --                  ; 00:01:16                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

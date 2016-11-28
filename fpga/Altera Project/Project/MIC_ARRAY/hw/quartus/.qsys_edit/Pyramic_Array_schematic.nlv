@@ -1,7 +1,7 @@
 # # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
 # 
 preplace inst Pyramic_Array.hps_0.clkmgr -pg 1
-preplace inst Pyramic_Array.FIR_RIGHT -pg 1 -lvl 2 -y 190
+preplace inst Pyramic_Array.FIR_RIGHT -pg 1 -lvl 2 -y 200
 preplace inst Pyramic_Array.hps_0.scu -pg 1
 preplace inst Pyramic_Array.hps_0.spim0 -pg 1
 preplace inst Pyramic_Array.hps_0.wd_timer0 -pg 1
@@ -9,7 +9,7 @@ preplace inst Pyramic_Array.hps_0.spim1 -pg 1
 preplace inst Pyramic_Array.hps_0.wd_timer1 -pg 1
 preplace inst Pyramic_Array.hps_0.timer0 -pg 1
 preplace inst Pyramic_Array.hps_0.timer -pg 1
-preplace inst Pyramic_Array.FIR_LEFT -pg 1 -lvl 2 -y 110
+preplace inst Pyramic_Array.FIR_LEFT -pg 1 -lvl 2 -y 100
 preplace inst Pyramic_Array.hps_0.timer1 -pg 1
 preplace inst Pyramic_Array.hps_0.l3regs -pg 1
 preplace inst Pyramic_Array.hps_0.fpgamgr -pg 1
@@ -44,7 +44,7 @@ preplace inst Pyramic_Array.hps_0.sysmgr -pg 1
 preplace inst Pyramic_Array.hps_0.rstmgr -pg 1
 preplace inst Pyramic_Array.hps_0.sdrctl -pg 1
 preplace inst Pyramic_Array.hps_0.i2c2 -pg 1
-preplace inst Pyramic_Array.Beamformer_RIGHT -pg 1 -lvl 3 -y 200
+preplace inst Pyramic_Array.Beamformer_RIGHT -pg 1 -lvl 3 -y 180
 preplace inst Pyramic_Array.jtag_uart_0 -pg 1 -lvl 7 -y 370
 preplace inst Pyramic_Array.hps_0.i2c3 -pg 1
 preplace inst Pyramic_Array.hps_0.arm_gic_0 -pg 1
@@ -66,29 +66,29 @@ preplace inst Pyramic_Array.hps_0.eosc2 -pg 1
 preplace inst Pyramic_Array.hps_0.clk_0 -pg 1
 preplace inst Pyramic_Array.hps_0.hps_io -pg 1
 preplace inst Pyramic_Array.Beamformer_LEFT -pg 1 -lvl 3 -y 100
-preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(MASTER)pll_1.outclk0,(MASTER)Pyramic_Array.pll_0_outclk3_audio) 1 7 1 NJ
-preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Pyramic_Array.audio_0_external_interface,(SLAVE)audio_controller.external_interface) 1 0 7 NJ 40 NJ 40 NJ 40 NJ 110 NJ 130 NJ 130 NJ
+preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Pyramic_Array.clk,(SLAVE)clk_0.clk_in) 1 0 5 NJ 530 NJ 530 NJ 530 NJ 530 NJ
+preplace netloc FAN_OUT<net_container>Pyramic_Array</net_container>(SLAVE)pll_1.refclk,(MASTER)pll_0.outclk0,(SLAVE)jtag_uart_0.clk,(SLAVE)FIR_RIGHT.clk,(SLAVE)Beamformer_LEFT.clock,(SLAVE)sysid.clk,(SLAVE)FIR_LEFT.clk,(SLAVE)audio_and_video_config_0.clk,(SLAVE)Beamformer_RIGHT.clock,(SLAVE)SPI_System_0.clock,(SLAVE)hps_0.h2f_lw_axi_clock,(SLAVE)hps_0.f2h_sdram0_clock) 1 0 7 230 120 550 190 820 270 NJ 230 1430 230 NJ 230 2060
+preplace netloc FAN_IN<net_container>Pyramic_Array</net_container>(MASTER)Output_Switcher_0.DMA,(SLAVE)hps_0.f2h_sdram0_data,(MASTER)SPI_System_0.avalon_master,(MASTER)Output_Switcher_1.DMA) 1 1 4 510 90 NJ 90 NJ 110 1410
 preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Output_Switcher_0.source_select,(SLAVE)Pyramic_Array.output_switcher_0_source_select) 1 0 4 NJ 60 NJ 60 NJ 60 NJ
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)Output_Switcher_1.Audio_Streaming_Source,(SLAVE)audio_controller.avalon_right_channel_sink) 1 4 3 NJ 290 NJ 320 1980
-preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Pyramic_Array.audio_and_video_config_0_external_interface,(SLAVE)audio_and_video_config_0.external_interface) 1 0 7 NJ 290 NJ 290 NJ 290 NJ 250 NJ 250 NJ 300 NJ
-preplace netloc INTERCONNECT<net_container>Pyramic_Array</net_container>(MASTER)hps_0.h2f_reset,(SLAVE)Output_Switcher_1.reset,(SLAVE)FIR_RIGHT.rst,(SLAVE)audio_controller.reset,(SLAVE)sysid.reset,(SLAVE)SPI_System_0.reset,(SLAVE)pll_0.reset,(SLAVE)Beamformer_RIGHT.reset,(SLAVE)FIR_LEFT.rst,(SLAVE)Output_Switcher_0.reset,(MASTER)clk_0.clk_reset,(SLAVE)pll_1.reset,(SLAVE)jtag_uart_0.reset,(SLAVE)audio_and_video_config_0.reset,(SLAVE)Beamformer_LEFT.reset) 1 0 7 250 260 490 100 780 190 1070 430 NJ 510 1780 420 2040
-preplace netloc FAN_IN<net_container>Pyramic_Array</net_container>(MASTER)SPI_System_0.avalon_master,(MASTER)Output_Switcher_0.DMA,(SLAVE)hps_0.f2h_sdram0_data,(MASTER)Output_Switcher_1.DMA) 1 1 4 470 380 NJ 380 NJ 390 1370
+preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Pyramic_Array.hps_0_io,(SLAVE)hps_0.hps_io) 1 0 5 NJ 420 NJ 420 NJ 420 NJ 420 NJ
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)audio_controller.avalon_right_channel_sink,(MASTER)Output_Switcher_1.Audio_Streaming_Source) 1 4 3 NJ 290 NJ 400 2040
+preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Pyramic_Array.audio_and_video_config_0_external_interface,(SLAVE)audio_and_video_config_0.external_interface) 1 0 7 NJ 330 NJ 330 NJ 330 NJ 250 NJ 250 NJ 300 NJ
 preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Pyramic_Array.spi_system_0_spi_interface,(SLAVE)SPI_System_0.spi_interface) 1 0 1 NJ
 preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Pyramic_Array.reset,(SLAVE)clk_0.clk_in_reset) 1 0 5 NJ 550 NJ 550 NJ 550 NJ 550 NJ
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)FIR_LEFT.avalon_streaming_sink,(MASTER)SPI_System_0.Source_Left) 1 1 1 470
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)SPI_System_0.Source_Left,(SLAVE)FIR_LEFT.avalon_streaming_sink) 1 1 1 570
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)Beamformer_LEFT.Source_Beam,(SLAVE)Output_Switcher_0.Audio_Streaming_Sink) 1 3 1 N
+preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(MASTER)Pyramic_Array.pll_0_sdram,(MASTER)pll_0.outclk2) 1 6 2 NJ 650 NJ
 preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Pyramic_Array.hps_0_ddr,(SLAVE)hps_0.memory) 1 0 5 NJ 470 NJ 470 NJ 470 NJ 470 NJ
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)FIR_RIGHT.avalon_streaming_source,(SLAVE)Beamformer_RIGHT.Sink_FIR) 1 2 1 800
-preplace netloc FAN_OUT<net_container>Pyramic_Array</net_container>(SLAVE)SPI_System_0.avalon_slave,(MASTER)hps_0.h2f_lw_axi_master,(SLAVE)audio_and_video_config_0.avalon_av_config_slave) 1 0 7 230 360 NJ 360 NJ 360 NJ 370 NJ 330 1740 360 2000
-preplace netloc FAN_OUT<net_container>Pyramic_Array</net_container>(SLAVE)FIR_LEFT.clk,(SLAVE)Beamformer_LEFT.clock,(SLAVE)Beamformer_RIGHT.clock,(SLAVE)audio_and_video_config_0.clk,(SLAVE)pll_1.refclk,(SLAVE)Output_Switcher_0.clock,(SLAVE)FIR_RIGHT.clk,(SLAVE)audio_controller.clk,(SLAVE)SPI_System_0.clock,(SLAVE)hps_0.h2f_lw_axi_clock,(SLAVE)jtag_uart_0.clk,(SLAVE)sysid.clk,(SLAVE)hps_0.f2h_sdram0_clock,(MASTER)pll_0.outclk0,(SLAVE)Output_Switcher_1.clock) 1 0 7 250 140 530 80 820 90 1030 410 1390 310 NJ 340 2020
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)FIR_RIGHT.avalon_streaming_sink,(MASTER)SPI_System_0.Source_Right) 1 1 1 510
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)Output_Switcher_1.Audio_Streaming_Sink,(MASTER)Beamformer_RIGHT.Source_Beam) 1 3 1 1050
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)Output_Switcher_0.Audio_Streaming_Sink,(MASTER)Beamformer_LEFT.Source_Beam) 1 3 1 N
-preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)hps_0.hps_io,(SLAVE)Pyramic_Array.hps_0_io) 1 0 5 NJ 450 NJ 450 NJ 450 NJ 450 NJ
-preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)clk_0.clk_in,(SLAVE)Pyramic_Array.clk) 1 0 5 NJ 530 NJ 530 NJ 530 NJ 530 NJ
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)FIR_RIGHT.avalon_streaming_source,(SLAVE)Beamformer_RIGHT.Sink_FIR) 1 2 1 840
+preplace netloc FAN_OUT<net_container>Pyramic_Array</net_container>(SLAVE)SPI_System_0.avalon_slave,(MASTER)hps_0.h2f_lw_axi_master,(SLAVE)audio_and_video_config_0.avalon_av_config_slave) 1 0 7 270 360 NJ 360 NJ 360 NJ 370 NJ 330 1760 360 NJ
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)SPI_System_0.Source_Right,(SLAVE)FIR_RIGHT.avalon_streaming_sink) 1 1 1 530
+preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)audio_controller.external_interface,(SLAVE)Pyramic_Array.audio_0_external_interface) 1 0 7 NJ 40 NJ 40 NJ 40 NJ 90 NJ 130 NJ 130 NJ
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)Output_Switcher_1.Audio_Streaming_Sink,(MASTER)Beamformer_RIGHT.Source_Beam) 1 3 1 1070
+preplace netloc INTERCONNECT<net_container>Pyramic_Array</net_container>(SLAVE)Beamformer_RIGHT.reset,(SLAVE)Output_Switcher_0.reset,(SLAVE)audio_and_video_config_0.reset,(SLAVE)sysid.reset,(SLAVE)FIR_LEFT.rst,(SLAVE)pll_1.reset,(MASTER)clk_0.clk_reset,(MASTER)hps_0.h2f_reset,(SLAVE)audio_controller.reset,(SLAVE)Output_Switcher_1.reset,(SLAVE)SPI_System_0.reset,(SLAVE)Beamformer_LEFT.reset,(SLAVE)jtag_uart_0.reset,(SLAVE)FIR_RIGHT.rst,(SLAVE)pll_0.reset) 1 0 7 250 140 490 290 860 290 1090 400 NJ 510 1800 380 2100
+preplace netloc FAN_OUT<net_container>Pyramic_Array</net_container>(SLAVE)Output_Switcher_0.clock,(SLAVE)Output_Switcher_1.clock,(SLAVE)audio_controller.clk,(MASTER)pll_1.outclk0) 1 3 5 1150 70 NJ 70 NJ 70 2000 630 2480
 preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)clk_0.clk,(SLAVE)pll_0.refclk) 1 5 1 N
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)Output_Switcher_0.Audio_Streaming_Source,(SLAVE)audio_controller.avalon_left_channel_sink) 1 4 3 NJ 150 NJ 150 1960
-preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(MASTER)pll_0.outclk2,(MASTER)Pyramic_Array.pll_0_sdram) 1 6 2 NJ 360 NJ
-preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Output_Switcher_1.source_select,(SLAVE)Pyramic_Array.output_switcher_1_source_select) 1 0 4 NJ 330 NJ 330 NJ 330 NJ
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)Output_Switcher_0.Audio_Streaming_Source,(SLAVE)audio_controller.avalon_left_channel_sink) 1 4 3 NJ 150 NJ 150 2020
+preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Pyramic_Array.output_switcher_1_source_select,(SLAVE)Output_Switcher_1.source_select) 1 0 4 NJ 310 NJ 310 NJ 310 NJ
 preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)Beamformer_LEFT.Sink_FIR,(MASTER)FIR_LEFT.avalon_streaming_source) 1 2 1 800
-levelinfo -pg 1 0 200 2590
-levelinfo -hier Pyramic_Array 210 280 580 850 1140 1550 1830 2090 2440
+levelinfo -pg 1 0 200 2600
+levelinfo -hier Pyramic_Array 210 300 600 890 1180 1570 1850 2130 2500

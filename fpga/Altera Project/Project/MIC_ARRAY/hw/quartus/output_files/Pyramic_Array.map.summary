@@ -1,10 +1,10 @@
-Analysis & Synthesis Status : Successful - Mon Nov 21 14:14:11 2016
+Analysis & Synthesis Status : Successful - Mon Nov 28 13:26:45 2016
 Quartus Prime Version : 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 Revision Name : Pyramic_Array
 Top-level Entity Name : DE1_SoC_top_level
 Family : Cyclone V
 Logic utilization (in ALMs) : N/A
-Total registers : 4209
+Total registers : 4218
 Total pins : 201
 Total virtual pins : 0
 Total block memory bits : 511,700
