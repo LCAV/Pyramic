@@ -1,7 +1,5 @@
 
 module Pyramic_Array (
-	audio_0_external_interface_ADCDAT,
-	audio_0_external_interface_ADCLRCK,
 	audio_0_external_interface_BCLK,
 	audio_0_external_interface_DACDAT,
 	audio_0_external_interface_DACLRCK,
@@ -49,8 +47,6 @@ module Pyramic_Array (
 	hps_0_io_hps_io_gpio_inst_GPIO35,
 	hps_0_io_hps_io_gpio_inst_GPIO53,
 	hps_0_io_hps_io_gpio_inst_GPIO54,
-	pll_0_outclk3_audio_clk,
-	pll_0_sdram_clk,
 	reset_reset_n,
 	spi_system_0_spi_interface_convst0,
 	spi_system_0_spi_interface_convst1,
@@ -72,10 +68,9 @@ module Pyramic_Array (
 	spi_system_0_spi_interface_sclk2,
 	spi_system_0_spi_interface_busy_or0,
 	spi_system_0_spi_interface_busy_or1,
-	spi_system_0_spi_interface_busy_or2);	
+	spi_system_0_spi_interface_busy_or2,
+	audio_pll_0_audio_clk_clk);	
 
-	input		audio_0_external_interface_ADCDAT;
-	input		audio_0_external_interface_ADCLRCK;
 	input		audio_0_external_interface_BCLK;
 	output		audio_0_external_interface_DACDAT;
 	input		audio_0_external_interface_DACLRCK;
@@ -123,8 +118,6 @@ module Pyramic_Array (
 	inout		hps_0_io_hps_io_gpio_inst_GPIO35;
 	inout		hps_0_io_hps_io_gpio_inst_GPIO53;
 	inout		hps_0_io_hps_io_gpio_inst_GPIO54;
-	output		pll_0_outclk3_audio_clk;
-	output		pll_0_sdram_clk;
 	input		reset_reset_n;
 	output		spi_system_0_spi_interface_convst0;
 	output		spi_system_0_spi_interface_convst1;
@@ -147,4 +140,5 @@ module Pyramic_Array (
 	input		spi_system_0_spi_interface_busy_or0;
 	input		spi_system_0_spi_interface_busy_or1;
 	input		spi_system_0_spi_interface_busy_or2;
+	output		audio_pll_0_audio_clk_clk;
 endmodule

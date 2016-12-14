@@ -133,7 +133,8 @@ Component SPI_Slave
   RegLgt   		  : OUT std_logic_vector (31 DOWNTO 0);
   Start          : OUT std_logic;
   Buffer1		  : in std_logic;
-  Buffer2		  : in std_logic
+  Buffer2		  : in std_logic;
+  DMA_Stop       : in std_logic
   );
 End Component;
 
@@ -275,7 +276,8 @@ Slave: SPI_Slave
   RegAddStart   	=> RegAddStart,
   RegLgt    	  	=> RegLgt,
   Buffer1			=> Buffer1,
-  Buffer2		   => Buffer2
+  Buffer2		   => Buffer2,
+  DMA_Stop        => Stop
 	);	
 
 
@@ -316,7 +318,5 @@ Streaming: SPI_Streaming
 Reset0 <= reset;
 Reset1 <= reset;
 Reset2 <= reset;
-
-busy <= busy_OR0 or busy_OR1 or busy_OR2;
 
 END architecture project;

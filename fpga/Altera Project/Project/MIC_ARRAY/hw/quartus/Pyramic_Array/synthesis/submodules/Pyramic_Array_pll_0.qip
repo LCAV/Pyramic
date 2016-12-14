@@ -1,4 +1,1 @@
 set_instance_assignment -name PLL_COMPENSATION_MODE NORMAL -to "*Pyramic_Array_pll_0*|altera_pll:altera_pll_i*|*"
- 
-set_instance_assignment -name PLL_AUTO_RESET OFF -to "*Pyramic_Array_pll_0*|altera_pll:altera_pll_i*|*"
-set_instance_assignment -name PLL_BANDWIDTH_PRESET AUTO -to "*Pyramic_Array_pll_0*|altera_pll:altera_pll_i*|*"

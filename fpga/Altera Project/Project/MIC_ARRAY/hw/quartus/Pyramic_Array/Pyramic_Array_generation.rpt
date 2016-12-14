@@ -26,6 +26,8 @@ Progress: Adding jtag_uart_0 [altera_avalon_jtag_uart 16.0]
 Progress: Parameterizing module jtag_uart_0
 Progress: Adding pll_0 [altera_pll 16.0]
 Progress: Parameterizing module pll_0
+Progress: Adding pll_1 [altera_pll 16.0]
+Progress: Parameterizing module pll_1
 Progress: Adding sysid [altera_avalon_sysid_qsys 16.0]
 Progress: Parameterizing module sysid
 Progress: Building connections
@@ -41,7 +43,9 @@ Warning: Pyramic_Array.hps_0: "Configuration/HPS-to-FPGA user 0 clock frequency"
 Warning: Pyramic_Array.hps_0: 1 or more output clock frequencies cannot be achieved precisely, consider revising desired output clock frequencies.
 Info: Pyramic_Array.jtag_uart_0: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
 Info: Pyramic_Array.pll_0: The legal reference clock frequency is 5.0 MHz..800.0 MHz
-Warning: Pyramic_Array.pll_0: Able to implement PLL - Actual settings differ from Requested settings
+Info: Pyramic_Array.pll_0: Able to implement PLL with user settings
+Info: Pyramic_Array.pll_1: The legal reference clock frequency is 5.0 MHz..800.0 MHz
+Info: Pyramic_Array.pll_1: Able to implement PLL with user settings
 Info: Pyramic_Array.sysid: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
 Info: Pyramic_Array.sysid: Time stamp will be automatically updated when this component is generated.
 Info: Pyramic_Array.Beamformer_LEFT.Source_Beam/Output_Switcher_0.STSink_In_L: The source data signal is 32 bits, but the sink is 16 bits. Avalon-ST Adapter will be inserted.
@@ -60,6 +64,10 @@ Warning: Pyramic_Array.jtag_uart_0: Interrupt sender jtag_uart_0.irq is not conn
 Warning: Pyramic_Array.jtag_uart_0: jtag_uart_0.avalon_jtag_slave must be connected to an Avalon-MM master
 Warning: Pyramic_Array.sysid: sysid.control_slave must be connected to an Avalon-MM master
 Info: Pyramic_Array: Generating Pyramic_Array "Pyramic_Array" for QUARTUS_SYNTH
+Info: Inserting clock-crossing logic between cmd_demux.src0 and cmd_mux.sink0
+Info: Inserting clock-crossing logic between cmd_demux_001.src0 and cmd_mux.sink1
+Info: Inserting clock-crossing logic between rsp_demux.src0 and rsp_mux.sink0
+Info: Inserting clock-crossing logic between rsp_demux.src1 and rsp_mux_001.sink0
 Info: avalon_st_adapter: Inserting data_format_adapter: data_format_adapter_0
 Info: avalon_st_adapter_001: Inserting data_format_adapter: data_format_adapter_0
 Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
@@ -87,10 +95,11 @@ Warning: hps_0: "Configuration/HPS-to-FPGA user 0 clock frequency" (desired_cfg_
 Warning: hps_0: 1 or more output clock frequencies cannot be achieved precisely, consider revising desired output clock frequencies.
 Info: hps_0: "Pyramic_Array" instantiated altera_hps "hps_0"
 Info: jtag_uart_0: Starting RTL generation for module 'Pyramic_Array_jtag_uart_0'
-Info: jtag_uart_0:   Generation command is [exec /opt/altera/16.0/quartus/linux64/perl/bin/perl -I /opt/altera/16.0/quartus/linux64/perl/lib -I /opt/altera/16.0/quartus/sopc_builder/bin/europa -I /opt/altera/16.0/quartus/sopc_builder/bin/perl_lib -I /opt/altera/16.0/quartus/sopc_builder/bin -I /opt/altera/16.0/quartus/../ip/altera/sopc_builder_ip/common -I /opt/altera/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- /opt/altera/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=Pyramic_Array_jtag_uart_0 --dir=/tmp/alt7133_8152035964994708254.dir/0022_jtag_uart_0_gen/ --quartus_dir=/opt/altera/16.0/quartus --verilog --config=/tmp/alt7133_8152035964994708254.dir/0022_jtag_uart_0_gen//Pyramic_Array_jtag_uart_0_component_configuration.pl  --do_build_sim=0  ]
+Info: jtag_uart_0:   Generation command is [exec /opt/altera/16.0/quartus/linux64/perl/bin/perl -I /opt/altera/16.0/quartus/linux64/perl/lib -I /opt/altera/16.0/quartus/sopc_builder/bin/europa -I /opt/altera/16.0/quartus/sopc_builder/bin/perl_lib -I /opt/altera/16.0/quartus/sopc_builder/bin -I /opt/altera/16.0/quartus/../ip/altera/sopc_builder_ip/common -I /opt/altera/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- /opt/altera/16.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=Pyramic_Array_jtag_uart_0 --dir=/tmp/alt7147_459885263345937269.dir/0007_jtag_uart_0_gen/ --quartus_dir=/opt/altera/16.0/quartus --verilog --config=/tmp/alt7147_459885263345937269.dir/0007_jtag_uart_0_gen//Pyramic_Array_jtag_uart_0_component_configuration.pl  --do_build_sim=0  ]
 Info: jtag_uart_0: Done RTL generation for module 'Pyramic_Array_jtag_uart_0'
 Info: jtag_uart_0: "Pyramic_Array" instantiated altera_avalon_jtag_uart "jtag_uart_0"
 Info: pll_0: "Pyramic_Array" instantiated altera_pll "pll_0"
+Info: pll_1: "Pyramic_Array" instantiated altera_pll "pll_1"
 Info: sysid: "Pyramic_Array" instantiated altera_avalon_sysid_qsys "sysid"
 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
 Info: mm_interconnect_0: "Pyramic_Array" instantiated altera_mm_interconnect "mm_interconnect_0"
@@ -117,12 +126,14 @@ Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_m
 Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
 Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
 Info: Reusing file /home/ferry/Pyramic/fpga/Altera Project/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: crosser: "mm_interconnect_0" instantiated altera_avalon_st_handshake_clock_crosser "crosser"
 Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
 Info: hps_0_h2f_lw_axi_master_agent: "mm_interconnect_1" instantiated altera_merlin_axi_master_ni "hps_0_h2f_lw_axi_master_agent"
 Info: router: "mm_interconnect_1" instantiated altera_merlin_router "router"
 Info: router_002: "mm_interconnect_1" instantiated altera_merlin_router "router_002"
 Info: hps_0_h2f_lw_axi_master_wr_limiter: "mm_interconnect_1" instantiated altera_merlin_traffic_limiter "hps_0_h2f_lw_axi_master_wr_limiter"
 Info: Reusing file /home/ferry/Pyramic/fpga/Altera Project/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: Reusing file /home/ferry/Pyramic/fpga/Altera Project/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_avalon_st_pipeline_base.v
 Info: audio_and_video_config_0_avalon_av_config_slave_burst_adapter: "mm_interconnect_1" instantiated altera_merlin_burst_adapter "audio_and_video_config_0_avalon_av_config_slave_burst_adapter"
 Info: Reusing file /home/ferry/Pyramic/fpga/Altera Project/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_merlin_address_alignment.sv
 Info: Reusing file /home/ferry/Pyramic/fpga/Altera Project/Project/MIC_ARRAY/hw/quartus/Pyramic_Array/synthesis/submodules/altera_avalon_st_pipeline_base.v
@@ -139,6 +150,6 @@ Info: error_adapter_0: "avalon_st_adapter_004" instantiated error_adapter "error
 Info: timing_adapter_0: "avalon_st_adapter_004" instantiated timing_adapter "timing_adapter_0"
 Info: border: "hps_io" instantiated altera_interface_generator "border"
 Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
-Info: Pyramic_Array: Done "Pyramic_Array" with 47 modules, 140 files
+Info: Pyramic_Array: Done "Pyramic_Array" with 49 modules, 146 files
 Info: qsys-generate succeeded.
 Info: Finished: Create HDL design files for synthesis

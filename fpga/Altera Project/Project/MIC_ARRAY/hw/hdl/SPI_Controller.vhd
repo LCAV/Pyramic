@@ -93,7 +93,9 @@ signal CntBit 		  : integer range 0 to RESOLUTION - 1 ;
 signal CntChannel   : integer range 0 to MICS_N - 1;
 signal sel_int		  : integer range 0 to BURST_COUNT;
 signal array_number : integer range 0 to ARRAY_N - 1;
-signal tickCount    : integer range 0 to 1023; -- we zill only use up to 1004
+signal tickCount    : integer range 0 to 1000; -- this is used to generate a convst each 1000 clock cycles
+signal convBlock    : std_logic := '1'; -- blocks the convst state machine
+
 
 -- Frequency divider signals
 signal SCLK_counter : integer range 0 to 5 ;
@@ -178,180 +180,173 @@ FIFO_Mic_inst: FIFO_Mic
 END GENERATE G1;
 
 -- SPI Controller state machine process
-		state_machine : process (Clk, reset_n)
-		begin		
-			if reset_n = '0' then
-			-- Reset the system to default values
-					SPI_state        <= Idle;
-					CONVST <= '1';	
-					t2			   	  <=  0;
-					po			 		  <= (others => (others => '0'));
-					wrreq 			  <= (others => '0');
-					rdreq 	  		  <=(others => '0');
-					CntChannel	     <= CHANNELS - 1;
-					CntBit	    	  <= RESOLUTION-1; 
-					reset				  <= '0';
-					CS_n_signal <= '1';
-					tickCount         <= 0;
-		
-			elsif rising_edge(clk) then
-			-- If Stop deasserted by DMA unit
-				if Stop ='0' then
-			-- SPI controller state machine
-				case SPI_state is
-					when Idle 		=>	
-					-- If Start asserted by Slave unit
-						t2 <= 0;
-						if Start = '1'  then					
-							SPI_state <= Waiting1;
-							reset <= '0';							
-						end if;	
-						-- Waiting states to fill timing requirements of ADC regarding reset signal (50 ns min high pulse width, p.7)
-						-- 48 MHz : 1 cycle = 20.83333 ns which means 3 waiting cycles
-					when Waiting1 	=>	 SPI_state <= Waiting2; reset <= '1';
-					when Waiting2 	=>	 SPI_state <= Waiting3; 
-					when Waiting3 	=>	 SPI_state <= Waiting4; 
-					when Waiting4 	=>	 SPI_state <= Waiting5; reset <= '0'; -- t1 starts here
-					when Waiting5 	=>	 SPI_state <= Waiting6; -- t1 : 20.8333 ns
-					--when Waiting6 	=>	 SPI_state <= Waiting7; -- t1 : 41.6667 ns
-					
-					-- Here: 6 cycles spent
-					
-					when Waiting6 	=>	-- chqnged Waiting7 to Waiting6 so that t1 < 40 ns is respected
-						wrreq <= (others => '0'); 
-						CONVST <= '0';
-						if t2 < 4 then		-- Deassert and assert CONVST after 80 ns according ADC Datasheet (check Note 1 in the header of this file) 
-							t2 <= t2 + 1;
-						else 
-							t2 <= 0;
-							SPI_state <= Wait_For_Conversion;
-							CONVST <= '1';
-							tickCount <= 0;
-						end if;
-					-- Here: 10 cycles spent
-					
-					when Wait_For_Conversion => -- Max 40 or 45 ns depending on voltage, at most 3 cycles
-					-- Do no write in FIFO
-						wrreq <= (others => '0'); 
-						if busy_sig2 = '1' then
-							-- When busy = '1' the conversion starts
-							SPI_state <= Converting;
-						end if;
-						tickCount <= tickCount + 1;
-					-- Here: 13 cycles spent
-					
-					
-					when Converting =>		
-						-- Detect busy falling edge of busy to acknowledge the conversion has finished
-						if busy_sig2 = '0'  then
-						-- Start SPI Transmission
-								CS_n_signal <= '0';
-								SPI_state <= Transmission;	
-						end if;
-						tickCount <= tickCount + 1;
-					-- Here: unknown time spent, but that doesn't matter. 
-					
-					when Transmission =>
-						if SCLK_falling = '1' then   -- Detect SCLK falling edge (CF: 12.0 MHz, 4 cycles)
-							-- Serial In - Parallel out register
-							-- CF: this means reading bit by bit, and shifting the obtained result
-							-- at each round. Doing that 16 times yields the full value
-							
-							-- TIMINGS : one mic channel for all ADCs is 16 * SCLK, we have 8 to do so
-							-- the transmission for 8 * 16 bits per ADC will last 10.666667 us
-							-- (8 * 16 * 4 = 512 clock cycles for reading all 8 samples)
-							
-							-- If we read continuously, we then have a frequency of 93750 Hz, we want 48000
-							-- thus in the next external 'if' we will count precisely how many cycles we need to achieve that
-							
-							   -- MISO00 - J4
-								po(CntChannel)(15 downto 1) <= po(CntChannel)(14 downto 0);
-								po(CntChannel)(0) <= MISO_00;
-								-- MISO01 - J4
-								po(8 + CntChannel)(15 downto 1) <= po(8 + CntChannel)(14 downto 0);
-								po(8 + CntChannel)(0) <= MISO_01;
-								-- MISO10 - J3
-								po(16 + CntChannel)(15 downto 1) <= po(16 + CntChannel)(14 downto 0);
-								po(16 + CntChannel)(0) <= MISO_10;
-								-- MIS11 - J3
-								po(24 + CntChannel)(15 downto 1) <= po(24 + CntChannel)(14 downto 0);
-								po(24 + CntChannel)(0) <= MISO_11;
-								-- MISO20 - J2
-								po(32 + CntChannel)(15 downto 1) <= po(32 + CntChannel)(14 downto 0);
-								po(32 + CntChannel)(0) <= MISO_20;
-								-- MISO21 - J2
-								po(40 + CntChannel)(15 downto 1) <= po(40 + CntChannel)(14 downto 0);
-								po(40 + CntChannel)(0) <= MISO_21;
-							if CntBit > 0  then -- 15 times this one per channel
-								CntBit <= CntBit - 1;
-							else
-							-- Span all the bits (16 per sample)
-								CntBit <= RESOLUTION - 1; -- 15
-								if CntChannel > 0 then	
-								-- Span all the channels (8 per ADC, i.e, per board)
-									CntChannel <= CntChannel - 1;
-								else
-								-- When finish stop writing, start again in next array
-								-- CF: i think he meant next sample !
-									SPI_state <= Wait_For_Conversion;
-									wrreq <= (others => '1');
-									CntChannel <= CHANNELS - 1;
-									CS_n_signal <= '1';
-								end if;
-							end if;
-						 end if;
-						-- CF's comment:
-					   -- We "Read during Conversion".
-						-- We want to have exactly 1000 cycles between each conversion start.
-						-- We don't know precisely how many cycles were spent for converting the signal,
-						-- thus it is a very bad idea to rely on that duration to sample at exactly 48 kHz.
-						-- Thus, the conversion timer is set there.
-						-- mettre ca dans une machine a etats separee; 
-						if tickCount = 1000 then
-							CONVST <= '1';
-						elsif tickCount = 1004 then
-							CONVST <= '0';
-							tickCount <= 5; -- take the 4 extra cycles into account
-						else
-							tickCount <= tickCount + 1;
-						end if;
-						
-
-				  when others => null;
-					end case;
-				  
-				 -- Check if there is data in all the FIFOS
-				 FOR i IN 0 TO ARRAY_N*MICS_N - 1 LOOP
-					if usedw(i)(2 DOWNTO 0) > "001" and array_number < ARRAY_N - 1  then
-							Data_Available <= '1';
-					-- If we reach last array we do not transfer more data
-					else
-							Data_Available <= '0';	
-					end if;
- 				 END LOOP;	
+state_machine : process (Clk, reset_n)
+begin		
+	if reset_n = '0' then
+	-- Reset the system to default values
+			SPI_state        <= Idle;
+			t2			   	  <=  0;
+			po			 		  <= (others => (others => '0'));
+			wrreq 			  <= (others => '0');
+			rdreq 	  		  <=(others => '0');
+			CntChannel	     <= CHANNELS - 1;
+			CntBit	    	  <= RESOLUTION-1; 
+			reset				  <= '0';
+			CS_n_signal      <= '1';
+			convBlock        <= '1';
+	elsif rising_edge(clk) then
+	-- If Stop deasserted by DMA unit
+	if Stop ='0' then
+	-- SPI controller state machine
+		case SPI_state is
+			when Idle 		=>	
+				-- If Start asserted by Slave unit
+				t2 <= 0;
+				if Start = '1'  then					
+					SPI_state <= Waiting1;
+					reset <= '0';							
+				end if;	
+				-- Waiting states to fill timing requirements of ADC regarding reset signal (50 ns min high pulse width, p.7)
+				-- 48 MHz : 1 cycle = 20.83333 ns which means 3 waiting cycles
+			when Waiting1 	=>	 SPI_state <= Waiting2; reset <= '1';
+			when Waiting2 	=>	 SPI_state <= Waiting3; 
+			when Waiting3 	=>	 SPI_state <= Waiting4; 
+			when Waiting4 	=>	 SPI_state <= Waiting5; reset <= '0'; -- t2 starts here
+			when Waiting5 	=>	 SPI_state <= Waiting6; -- t2 : 20.8333 ns
+			--when Waiting6 	=>	 SPI_state <= Waiting7; -- t2 : 41.6667 ns
 			
-				-- DMA Read Request
-				 if DataRd = '1' then
-						rdreq <= (others => '1');
-			    else
-						rdreq <= (others => '0');
-						-- Output multiplexer controlled by DM A(through sel_int signal). Send two samples each time (Interleaved)
-						if sel_int > 0 then
-								Data  <= output(8*array_number+ 2*sel_int-2) & output(8*array_number+ 2*sel_int-1);
+			when Waiting6 	=>	-- chqnged Waiting7 to Waiting6 so that t2 < 40 ns is respected
+				wrreq <= (others => '0'); 
+				convBlock <= '0'; -- this triggers the convst state machine that will generate the 1st CONVST high after 4 cycles
+				SPI_state <= Wait_For_Conversion;
+
+			when Wait_For_Conversion => -- Max 40 or 45 ns depending on voltage, at most 3 cycles
+				-- Do no write in FIFOs
+				wrreq <= (others => '0'); 
+				if busy_sig2 = '1' then
+					-- When busy = '1' the conversion starts
+					SPI_state <= Converting;
+				end if;
+			
+			when Converting =>		
+				-- Detect busy falling edge of busy to acknowledge the conversion has finished
+				if busy_sig2 = '0'  then
+				-- Start SPI Transmission
+						CS_n_signal <= '0';
+						SPI_state <= Transmission;	
+				end if;
+			
+			when Transmission =>
+				if SCLK_falling = '1' then   -- Detect SCLK falling edge (CF: 12.0 MHz, 4 cycles)
+					-- Serial In - Parallel out register
+					-- CF: this means reading bit by bit, and shifting the obtained result
+					-- at each round. Doing that 16 times yields the full value
+					
+					-- TIMINGS : one mic channel for all ADCs is 16 * SCLK, we have 8 to do so
+					-- the transmission for 8 * 16 bits per ADC will last 10.666667 us
+					-- (8 * 16 * 4 = 512 clock cycles for reading all 8 samples from each adc)
+					
+					-- If we read continuously, we then have a frequency of 93750 Hz, we want 48000
+					-- thus in the next external 'if' we will count precisely how many cycles we need to achieve that
+					
+						-- MISO00 - J4
+						po(CntChannel)(15 downto 1) <= po(CntChannel)(14 downto 0);
+						po(CntChannel)(0) <= MISO_00;
+						-- MISO01 - J4
+						po(8 + CntChannel)(15 downto 1) <= po(8 + CntChannel)(14 downto 0);
+						po(8 + CntChannel)(0) <= MISO_01;
+						-- MISO10 - J3
+						po(16 + CntChannel)(15 downto 1) <= po(16 + CntChannel)(14 downto 0);
+						po(16 + CntChannel)(0) <= MISO_10;
+						-- MIS11 - J3
+						po(24 + CntChannel)(15 downto 1) <= po(24 + CntChannel)(14 downto 0);
+						po(24 + CntChannel)(0) <= MISO_11;
+						-- MISO20 - J2
+						po(32 + CntChannel)(15 downto 1) <= po(32 + CntChannel)(14 downto 0);
+						po(32 + CntChannel)(0) <= MISO_20;
+						-- MISO21 - J2
+						po(40 + CntChannel)(15 downto 1) <= po(40 + CntChannel)(14 downto 0);
+						po(40 + CntChannel)(0) <= MISO_21;
+					if CntBit > 0  then -- 15 times this one per channel
+						CntBit <= CntBit - 1;
+					else
+					-- Span all the bits (16 per sample)
+						CntBit <= RESOLUTION - 1; -- 15
+						if CntChannel > 0 then	
+						-- Span all the channels (8 per ADC, i.e, per board)
+							CntChannel <= CntChannel - 1;
 						else
-								Data <= (others => '0');
+						-- When finish stop writing, start again in next array
+						-- CF: i think he meant next sample !
+							SPI_state <= Wait_For_Conversion;
+							wrreq <= (others => '1');
+							CntChannel <= CHANNELS - 1;
+							CS_n_signal <= '1';
 						end if;
+					end if;
 				 end if;
-	
-			-- Stop acquisition (if Start = '0' in DMA) 
-			elsif Stop = '1' then
-						SPI_state <= idle;
-						reset <= '0';
-						CS_n_signal <= '1';
+		 when others => null;
+		 end case;
+		  
+		-- Check if there is data in all the FIFOS
+		FOR i IN 0 TO ARRAY_N*MICS_N - 1 LOOP
+		if usedw(i)(2 DOWNTO 0) > "001" and array_number < ARRAY_N - 1  then
+				Data_Available <= '1';
+		-- If we reach last array we do not transfer more data
+		else
+				Data_Available <= '0';	
+		end if;
+		END LOOP;	
+
+		-- DMA Read Request
+		if DataRd = '1' then
+			rdreq <= (others => '1');
+		else
+			rdreq <= (others => '0');
+			-- Output multiplexer controlled by DM A(through sel_int signal). Send two samples each time (Interleaved)
+			if sel_int > 0 then
+					Data  <= output(8*array_number+ 2*sel_int-2) & output(8*array_number+ 2*sel_int-1);
+			else
+					Data <= (others => '0');
 			end if;
 		end if;
-	  end process state_machine;
-	  
+	-- Stop acquisition (if Start = '0' in DMA) 
+	elsif Stop = '1' then
+		SPI_state <= idle;
+		reset <= '0';
+		CS_n_signal <= '1';
+		convBlock <= '1';
+	end if;
+end if;
+end process state_machine;
+
+
+-- Insert here another state machine that triggers the sample start every 1000 cycles
+genStart : process(reset_n, clk)
+begin
+	if reset_n = '0' then
+		tickCount <= 0; -- This obvisouly respects t7 >= 25 ns (see header)
+		CONVST <= '0'; -- NOTE : before that, CONVST was up on reset, and there were some waiting cycles to have it low for 4 cycles then asserted again
+	elsif rising_edge(clk) then
+		if convBlock = '0' then
+			tickCount <= tickCount + 1;
+		   -- we raise the convst signal for 4 cycles
+			if tickCount = 995 then
+				CONVST <= '1';
+			elsif tickCount = 999 then
+				CONVST <= '0';
+				tickCount <= 0; 
+			end if;
+			
+		else
+			tickCount <= 0;
+			CONVST <= '0';
+		end if;
+	end if;
+
+end process;
+
+
 -- Outputs of the system
 sel_int		 <= to_integer(unsigned(sel));
 array_number <= to_integer(unsigned(array_vector));

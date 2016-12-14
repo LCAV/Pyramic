@@ -2,11 +2,14 @@
 -- SPI DMA Module VHDL Description
 -- 17th February 2016
 -- EPFL: LCAV & LAP collaboration 
+-- Modified-By: C. Ferry 
+-- Changed the stop condition : CntBurst shall be equal to 1 (4 - 3 - 2 - 1) otherwise 
+-- it does 4 - 3 - 2 - 1 - 0 (and the 3 was in reality skipped so we missed a sample)
 
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use IEEE.std_logic_unsigned.all;
+--use IEEE.std_logic_unsigned.all;
 
 
 Entity SPI_DMA is
@@ -133,11 +136,11 @@ BEGIN
 				AM_Addr <= std_logic_vector(CntAdd);
 				AM_ByteEnable <= "1111";
 				AM_BurstCount <= "100";					-- Burst of 4
-					if AM_WaitRequest = '0' then
-					-- Start BURST to send data to the DDR3 controller
-						StateM <= s_writedata;
-						CntBurst <= BURST_COUNT - 1;
-					end if;
+				if AM_WaitRequest = '0' then
+				-- Start BURST to send data to the DDR3 controller
+					StateM <= s_writedata;
+					--CntBurst <= BURST_COUNT - 1; -- CF: I removed this so that the second data will be written
+				end if;
 					
         when s_writedata =>
 				AM_BurstCount <= "000";	
@@ -145,7 +148,7 @@ BEGIN
 				  	-- Start Avalon ST interface
 						Streaming_Valid <= '1';
 					-- Control burst transfer
-					if CntBurst = 0 then	-- Stop burst transfer
+					if CntBurst = 1 then	-- Stop burst transfer
 						AM_Write <= '0';
 						AM_ByteEnable <= "0000"; 
 						-- Stop burst
@@ -184,7 +187,6 @@ BEGIN
 						end if; 
 					else		-- Continue burst transfer
 						CntBurst <= CntBurst - 1;
-	
 					end if;
 				else
 						-- Interrupt Avalon ST interface

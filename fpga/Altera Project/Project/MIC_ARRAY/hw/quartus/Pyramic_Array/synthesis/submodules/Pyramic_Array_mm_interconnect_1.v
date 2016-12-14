@@ -43,7 +43,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		output wire        hps_0_h2f_lw_axi_master_rlast,                                       //                                                              .rlast
 		output wire        hps_0_h2f_lw_axi_master_rvalid,                                      //                                                              .rvalid
 		input  wire        hps_0_h2f_lw_axi_master_rready,                                      //                                                              .rready
-		input  wire        pll_0_outclk0_clk,                                                   //                                                 pll_0_outclk0.clk
+		input  wire        pll_1_outclk0_clk,                                                   //                                                 pll_1_outclk0.clk
 		input  wire        audio_and_video_config_0_reset_reset_bridge_in_reset_reset,          //          audio_and_video_config_0_reset_reset_bridge_in_reset.reset
 		input  wire        hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset, // hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset.reset
 		output wire [1:0]  audio_and_video_config_0_avalon_av_config_slave_address,             //               audio_and_video_config_0_avalon_av_config_slave.address
@@ -53,7 +53,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		output wire [31:0] audio_and_video_config_0_avalon_av_config_slave_writedata,           //                                                              .writedata
 		output wire [3:0]  audio_and_video_config_0_avalon_av_config_slave_byteenable,          //                                                              .byteenable
 		input  wire        audio_and_video_config_0_avalon_av_config_slave_waitrequest,         //                                                              .waitrequest
-		output wire [7:0]  Output_Switcher_0_cfg_avalon_address,                                //                                  Output_Switcher_0_cfg_avalon.address
+		output wire [2:0]  Output_Switcher_0_cfg_avalon_address,                                //                                  Output_Switcher_0_cfg_avalon.address
 		output wire        Output_Switcher_0_cfg_avalon_write,                                  //                                                              .write
 		output wire        Output_Switcher_0_cfg_avalon_read,                                   //                                                              .read
 		input  wire [31:0] Output_Switcher_0_cfg_avalon_readdata,                               //                                                              .readdata
@@ -385,7 +385,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.AV_SETUP_WAIT_CYCLES           (0),
 		.AV_DATA_HOLD_CYCLES            (0)
 	) audio_and_video_config_0_avalon_av_config_slave_translator (
-		.clk                    (pll_0_outclk0_clk),                                                      //                      clk.clk
+		.clk                    (pll_1_outclk0_clk),                                                      //                      clk.clk
 		.reset                  (audio_and_video_config_0_reset_reset_bridge_in_reset_reset),             //                    reset.reset
 		.uav_address            (audio_and_video_config_0_avalon_av_config_slave_agent_m0_address),       // avalon_universal_slave_0.address
 		.uav_burstcount         (audio_and_video_config_0_avalon_av_config_slave_agent_m0_burstcount),    //                         .burstcount
@@ -449,7 +449,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.AV_SETUP_WAIT_CYCLES           (0),
 		.AV_DATA_HOLD_CYCLES            (0)
 	) spi_system_0_avalon_slave_translator (
-		.clk                    (pll_0_outclk0_clk),                                          //                      clk.clk
+		.clk                    (pll_1_outclk0_clk),                                          //                      clk.clk
 		.reset                  (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), //                    reset.reset
 		.uav_address            (spi_system_0_avalon_slave_agent_m0_address),                 // avalon_universal_slave_0.address
 		.uav_burstcount         (spi_system_0_avalon_slave_agent_m0_burstcount),              //                         .burstcount
@@ -487,7 +487,7 @@ module Pyramic_Array_mm_interconnect_1 (
 	);
 
 	altera_merlin_slave_translator #(
-		.AV_ADDRESS_W                   (8),
+		.AV_ADDRESS_W                   (3),
 		.AV_DATA_W                      (32),
 		.UAV_DATA_W                     (32),
 		.AV_BURSTCOUNT_W                (1),
@@ -513,7 +513,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.AV_SETUP_WAIT_CYCLES           (0),
 		.AV_DATA_HOLD_CYCLES            (0)
 	) output_switcher_0_cfg_avalon_translator (
-		.clk                    (pll_0_outclk0_clk),                                          //                      clk.clk
+		.clk                    (pll_1_outclk0_clk),                                          //                      clk.clk
 		.reset                  (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), //                    reset.reset
 		.uav_address            (output_switcher_0_cfg_avalon_agent_m0_address),              // avalon_universal_slave_0.address
 		.uav_burstcount         (output_switcher_0_cfg_avalon_agent_m0_burstcount),           //                         .burstcount
@@ -607,7 +607,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.ST_CHANNEL_W              (3),
 		.ID                        (0)
 	) hps_0_h2f_lw_axi_master_agent (
-		.aclk                   (pll_0_outclk0_clk),                                                    //              clk.clk
+		.aclk                   (pll_1_outclk0_clk),                                                    //              clk.clk
 		.aresetn                (~hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset), //        clk_reset.reset_n
 		.write_cp_valid         (hps_0_h2f_lw_axi_master_agent_write_cp_valid),                         //         write_cp.valid
 		.write_cp_data          (hps_0_h2f_lw_axi_master_agent_write_cp_data),                          //                 .data
@@ -717,7 +717,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.USE_WRITERESPONSE         (0),
 		.ECC_ENABLE                (0)
 	) audio_and_video_config_0_avalon_av_config_slave_agent (
-		.clk                     (pll_0_outclk0_clk),                                                                   //             clk.clk
+		.clk                     (pll_1_outclk0_clk),                                                                   //             clk.clk
 		.reset                   (audio_and_video_config_0_reset_reset_bridge_in_reset_reset),                          //       clk_reset.reset
 		.m0_address              (audio_and_video_config_0_avalon_av_config_slave_agent_m0_address),                    //              m0.address
 		.m0_burstcount           (audio_and_video_config_0_avalon_av_config_slave_agent_m0_burstcount),                 //                .burstcount
@@ -776,7 +776,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.USE_ALMOST_FULL_IF  (0),
 		.USE_ALMOST_EMPTY_IF (0)
 	) audio_and_video_config_0_avalon_av_config_slave_agent_rsp_fifo (
-		.clk               (pll_0_outclk0_clk),                                                                //       clk.clk
+		.clk               (pll_1_outclk0_clk),                                                                //       clk.clk
 		.reset             (audio_and_video_config_0_reset_reset_bridge_in_reset_reset),                       // clk_reset.reset
 		.in_data           (audio_and_video_config_0_avalon_av_config_slave_agent_rf_source_data),             //        in.data
 		.in_valid          (audio_and_video_config_0_avalon_av_config_slave_agent_rf_source_valid),            //          .valid
@@ -817,7 +817,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.USE_ALMOST_FULL_IF  (0),
 		.USE_ALMOST_EMPTY_IF (0)
 	) audio_and_video_config_0_avalon_av_config_slave_agent_rdata_fifo (
-		.clk               (pll_0_outclk0_clk),                                                          //       clk.clk
+		.clk               (pll_1_outclk0_clk),                                                          //       clk.clk
 		.reset             (audio_and_video_config_0_reset_reset_bridge_in_reset_reset),                 // clk_reset.reset
 		.in_data           (audio_and_video_config_0_avalon_av_config_slave_agent_rdata_fifo_src_data),  //        in.data
 		.in_valid          (audio_and_video_config_0_avalon_av_config_slave_agent_rdata_fifo_src_valid), //          .valid
@@ -883,7 +883,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.USE_WRITERESPONSE         (0),
 		.ECC_ENABLE                (0)
 	) spi_system_0_avalon_slave_agent (
-		.clk                     (pll_0_outclk0_clk),                                             //             clk.clk
+		.clk                     (pll_1_outclk0_clk),                                             //             clk.clk
 		.reset                   (audio_and_video_config_0_reset_reset_bridge_in_reset_reset),    //       clk_reset.reset
 		.m0_address              (spi_system_0_avalon_slave_agent_m0_address),                    //              m0.address
 		.m0_burstcount           (spi_system_0_avalon_slave_agent_m0_burstcount),                 //                .burstcount
@@ -942,7 +942,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.USE_ALMOST_FULL_IF  (0),
 		.USE_ALMOST_EMPTY_IF (0)
 	) spi_system_0_avalon_slave_agent_rsp_fifo (
-		.clk               (pll_0_outclk0_clk),                                          //       clk.clk
+		.clk               (pll_1_outclk0_clk),                                          //       clk.clk
 		.reset             (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.in_data           (spi_system_0_avalon_slave_agent_rf_source_data),             //        in.data
 		.in_valid          (spi_system_0_avalon_slave_agent_rf_source_valid),            //          .valid
@@ -983,7 +983,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.USE_ALMOST_FULL_IF  (0),
 		.USE_ALMOST_EMPTY_IF (0)
 	) spi_system_0_avalon_slave_agent_rdata_fifo (
-		.clk               (pll_0_outclk0_clk),                                          //       clk.clk
+		.clk               (pll_1_outclk0_clk),                                          //       clk.clk
 		.reset             (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.in_data           (spi_system_0_avalon_slave_agent_rdata_fifo_src_data),        //        in.data
 		.in_valid          (spi_system_0_avalon_slave_agent_rdata_fifo_src_valid),       //          .valid
@@ -1049,7 +1049,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.USE_WRITERESPONSE         (0),
 		.ECC_ENABLE                (0)
 	) output_switcher_0_cfg_avalon_agent (
-		.clk                     (pll_0_outclk0_clk),                                                //             clk.clk
+		.clk                     (pll_1_outclk0_clk),                                                //             clk.clk
 		.reset                   (audio_and_video_config_0_reset_reset_bridge_in_reset_reset),       //       clk_reset.reset
 		.m0_address              (output_switcher_0_cfg_avalon_agent_m0_address),                    //              m0.address
 		.m0_burstcount           (output_switcher_0_cfg_avalon_agent_m0_burstcount),                 //                .burstcount
@@ -1108,7 +1108,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.USE_ALMOST_FULL_IF  (0),
 		.USE_ALMOST_EMPTY_IF (0)
 	) output_switcher_0_cfg_avalon_agent_rsp_fifo (
-		.clk               (pll_0_outclk0_clk),                                             //       clk.clk
+		.clk               (pll_1_outclk0_clk),                                             //       clk.clk
 		.reset             (audio_and_video_config_0_reset_reset_bridge_in_reset_reset),    // clk_reset.reset
 		.in_data           (output_switcher_0_cfg_avalon_agent_rf_source_data),             //        in.data
 		.in_valid          (output_switcher_0_cfg_avalon_agent_rf_source_valid),            //          .valid
@@ -1149,7 +1149,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.USE_ALMOST_FULL_IF  (0),
 		.USE_ALMOST_EMPTY_IF (0)
 	) output_switcher_0_cfg_avalon_agent_rdata_fifo (
-		.clk               (pll_0_outclk0_clk),                                          //       clk.clk
+		.clk               (pll_1_outclk0_clk),                                          //       clk.clk
 		.reset             (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.in_data           (output_switcher_0_cfg_avalon_agent_rdata_fifo_src_data),     //        in.data
 		.in_valid          (output_switcher_0_cfg_avalon_agent_rdata_fifo_src_valid),    //          .valid
@@ -1182,7 +1182,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.sink_data          (hps_0_h2f_lw_axi_master_agent_write_cp_data),                         //          .data
 		.sink_startofpacket (hps_0_h2f_lw_axi_master_agent_write_cp_startofpacket),                //          .startofpacket
 		.sink_endofpacket   (hps_0_h2f_lw_axi_master_agent_write_cp_endofpacket),                  //          .endofpacket
-		.clk                (pll_0_outclk0_clk),                                                   //       clk.clk
+		.clk                (pll_1_outclk0_clk),                                                   //       clk.clk
 		.reset              (hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.src_ready          (router_src_ready),                                                    //       src.ready
 		.src_valid          (router_src_valid),                                                    //          .valid
@@ -1198,7 +1198,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.sink_data          (hps_0_h2f_lw_axi_master_agent_read_cp_data),                          //          .data
 		.sink_startofpacket (hps_0_h2f_lw_axi_master_agent_read_cp_startofpacket),                 //          .startofpacket
 		.sink_endofpacket   (hps_0_h2f_lw_axi_master_agent_read_cp_endofpacket),                   //          .endofpacket
-		.clk                (pll_0_outclk0_clk),                                                   //       clk.clk
+		.clk                (pll_1_outclk0_clk),                                                   //       clk.clk
 		.reset              (hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.src_ready          (router_001_src_ready),                                                //       src.ready
 		.src_valid          (router_001_src_valid),                                                //          .valid
@@ -1214,7 +1214,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.sink_data          (audio_and_video_config_0_avalon_av_config_slave_agent_rp_data),          //          .data
 		.sink_startofpacket (audio_and_video_config_0_avalon_av_config_slave_agent_rp_startofpacket), //          .startofpacket
 		.sink_endofpacket   (audio_and_video_config_0_avalon_av_config_slave_agent_rp_endofpacket),   //          .endofpacket
-		.clk                (pll_0_outclk0_clk),                                                      //       clk.clk
+		.clk                (pll_1_outclk0_clk),                                                      //       clk.clk
 		.reset              (audio_and_video_config_0_reset_reset_bridge_in_reset_reset),             // clk_reset.reset
 		.src_ready          (router_002_src_ready),                                                   //       src.ready
 		.src_valid          (router_002_src_valid),                                                   //          .valid
@@ -1230,7 +1230,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.sink_data          (spi_system_0_avalon_slave_agent_rp_data),                    //          .data
 		.sink_startofpacket (spi_system_0_avalon_slave_agent_rp_startofpacket),           //          .startofpacket
 		.sink_endofpacket   (spi_system_0_avalon_slave_agent_rp_endofpacket),             //          .endofpacket
-		.clk                (pll_0_outclk0_clk),                                          //       clk.clk
+		.clk                (pll_1_outclk0_clk),                                          //       clk.clk
 		.reset              (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.src_ready          (router_003_src_ready),                                       //       src.ready
 		.src_valid          (router_003_src_valid),                                       //          .valid
@@ -1246,7 +1246,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.sink_data          (output_switcher_0_cfg_avalon_agent_rp_data),                 //          .data
 		.sink_startofpacket (output_switcher_0_cfg_avalon_agent_rp_startofpacket),        //          .startofpacket
 		.sink_endofpacket   (output_switcher_0_cfg_avalon_agent_rp_endofpacket),          //          .endofpacket
-		.clk                (pll_0_outclk0_clk),                                          //       clk.clk
+		.clk                (pll_1_outclk0_clk),                                          //       clk.clk
 		.reset              (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.src_ready          (router_004_src_ready),                                       //       src.ready
 		.src_valid          (router_004_src_valid),                                       //          .valid
@@ -1278,7 +1278,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.SUPPORTS_NONPOSTED_WRITES (0),
 		.REORDER                   (0)
 	) hps_0_h2f_lw_axi_master_wr_limiter (
-		.clk                    (pll_0_outclk0_clk),                                                   //       clk.clk
+		.clk                    (pll_1_outclk0_clk),                                                   //       clk.clk
 		.reset                  (hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.cmd_sink_ready         (router_src_ready),                                                    //  cmd_sink.ready
 		.cmd_sink_valid         (router_src_valid),                                                    //          .valid
@@ -1328,7 +1328,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.SUPPORTS_NONPOSTED_WRITES (0),
 		.REORDER                   (0)
 	) hps_0_h2f_lw_axi_master_rd_limiter (
-		.clk                    (pll_0_outclk0_clk),                                                   //       clk.clk
+		.clk                    (pll_1_outclk0_clk),                                                   //       clk.clk
 		.reset                  (hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.cmd_sink_ready         (router_001_src_ready),                                                //  cmd_sink.ready
 		.cmd_sink_valid         (router_001_src_valid),                                                //          .valid
@@ -1390,7 +1390,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.BURSTWRAP_CONST_VALUE     (0),
 		.ADAPTER_VERSION           ("13.1")
 	) audio_and_video_config_0_avalon_av_config_slave_burst_adapter (
-		.clk                   (pll_0_outclk0_clk),                                                                   //       cr0.clk
+		.clk                   (pll_1_outclk0_clk),                                                                   //       cr0.clk
 		.reset                 (audio_and_video_config_0_reset_reset_bridge_in_reset_reset),                          // cr0_reset.reset
 		.sink0_valid           (cmd_mux_src_valid),                                                                   //     sink0.valid
 		.sink0_data            (cmd_mux_src_data),                                                                    //          .data
@@ -1440,7 +1440,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.BURSTWRAP_CONST_VALUE     (0),
 		.ADAPTER_VERSION           ("13.1")
 	) spi_system_0_avalon_slave_burst_adapter (
-		.clk                   (pll_0_outclk0_clk),                                             //       cr0.clk
+		.clk                   (pll_1_outclk0_clk),                                             //       cr0.clk
 		.reset                 (audio_and_video_config_0_reset_reset_bridge_in_reset_reset),    // cr0_reset.reset
 		.sink0_valid           (cmd_mux_001_src_valid),                                         //     sink0.valid
 		.sink0_data            (cmd_mux_001_src_data),                                          //          .data
@@ -1490,7 +1490,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.BURSTWRAP_CONST_VALUE     (0),
 		.ADAPTER_VERSION           ("13.1")
 	) output_switcher_0_cfg_avalon_burst_adapter (
-		.clk                   (pll_0_outclk0_clk),                                                //       cr0.clk
+		.clk                   (pll_1_outclk0_clk),                                                //       cr0.clk
 		.reset                 (audio_and_video_config_0_reset_reset_bridge_in_reset_reset),       // cr0_reset.reset
 		.sink0_valid           (cmd_mux_002_src_valid),                                            //     sink0.valid
 		.sink0_data            (cmd_mux_002_src_data),                                             //          .data
@@ -1507,7 +1507,7 @@ module Pyramic_Array_mm_interconnect_1 (
 	);
 
 	Pyramic_Array_mm_interconnect_1_cmd_demux cmd_demux (
-		.clk                (pll_0_outclk0_clk),                                                   //        clk.clk
+		.clk                (pll_1_outclk0_clk),                                                   //        clk.clk
 		.reset              (hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset), //  clk_reset.reset
 		.sink_ready         (hps_0_h2f_lw_axi_master_wr_limiter_cmd_src_ready),                    //       sink.ready
 		.sink_channel       (hps_0_h2f_lw_axi_master_wr_limiter_cmd_src_channel),                  //           .channel
@@ -1536,7 +1536,7 @@ module Pyramic_Array_mm_interconnect_1 (
 	);
 
 	Pyramic_Array_mm_interconnect_1_cmd_demux cmd_demux_001 (
-		.clk                (pll_0_outclk0_clk),                                                   //        clk.clk
+		.clk                (pll_1_outclk0_clk),                                                   //        clk.clk
 		.reset              (hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset), //  clk_reset.reset
 		.sink_ready         (hps_0_h2f_lw_axi_master_rd_limiter_cmd_src_ready),                    //       sink.ready
 		.sink_channel       (hps_0_h2f_lw_axi_master_rd_limiter_cmd_src_channel),                  //           .channel
@@ -1565,7 +1565,7 @@ module Pyramic_Array_mm_interconnect_1 (
 	);
 
 	Pyramic_Array_mm_interconnect_1_cmd_mux cmd_mux (
-		.clk                 (pll_0_outclk0_clk),                                          //       clk.clk
+		.clk                 (pll_1_outclk0_clk),                                          //       clk.clk
 		.reset               (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.src_ready           (cmd_mux_src_ready),                                          //       src.ready
 		.src_valid           (cmd_mux_src_valid),                                          //          .valid
@@ -1588,7 +1588,7 @@ module Pyramic_Array_mm_interconnect_1 (
 	);
 
 	Pyramic_Array_mm_interconnect_1_cmd_mux cmd_mux_001 (
-		.clk                 (pll_0_outclk0_clk),                                          //       clk.clk
+		.clk                 (pll_1_outclk0_clk),                                          //       clk.clk
 		.reset               (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.src_ready           (cmd_mux_001_src_ready),                                      //       src.ready
 		.src_valid           (cmd_mux_001_src_valid),                                      //          .valid
@@ -1611,7 +1611,7 @@ module Pyramic_Array_mm_interconnect_1 (
 	);
 
 	Pyramic_Array_mm_interconnect_1_cmd_mux cmd_mux_002 (
-		.clk                 (pll_0_outclk0_clk),                                          //       clk.clk
+		.clk                 (pll_1_outclk0_clk),                                          //       clk.clk
 		.reset               (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.src_ready           (cmd_mux_002_src_ready),                                      //       src.ready
 		.src_valid           (cmd_mux_002_src_valid),                                      //          .valid
@@ -1634,7 +1634,7 @@ module Pyramic_Array_mm_interconnect_1 (
 	);
 
 	Pyramic_Array_mm_interconnect_1_rsp_demux rsp_demux (
-		.clk                (pll_0_outclk0_clk),                                          //       clk.clk
+		.clk                (pll_1_outclk0_clk),                                          //       clk.clk
 		.reset              (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.sink_ready         (router_002_src_ready),                                       //      sink.ready
 		.sink_channel       (router_002_src_channel),                                     //          .channel
@@ -1657,7 +1657,7 @@ module Pyramic_Array_mm_interconnect_1 (
 	);
 
 	Pyramic_Array_mm_interconnect_1_rsp_demux rsp_demux_001 (
-		.clk                (pll_0_outclk0_clk),                                          //       clk.clk
+		.clk                (pll_1_outclk0_clk),                                          //       clk.clk
 		.reset              (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.sink_ready         (router_003_src_ready),                                       //      sink.ready
 		.sink_channel       (router_003_src_channel),                                     //          .channel
@@ -1680,7 +1680,7 @@ module Pyramic_Array_mm_interconnect_1 (
 	);
 
 	Pyramic_Array_mm_interconnect_1_rsp_demux rsp_demux_002 (
-		.clk                (pll_0_outclk0_clk),                                          //       clk.clk
+		.clk                (pll_1_outclk0_clk),                                          //       clk.clk
 		.reset              (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.sink_ready         (router_004_src_ready),                                       //      sink.ready
 		.sink_channel       (router_004_src_channel),                                     //          .channel
@@ -1703,7 +1703,7 @@ module Pyramic_Array_mm_interconnect_1 (
 	);
 
 	Pyramic_Array_mm_interconnect_1_rsp_mux rsp_mux (
-		.clk                 (pll_0_outclk0_clk),                                                   //       clk.clk
+		.clk                 (pll_1_outclk0_clk),                                                   //       clk.clk
 		.reset               (hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.src_ready           (rsp_mux_src_ready),                                                   //       src.ready
 		.src_valid           (rsp_mux_src_valid),                                                   //          .valid
@@ -1732,7 +1732,7 @@ module Pyramic_Array_mm_interconnect_1 (
 	);
 
 	Pyramic_Array_mm_interconnect_1_rsp_mux rsp_mux_001 (
-		.clk                 (pll_0_outclk0_clk),                                                   //       clk.clk
+		.clk                 (pll_1_outclk0_clk),                                                   //       clk.clk
 		.reset               (hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset), // clk_reset.reset
 		.src_ready           (rsp_mux_001_src_ready),                                               //       src.ready
 		.src_valid           (rsp_mux_001_src_valid),                                               //          .valid
@@ -1778,7 +1778,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.outUseReady     (1),
 		.outReadyLatency (0)
 	) avalon_st_adapter (
-		.in_clk_0_clk   (pll_0_outclk0_clk),                                                          // in_clk_0.clk
+		.in_clk_0_clk   (pll_1_outclk0_clk),                                                          // in_clk_0.clk
 		.in_rst_0_reset (audio_and_video_config_0_reset_reset_bridge_in_reset_reset),                 // in_rst_0.reset
 		.in_0_data      (audio_and_video_config_0_avalon_av_config_slave_agent_rdata_fifo_out_data),  //     in_0.data
 		.in_0_valid     (audio_and_video_config_0_avalon_av_config_slave_agent_rdata_fifo_out_valid), //         .valid
@@ -1807,7 +1807,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.outUseReady     (1),
 		.outReadyLatency (0)
 	) avalon_st_adapter_001 (
-		.in_clk_0_clk   (pll_0_outclk0_clk),                                          // in_clk_0.clk
+		.in_clk_0_clk   (pll_1_outclk0_clk),                                          // in_clk_0.clk
 		.in_rst_0_reset (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), // in_rst_0.reset
 		.in_0_data      (spi_system_0_avalon_slave_agent_rdata_fifo_out_data),        //     in_0.data
 		.in_0_valid     (spi_system_0_avalon_slave_agent_rdata_fifo_out_valid),       //         .valid
@@ -1836,7 +1836,7 @@ module Pyramic_Array_mm_interconnect_1 (
 		.outUseReady     (1),
 		.outReadyLatency (0)
 	) avalon_st_adapter_002 (
-		.in_clk_0_clk   (pll_0_outclk0_clk),                                          // in_clk_0.clk
+		.in_clk_0_clk   (pll_1_outclk0_clk),                                          // in_clk_0.clk
 		.in_rst_0_reset (audio_and_video_config_0_reset_reset_bridge_in_reset_reset), // in_rst_0.reset
 		.in_0_data      (output_switcher_0_cfg_avalon_agent_rdata_fifo_out_data),     //     in_0.data
 		.in_0_valid     (output_switcher_0_cfg_avalon_agent_rdata_fifo_out_valid),    //         .valid

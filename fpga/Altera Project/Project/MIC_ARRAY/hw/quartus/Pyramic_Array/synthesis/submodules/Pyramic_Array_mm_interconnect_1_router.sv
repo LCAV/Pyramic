@@ -134,15 +134,15 @@ module Pyramic_Array_mm_interconnect_1_router
     // Figure out the number of bits to mask off for each slave span
     // during address decoding
     // -------------------------------------------------------
-    localparam PAD0 = log2ceil(64'h400 - 64'h0); 
-    localparam PAD1 = log2ceil(64'h420 - 64'h400); 
-    localparam PAD2 = log2ceil(64'h430 - 64'h420); 
+    localparam PAD0 = log2ceil(64'h20 - 64'h0); 
+    localparam PAD1 = log2ceil(64'h40 - 64'h20); 
+    localparam PAD2 = log2ceil(64'h50 - 64'h40); 
     // -------------------------------------------------------
     // Work out which address bits are significant based on the
     // address range of the slaves. If the required width is too
     // large or too small, we use the address field width instead.
     // -------------------------------------------------------
-    localparam ADDR_RANGE = 64'h430;
+    localparam ADDR_RANGE = 64'h50;
     localparam RANGE_ADDR_WIDTH = log2ceil(ADDR_RANGE);
     localparam OPTIMIZED_ADDR_H = (RANGE_ADDR_WIDTH > PKT_ADDR_W) ||
                                   (RANGE_ADDR_WIDTH == 0) ?
@@ -190,20 +190,20 @@ module Pyramic_Array_mm_interconnect_1_router
         // Sets the channel and destination ID based on the address
         // --------------------------------------------------
 
-    // ( 0x0 .. 0x400 )
-    if ( {address[RG:PAD0],{PAD0{1'b0}}} == 11'h0   ) begin
+    // ( 0x0 .. 0x20 )
+    if ( {address[RG:PAD0],{PAD0{1'b0}}} == 7'h0   ) begin
             src_channel = 3'b100;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 0;
     end
 
-    // ( 0x400 .. 0x420 )
-    if ( {address[RG:PAD1],{PAD1{1'b0}}} == 11'h400   ) begin
+    // ( 0x20 .. 0x40 )
+    if ( {address[RG:PAD1],{PAD1{1'b0}}} == 7'h20   ) begin
             src_channel = 3'b010;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 1;
     end
 
-    // ( 0x420 .. 0x430 )
-    if ( {address[RG:PAD2],{PAD2{1'b0}}} == 11'h420   ) begin
+    // ( 0x40 .. 0x50 )
+    if ( {address[RG:PAD2],{PAD2{1'b0}}} == 7'h40   ) begin
             src_channel = 3'b001;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 2;
     end

@@ -37,6 +37,12 @@
 #define START_REG	(2*OFFSET)
 #define BUFFER1		(3*OFFSET)
 #define BUFFER2		(4*OFFSET)
+#define DMA_STOP_REG (5*OFFSET)
+
+
+#define BASE_RDADDR_REG (0*OFFSET)
+#define SOUND_LEN_REG   (1*OFFSET)
+#define USE_MEMORY_REG  (2*OFFSET)
 
 
 // Memory allocation for the samples
@@ -66,7 +72,8 @@ void open_physical_memory_device();
 void close_physical_memory_device();
 void mmap_fpga_peripherals();
 void munmap_fpga_peripherals();
-void SPI_System();
+void SPI_System(uint32_t);
+void setOutputBufferBaseAddress(uint32_t baseAddr);
 
 struct wavfile
 {
@@ -122,6 +129,10 @@ int main(int argc, char **argv) {
 	uint16_t *dma_buffer = (uint16_t *) reserved_memory;
 	uint16_t *out_buffer = (uint16_t *) output_memory;
 
+	// set the base addresses
+	//setOutputBufferBaseAddress((uint32_t)output_memory);
+
+	setOutputBufferBaseAddress(SEC_MEMORY_OFFSET_PHY);
 
 	// Start SPI communication
 	SPI_System(num_samples);
@@ -137,7 +148,7 @@ int main(int argc, char **argv) {
 	    write_wav(filename,num_samples_mic, buffer, SAMPLING_FREQUENCY);
 
 	}
-	printf("Playback of what was captured on the last mic");
+	printf("Playback of what was captured on the last mic\n");
 
 	for(i = 0; i < num_samples_mic; i++) {
 		out_buffer[i] = buffer[i];
@@ -156,16 +167,43 @@ void SPI_System(uint32_t num_samples) {
 	alt_write_word(fpga_SPI_System + LENGTH_REG, num_samples);
 	// Specify address
 	alt_write_word(fpga_SPI_System + ADDRESS_REG, RESERVED_MEMORY_OFFSET_PHY );
+	uint32_t wraddr = 0;
+	if(RESERVED_MEMORY_OFFSET_PHY != (wraddr = alt_read_word(fpga_SPI_System + ADDRESS_REG)))
+		printf("Setting base address failed with %x instead of %x\n", wraddr, RESERVED_MEMORY_OFFSET_PHY);
+	else
+		printf("Success in setting spi system write base address\n");
+
 	// Start the acquisition: Send a low-active pulse
 	alt_write_word(fpga_SPI_System + START_REG, START );
 	alt_write_word(fpga_SPI_System + START_REG, STOP ); // Comment this line to allow continous acquisition
+
 	// Buffer1 stays high till half of the acquisition is completed
-	while(1 == alt_read_word(fpga_SPI_System + BUFFER1)){}
+	printf("Beginning acquisition \n");
+	while(1 == alt_read_word(fpga_SPI_System + BUFFER1)){
+		if(1 == alt_read_word(fpga_SPI_System + DMA_STOP_REG))
+			printf("DMA Requests STOP !!");
+	}
 	printf("Half of the acquisition done \n");
 	// Buffer2 is high till the acquisition is finished
-	while(1 == alt_read_word(fpga_SPI_System + BUFFER2)){}
+	while(1 == alt_read_word(fpga_SPI_System + BUFFER2)){
+		if(1 == alt_read_word(fpga_SPI_System + DMA_STOP_REG))
+		printf("DMA Requests STOP !!");
+	}
 	// Buffer2 stays high till the acquisition is finished
 	printf("SPI Acquisition completed \n");
+}
+
+void setOutputBufferBaseAddress(uint32_t baseAddr) {
+	// Makes it use memory.
+	alt_write_word(fpga_Output_Controller + BASE_RDADDR_REG, baseAddr);
+	uint32_t check = alt_read_word(fpga_Output_Controller + BASE_RDADDR_REG);
+	if(check != baseAddr) printf("Setting DMA Read base address failed: got %x instead of %x\n", check, baseAddr);
+	else printf("Setting DMA Read base address succeeded. \n");
+
+	alt_write_word(fpga_Output_Controller + USE_MEMORY_REG, 0x01);
+	//alt_write_word(fpga_Output_Controller + SOUND_LEN_REG, SEC_MEMORY_SIZE_PHY);
+	alt_write_word(fpga_Output_Controller + SOUND_LEN_REG, 48000 * 5 * 2);
+
 }
 
 void open_physical_memory_device() {
@@ -192,6 +230,8 @@ void mmap_fpga_peripherals() {
 
     // Declaration of the peripherals to use
     fpga_SPI_System = h2f_lw_axi_master + HPS_0_SPI_SYSTEM_0_BASE;
+    fpga_Output_Controller = h2f_lw_axi_master + HPS_0_OUTPUT_SWITCHER_BASE;
+
 
     reserved_memory = mmap(NULL, RESERVED_MEMORY_SIZE_PHY, PROT_READ | PROT_WRITE, MAP_SHARED, fd_dev_mem, RESERVED_MEMORY_OFFSET_PHY);
     if (reserved_memory == MAP_FAILED) {
@@ -208,6 +248,7 @@ void mmap_fpga_peripherals() {
            close(fd_dev_mem);
            exit(EXIT_FAILURE);
     }
+    printf("All mmaps succeeded ! \n");
 
 }
 

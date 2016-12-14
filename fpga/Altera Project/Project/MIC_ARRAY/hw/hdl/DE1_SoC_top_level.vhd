@@ -133,9 +133,9 @@ entity DE1_SoC_top_level is
         HPS_ENET_RX_DV   : in    std_logic;
         HPS_ENET_TX_DATA : out   std_logic_vector(3 downto 0);
         HPS_ENET_TX_EN   : out   std_logic;
-        HPS_FLASH_DATA   : inout std_logic_vector(3 downto 0);
-        HPS_FLASH_DCLK   : out   std_logic;
-        HPS_FLASH_NCSO   : out   std_logic;
+--        HPS_FLASH_DATA   : inout std_logic_vector(3 downto 0);
+--        HPS_FLASH_DCLK   : out   std_logic;
+--        HPS_FLASH_NCSO   : out   std_logic;
         HPS_GPIO         : inout std_logic_vector(1 downto 0);
         HPS_GSENSOR_INT  : inout std_logic;
         HPS_I2C_CONTROL  : inout std_logic;
@@ -148,26 +148,24 @@ entity DE1_SoC_top_level is
         HPS_SD_CLK       : out   std_logic;
         HPS_SD_CMD       : inout std_logic;
         HPS_SD_DATA      : inout std_logic_vector(3 downto 0);
-        HPS_SPIM_CLK     : out   std_logic;
-        HPS_SPIM_MISO    : in    std_logic;
-        HPS_SPIM_MOSI    : out   std_logic;
-        HPS_SPIM_SS      : inout std_logic;
+--        HPS_SPIM_CLK     : out   std_logic;
+--        HPS_SPIM_MISO    : in    std_logic;
+--        HPS_SPIM_MOSI    : out   std_logic;
+--        HPS_SPIM_SS      : inout std_logic;
         HPS_UART_RX      : in    std_logic;
-        HPS_UART_TX      : out   std_logic;
-        HPS_USB_CLKOUT   : in    std_logic;
-        HPS_USB_DATA     : inout std_logic_vector(7 downto 0);
-        HPS_USB_DIR      : in    std_logic;
-        HPS_USB_NXT      : in    std_logic;
-        HPS_USB_STP      : out   std_logic
+        HPS_UART_TX      : out   std_logic
+--        HPS_USB_CLKOUT   : in    std_logic;
+--        HPS_USB_DATA     : inout std_logic_vector(7 downto 0);
+--        HPS_USB_DIR      : in    std_logic;
+--        HPS_USB_NXT      : in    std_logic;
+--        HPS_USB_STP      : out   std_logic
     );
 end entity DE1_SoC_top_level;
 
 architecture rtl of DE1_SoC_top_level is
 
 component Pyramic_Array is
-		port (
-			audio_0_external_interface_ADCDAT                : in    std_logic                     := 'X';             -- ADCDAT
-			audio_0_external_interface_ADCLRCK               : in    std_logic                     := 'X';             -- ADCLRCK
+port (
 			audio_0_external_interface_BCLK                  : in    std_logic                     := 'X';             -- BCLK
 			audio_0_external_interface_DACDAT                : out   std_logic;                                        -- DACDAT
 			audio_0_external_interface_DACLRCK               : in    std_logic                     := 'X';             -- DACLRCK
@@ -215,10 +213,6 @@ component Pyramic_Array is
 			hps_0_io_hps_io_gpio_inst_GPIO35                 : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO35
 			hps_0_io_hps_io_gpio_inst_GPIO53                 : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO53
 			hps_0_io_hps_io_gpio_inst_GPIO54                 : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO54
-			--leds_0_external_connection_export                : out   std_logic_vector(9 downto 0);                     -- export
-			--pio_key_external_connection_export               : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- export
-			pll_0_outclk3_audio_clk                          : out   std_logic;                                        -- clk
-			pll_0_sdram_clk                                  : out   std_logic;                                        -- clk
 			reset_reset_n                                    : in    std_logic                     := 'X';             -- reset_n
 			spi_system_0_spi_interface_convst0               : out   std_logic;                                        -- convst0
 			spi_system_0_spi_interface_convst1               : out   std_logic;                                        -- convst1
@@ -240,7 +234,8 @@ component Pyramic_Array is
 			spi_system_0_spi_interface_sclk2                 : out   std_logic;                                        -- sclk2
 			spi_system_0_spi_interface_busy_or0              : in    std_logic                     := 'X';             -- busy_or0
 			spi_system_0_spi_interface_busy_or1              : in    std_logic                     := 'X';             -- busy_or1
-			spi_system_0_spi_interface_busy_or2              : in    std_logic                     := 'X'              -- busy_or2
+			spi_system_0_spi_interface_busy_or2              : in    std_logic                     := 'X';             -- busy_or2
+			audio_pll_0_audio_clk_clk                        : out   std_logic                                         -- clk
 		);
 	end component Pyramic_Array;
 
@@ -251,18 +246,6 @@ u0 : component Pyramic_Array
 		port map (
 			clk_clk => CLOCK_50,
 			reset_reset_n => '1',				-- Reset
---			pll_0_sdram_clk => DRAM_CLK,
---			sdram_controller_0_wire_addr => DRAM_ADDR,
---			sdram_controller_0_wire_ba => DRAM_BA,
---			sdram_controller_0_wire_cas_n => DRAM_CAS_N,
---			sdram_controller_0_wire_cke => DRAM_CKE,
---			sdram_controller_0_wire_cs_n => DRAM_CS_N,
---			sdram_controller_0_wire_dq => DRAM_DQ,
---			sdram_controller_0_wire_dqm(1) => DRAM_UDQM,
---			sdram_controller_0_wire_dqm(0) => DRAM_LDQM,
---			sdram_controller_0_wire_ras_n => DRAM_RAS_N,
---			sdram_controller_0_wire_we_n => DRAM_WE_N,
-			--leds_0_external_connection_export => LEDR,
 			hps_0_ddr_mem_a => HPS_DDR3_ADDR,
 			hps_0_ddr_mem_ba => HPS_DDR3_BA,
 			hps_0_ddr_mem_ck => HPS_DDR3_CK_P,
@@ -306,12 +289,10 @@ u0 : component Pyramic_Array
 			hps_0_io_hps_io_gpio_inst_GPIO54 => HPS_KEY_N,
 			
 			-- Audio
-        audio_0_external_interface_ADCDAT							=> AUD_ADCDAT,
-        audio_0_external_interface_ADCLRCK						=>  AUD_ADCLRCK ,
         audio_0_external_interface_BCLK							=>	AUD_BCLK,
         audio_0_external_interface_DACDAT							=> AUD_DACDAT,
         audio_0_external_interface_DACLRCK						=> AUD_DACLRCK,
-        pll_0_outclk3_audio_clk										=> AUD_XCK,
+        audio_pll_0_audio_clk_clk 										=> AUD_XCK,
 		  audio_and_video_config_0_external_interface_SCLK		=> FPGA_I2C_SCLK,
         audio_and_video_config_0_external_interface_SDAT		=> FPGA_I2C_SDAT,
 		   -- Busy signal

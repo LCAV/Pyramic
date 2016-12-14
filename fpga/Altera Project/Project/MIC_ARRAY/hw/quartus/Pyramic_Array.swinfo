@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SopcSystem>
  <!-- An entire SOPC Builder system -->
- <!-- 2016.11.21.10:59:38 -->
+ <!-- 2016.12.14.14:52:53 -->
  <name>Pyramic_Array</name>
  <version>1.0</version>
  <sopcVersion>1.0</sopcVersion>
@@ -56,12 +56,12 @@
   <path>FIR_RIGHT</path>
  </module>
  <module>
-  <name>Output_Switcher_0</name>
+  <name>Output_Switcher</name>
   <version>1.0</version>
   <className>Output_Switcher</className>
   <masterGroup>
    <masterName>DMA</masterName>
-   <masterGroupDesc>Output_Switcher_0</masterGroupDesc>
+   <masterGroupDesc>Output_Switcher</masterGroupDesc>
    <addressGroup>0</addressGroup>
    <connectedDevice>
     <moduleName>hps_0_bridges</moduleName>
@@ -104,68 +104,30 @@
    </connectedDevice>
   </masterGroup>
   <clockConnection>
-   <moduleName>Output_Switcher_0</moduleName>
+   <moduleName>Output_Switcher</moduleName>
    <localSlaveName>clock</localSlaveName>
-   <systemConnectionName>Output_Switcher_0.clock</systemConnectionName>
+   <systemConnectionName>Output_Switcher.clock</systemConnectionName>
    <frequency>0</frequency>
   </clockConnection>
-  <path>Output_Switcher_0</path>
+  <path>Output_Switcher</path>
  </module>
  <module>
-  <name>Output_Switcher_1</name>
-  <version>1.0</version>
-  <className>Output_Switcher</className>
-  <masterGroup>
-   <masterName>DMA</masterName>
-   <masterGroupDesc>Output_Switcher_1</masterGroupDesc>
-   <addressGroup>0</addressGroup>
-   <connectedDevice>
-    <moduleName>hps_0_bridges</moduleName>
-    <slaveDesc>hps_0_bridges</slaveDesc>
-    <slave>
-     <name>f2h_sdram0_data</name>
-     <version>16.0</version>
-     <assignment>
-      <name>embeddedsw.configuration.isFlash</name>
-      <value>0</value>
-     </assignment>
-     <assignment>
-      <name>embeddedsw.configuration.isMemoryDevice</name>
-      <value>0</value>
-     </assignment>
-     <assignment>
-      <name>embeddedsw.configuration.isNonVolatileStorage</name>
-      <value>0</value>
-     </assignment>
-     <assignment>
-      <name>embeddedsw.configuration.isPrintableDevice</name>
-      <value>0</value>
-     </assignment>
-     <systemSlaveName>hps_0_bridges.f2h_sdram0_data</systemSlaveName>
-     <addressGroup>0</addressGroup>
-    </slave>
-    <baseAddress>0</baseAddress>
-    <basePhysicalAddress>0</basePhysicalAddress>
-    <span>4294967296</span>
-    <isBigEndian>false</isBigEndian>
-    <isInstructionAccessible>false</isInstructionAccessible>
-    <isDataAccessible>false</isDataAccessible>
-    <isTightlyCoupledInstructionAccessible>false</isTightlyCoupledInstructionAccessible>
-    <isTightlyCoupledDataAccessible>false</isTightlyCoupledDataAccessible>
-    <hasIrq>false</hasIrq>
-    <irqNumber>-1</irqNumber>
-    <irqInterruptControllerID>-1</irqInterruptControllerID>
-    <isConnectedInterruptControllerDevice>false</isConnectedInterruptControllerDevice>
-    <interruptControllerID>-1</interruptControllerID>
-   </connectedDevice>
-  </masterGroup>
+  <name>Primary_PLL</name>
+  <version>16.0</version>
+  <className>altera_pll</className>
   <clockConnection>
-   <moduleName>Output_Switcher_1</moduleName>
-   <localSlaveName>clock</localSlaveName>
-   <systemConnectionName>Output_Switcher_1.clock</systemConnectionName>
+   <moduleName>Primary_PLL</moduleName>
+   <localSlaveName>refclk</localSlaveName>
+   <systemConnectionName>Primary_PLL.refclk</systemConnectionName>
    <frequency>0</frequency>
   </clockConnection>
-  <path>Output_Switcher_1</path>
+  <clockConnection>
+   <moduleName>Primary_PLL</moduleName>
+   <localSlaveName>outclk0</localSlaveName>
+   <systemConnectionName>Primary_PLL.outclk0</systemConnectionName>
+   <frequency>48000000</frequency>
+  </clockConnection>
+  <path>Primary_PLL</path>
  </module>
  <module>
   <name>SPI_System_0</name>
@@ -224,6 +186,30 @@
   <path>SPI_System_0</path>
  </module>
  <module>
+  <name>Secondary_PLL</name>
+  <version>16.0</version>
+  <className>altera_pll</className>
+  <clockConnection>
+   <moduleName>Secondary_PLL</moduleName>
+   <localSlaveName>refclk</localSlaveName>
+   <systemConnectionName>Secondary_PLL.refclk</systemConnectionName>
+   <frequency>0</frequency>
+  </clockConnection>
+  <clockConnection>
+   <moduleName>Secondary_PLL</moduleName>
+   <localSlaveName>outclk0</localSlaveName>
+   <systemConnectionName>Secondary_PLL.outclk0</systemConnectionName>
+   <frequency>48000000</frequency>
+  </clockConnection>
+  <clockConnection>
+   <moduleName>Secondary_PLL</moduleName>
+   <localSlaveName>outclk1</localSlaveName>
+   <systemConnectionName>Secondary_PLL.outclk1</systemConnectionName>
+   <frequency>96000000</frequency>
+  </clockConnection>
+  <path>Secondary_PLL</path>
+ </module>
+ <module>
   <name>audio_and_video_config_0</name>
   <version>15.1</version>
   <className>altera_up_avalon_audio_and_video_config</className>
@@ -231,7 +217,7 @@
    <moduleName>audio_and_video_config_0</moduleName>
    <localSlaveName>clk</localSlaveName>
    <systemConnectionName>audio_and_video_config_0.clk</systemConnectionName>
-   <frequency>50000000</frequency>
+   <frequency>48000000</frequency>
   </clockConnection>
   <path>audio_and_video_config_0</path>
  </module>
@@ -243,9 +229,27 @@
    <moduleName>audio_controller</moduleName>
    <localSlaveName>clk</localSlaveName>
    <systemConnectionName>audio_controller.clk</systemConnectionName>
-   <frequency>50000000</frequency>
+   <frequency>48000000</frequency>
   </clockConnection>
   <path>audio_controller</path>
+ </module>
+ <module>
+  <name>audio_pll_0</name>
+  <version>15.1</version>
+  <className>altera_up_avalon_audio_pll</className>
+  <clockConnection>
+   <moduleName>audio_pll_0</moduleName>
+   <localSlaveName>ref_clk</localSlaveName>
+   <systemConnectionName>audio_pll_0.ref_clk</systemConnectionName>
+   <frequency>0</frequency>
+  </clockConnection>
+  <clockConnection>
+   <moduleName>audio_pll_0</moduleName>
+   <localSlaveName>audio_clk</localSlaveName>
+   <systemConnectionName>audio_pll_0.audio_clk</systemConnectionName>
+   <frequency>12288000</frequency>
+  </clockConnection>
+  <path>audio_pll_0</path>
  </module>
  <module>
   <name>clk_0</name>
@@ -282,6 +286,45 @@
    <masterGroupDesc>hps_0</masterGroupDesc>
    <addressGroup>1</addressGroup>
    <connectedDevice>
+    <moduleName>Output_Switcher</moduleName>
+    <slaveDesc>Output_Switcher</slaveDesc>
+    <slave>
+     <name>cfg_avalon</name>
+     <version>16.0</version>
+     <assignment>
+      <name>embeddedsw.configuration.isFlash</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isMemoryDevice</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isNonVolatileStorage</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isPrintableDevice</name>
+      <value>0</value>
+     </assignment>
+     <systemSlaveName>Output_Switcher.cfg_avalon</systemSlaveName>
+     <addressGroup>0</addressGroup>
+    </slave>
+    <baseAddress>0</baseAddress>
+    <basePhysicalAddress>0</basePhysicalAddress>
+    <span>32</span>
+    <isBigEndian>false</isBigEndian>
+    <isInstructionAccessible>false</isInstructionAccessible>
+    <isDataAccessible>false</isDataAccessible>
+    <isTightlyCoupledInstructionAccessible>false</isTightlyCoupledInstructionAccessible>
+    <isTightlyCoupledDataAccessible>false</isTightlyCoupledDataAccessible>
+    <hasIrq>false</hasIrq>
+    <irqNumber>-1</irqNumber>
+    <irqInterruptControllerID>-1</irqInterruptControllerID>
+    <isConnectedInterruptControllerDevice>false</isConnectedInterruptControllerDevice>
+    <interruptControllerID>-1</interruptControllerID>
+   </connectedDevice>
+   <connectedDevice>
     <moduleName>SPI_System_0</moduleName>
     <slaveDesc>SPI_System_0</slaveDesc>
     <slave>
@@ -306,8 +349,8 @@
      <systemSlaveName>SPI_System_0.avalon_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>0</baseAddress>
-    <basePhysicalAddress>0</basePhysicalAddress>
+    <baseAddress>32</baseAddress>
+    <basePhysicalAddress>32</basePhysicalAddress>
     <span>32</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
@@ -345,8 +388,8 @@
      <systemSlaveName>audio_and_video_config_0.avalon_av_config_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>32</baseAddress>
-    <basePhysicalAddress>32</basePhysicalAddress>
+    <baseAddress>64</baseAddress>
+    <basePhysicalAddress>64</basePhysicalAddress>
     <span>16</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
@@ -364,13 +407,13 @@
    <moduleName>hps_0</moduleName>
    <localSlaveName>f2h_sdram0_clock</localSlaveName>
    <systemConnectionName>hps_0.f2h_sdram0_clock</systemConnectionName>
-   <frequency>50000000</frequency>
+   <frequency>96000000</frequency>
   </clockConnection>
   <clockConnection>
    <moduleName>hps_0</moduleName>
    <localSlaveName>h2f_lw_axi_clock</localSlaveName>
    <systemConnectionName>hps_0.h2f_lw_axi_clock</systemConnectionName>
-   <frequency>50000000</frequency>
+   <frequency>48000000</frequency>
   </clockConnection>
   <path>hps_0</path>
  </module>
@@ -440,6 +483,45 @@
    <masterGroupDesc>hps_0_bridges</masterGroupDesc>
    <addressGroup>1</addressGroup>
    <connectedDevice>
+    <moduleName>Output_Switcher</moduleName>
+    <slaveDesc>Output_Switcher</slaveDesc>
+    <slave>
+     <name>cfg_avalon</name>
+     <version>16.0</version>
+     <assignment>
+      <name>embeddedsw.configuration.isFlash</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isMemoryDevice</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isNonVolatileStorage</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isPrintableDevice</name>
+      <value>0</value>
+     </assignment>
+     <systemSlaveName>Output_Switcher.cfg_avalon</systemSlaveName>
+     <addressGroup>0</addressGroup>
+    </slave>
+    <baseAddress>0</baseAddress>
+    <basePhysicalAddress>0</basePhysicalAddress>
+    <span>32</span>
+    <isBigEndian>false</isBigEndian>
+    <isInstructionAccessible>false</isInstructionAccessible>
+    <isDataAccessible>false</isDataAccessible>
+    <isTightlyCoupledInstructionAccessible>false</isTightlyCoupledInstructionAccessible>
+    <isTightlyCoupledDataAccessible>false</isTightlyCoupledDataAccessible>
+    <hasIrq>false</hasIrq>
+    <irqNumber>-1</irqNumber>
+    <irqInterruptControllerID>-1</irqInterruptControllerID>
+    <isConnectedInterruptControllerDevice>false</isConnectedInterruptControllerDevice>
+    <interruptControllerID>-1</interruptControllerID>
+   </connectedDevice>
+   <connectedDevice>
     <moduleName>SPI_System_0</moduleName>
     <slaveDesc>SPI_System_0</slaveDesc>
     <slave>
@@ -464,8 +546,8 @@
      <systemSlaveName>SPI_System_0.avalon_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>0</baseAddress>
-    <basePhysicalAddress>0</basePhysicalAddress>
+    <baseAddress>32</baseAddress>
+    <basePhysicalAddress>32</basePhysicalAddress>
     <span>32</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
@@ -503,8 +585,8 @@
      <systemSlaveName>audio_and_video_config_0.avalon_av_config_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>32</baseAddress>
-    <basePhysicalAddress>32</basePhysicalAddress>
+    <baseAddress>64</baseAddress>
+    <basePhysicalAddress>64</basePhysicalAddress>
     <span>16</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
@@ -534,7 +616,7 @@
    <moduleName>hps_0_bridges</moduleName>
    <localSlaveName>f2h_sdram0_clock</localSlaveName>
    <systemConnectionName>hps_0_bridges.f2h_sdram0_clock</systemConnectionName>
-   <frequency>50000000</frequency>
+   <frequency>96000000</frequency>
   </clockConnection>
   <path>hps_0.bridges</path>
  </module>
@@ -694,6 +776,45 @@
     <interruptControllerID>-1</interruptControllerID>
    </connectedDevice>
    <connectedDevice>
+    <moduleName>Output_Switcher</moduleName>
+    <slaveDesc>Output_Switcher</slaveDesc>
+    <slave>
+     <name>cfg_avalon</name>
+     <version>16.0</version>
+     <assignment>
+      <name>embeddedsw.configuration.isFlash</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isMemoryDevice</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isNonVolatileStorage</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isPrintableDevice</name>
+      <value>0</value>
+     </assignment>
+     <systemSlaveName>Output_Switcher.cfg_avalon</systemSlaveName>
+     <addressGroup>0</addressGroup>
+    </slave>
+    <baseAddress>4280287232</baseAddress>
+    <basePhysicalAddress>4280287232</basePhysicalAddress>
+    <span>32</span>
+    <isBigEndian>false</isBigEndian>
+    <isInstructionAccessible>false</isInstructionAccessible>
+    <isDataAccessible>false</isDataAccessible>
+    <isTightlyCoupledInstructionAccessible>false</isTightlyCoupledInstructionAccessible>
+    <isTightlyCoupledDataAccessible>false</isTightlyCoupledDataAccessible>
+    <hasIrq>false</hasIrq>
+    <irqNumber>-1</irqNumber>
+    <irqInterruptControllerID>-1</irqInterruptControllerID>
+    <isConnectedInterruptControllerDevice>false</isConnectedInterruptControllerDevice>
+    <interruptControllerID>-1</interruptControllerID>
+   </connectedDevice>
+   <connectedDevice>
     <moduleName>SPI_System_0</moduleName>
     <slaveDesc>SPI_System_0</slaveDesc>
     <slave>
@@ -718,8 +839,8 @@
      <systemSlaveName>SPI_System_0.avalon_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>4280287232</baseAddress>
-    <basePhysicalAddress>4280287232</basePhysicalAddress>
+    <baseAddress>4280287264</baseAddress>
+    <basePhysicalAddress>4280287264</basePhysicalAddress>
     <span>32</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
@@ -757,8 +878,8 @@
      <systemSlaveName>audio_and_video_config_0.avalon_av_config_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>4280287264</baseAddress>
-    <basePhysicalAddress>4280287264</basePhysicalAddress>
+    <baseAddress>4280287296</baseAddress>
+    <basePhysicalAddress>4280287296</basePhysicalAddress>
     <span>16</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
@@ -1922,6 +2043,45 @@
     <interruptControllerID>-1</interruptControllerID>
    </connectedDevice>
    <connectedDevice>
+    <moduleName>Output_Switcher</moduleName>
+    <slaveDesc>Output_Switcher</slaveDesc>
+    <slave>
+     <name>cfg_avalon</name>
+     <version>16.0</version>
+     <assignment>
+      <name>embeddedsw.configuration.isFlash</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isMemoryDevice</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isNonVolatileStorage</name>
+      <value>0</value>
+     </assignment>
+     <assignment>
+      <name>embeddedsw.configuration.isPrintableDevice</name>
+      <value>0</value>
+     </assignment>
+     <systemSlaveName>Output_Switcher.cfg_avalon</systemSlaveName>
+     <addressGroup>0</addressGroup>
+    </slave>
+    <baseAddress>4280287232</baseAddress>
+    <basePhysicalAddress>4280287232</basePhysicalAddress>
+    <span>32</span>
+    <isBigEndian>false</isBigEndian>
+    <isInstructionAccessible>false</isInstructionAccessible>
+    <isDataAccessible>false</isDataAccessible>
+    <isTightlyCoupledInstructionAccessible>false</isTightlyCoupledInstructionAccessible>
+    <isTightlyCoupledDataAccessible>false</isTightlyCoupledDataAccessible>
+    <hasIrq>false</hasIrq>
+    <irqNumber>-1</irqNumber>
+    <irqInterruptControllerID>-1</irqInterruptControllerID>
+    <isConnectedInterruptControllerDevice>false</isConnectedInterruptControllerDevice>
+    <interruptControllerID>-1</interruptControllerID>
+   </connectedDevice>
+   <connectedDevice>
     <moduleName>SPI_System_0</moduleName>
     <slaveDesc>SPI_System_0</slaveDesc>
     <slave>
@@ -1946,8 +2106,8 @@
      <systemSlaveName>SPI_System_0.avalon_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>4280287232</baseAddress>
-    <basePhysicalAddress>4280287232</basePhysicalAddress>
+    <baseAddress>4280287264</baseAddress>
+    <basePhysicalAddress>4280287264</basePhysicalAddress>
     <span>32</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
@@ -1985,8 +2145,8 @@
      <systemSlaveName>audio_and_video_config_0.avalon_av_config_slave</systemSlaveName>
      <addressGroup>0</addressGroup>
     </slave>
-    <baseAddress>4280287264</baseAddress>
-    <basePhysicalAddress>4280287264</basePhysicalAddress>
+    <baseAddress>4280287296</baseAddress>
+    <basePhysicalAddress>4280287296</basePhysicalAddress>
     <span>16</span>
     <isBigEndian>false</isBigEndian>
     <isInstructionAccessible>false</isInstructionAccessible>
@@ -4806,63 +4966,9 @@
    <moduleName>jtag_uart_0</moduleName>
    <localSlaveName>clk</localSlaveName>
    <systemConnectionName>jtag_uart_0.clk</systemConnectionName>
-   <frequency>50000000</frequency>
+   <frequency>48000000</frequency>
   </clockConnection>
   <path>jtag_uart_0</path>
- </module>
- <module>
-  <name>pll_0</name>
-  <version>16.0</version>
-  <className>altera_pll</className>
-  <clockConnection>
-   <moduleName>pll_0</moduleName>
-   <localSlaveName>refclk</localSlaveName>
-   <systemConnectionName>pll_0.refclk</systemConnectionName>
-   <frequency>0</frequency>
-  </clockConnection>
-  <clockConnection>
-   <moduleName>pll_0</moduleName>
-   <localSlaveName>outclk0</localSlaveName>
-   <systemConnectionName>pll_0.outclk0</systemConnectionName>
-   <frequency>50000000</frequency>
-  </clockConnection>
-  <clockConnection>
-   <moduleName>pll_0</moduleName>
-   <localSlaveName>outclk1</localSlaveName>
-   <systemConnectionName>pll_0.outclk1</systemConnectionName>
-   <frequency>100000000</frequency>
-  </clockConnection>
-  <clockConnection>
-   <moduleName>pll_0</moduleName>
-   <localSlaveName>outclk2</localSlaveName>
-   <systemConnectionName>pll_0.outclk2</systemConnectionName>
-   <frequency>100000000</frequency>
-  </clockConnection>
-  <clockConnection>
-   <moduleName>pll_0</moduleName>
-   <localSlaveName>outclk3</localSlaveName>
-   <systemConnectionName>pll_0.outclk3</systemConnectionName>
-   <frequency>12500000</frequency>
-  </clockConnection>
-  <path>pll_0</path>
- </module>
- <module>
-  <name>pll_1</name>
-  <version>16.0</version>
-  <className>altera_pll</className>
-  <clockConnection>
-   <moduleName>pll_1</moduleName>
-   <localSlaveName>refclk</localSlaveName>
-   <systemConnectionName>pll_1.refclk</systemConnectionName>
-   <frequency>0</frequency>
-  </clockConnection>
-  <clockConnection>
-   <moduleName>pll_1</moduleName>
-   <localSlaveName>outclk0</localSlaveName>
-   <systemConnectionName>pll_1.outclk0</systemConnectionName>
-   <frequency>12288135</frequency>
-  </clockConnection>
-  <path>pll_1</path>
  </module>
  <module>
   <name>sysid</name>
@@ -4873,7 +4979,7 @@
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1479721832</value>
+   <value>1481721933</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -4893,7 +4999,7 @@
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1479721832</value>
+   <value>1481721933</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>

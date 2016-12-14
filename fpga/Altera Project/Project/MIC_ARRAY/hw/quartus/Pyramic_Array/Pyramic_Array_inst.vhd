@@ -1,7 +1,5 @@
 	component Pyramic_Array is
 		port (
-			audio_0_external_interface_ADCDAT                : in    std_logic                     := 'X';             -- ADCDAT
-			audio_0_external_interface_ADCLRCK               : in    std_logic                     := 'X';             -- ADCLRCK
 			audio_0_external_interface_BCLK                  : in    std_logic                     := 'X';             -- BCLK
 			audio_0_external_interface_DACDAT                : out   std_logic;                                        -- DACDAT
 			audio_0_external_interface_DACLRCK               : in    std_logic                     := 'X';             -- DACLRCK
@@ -49,8 +47,6 @@
 			hps_0_io_hps_io_gpio_inst_GPIO35                 : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO35
 			hps_0_io_hps_io_gpio_inst_GPIO53                 : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO53
 			hps_0_io_hps_io_gpio_inst_GPIO54                 : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO54
-			pll_0_outclk3_audio_clk                          : out   std_logic;                                        -- clk
-			pll_0_sdram_clk                                  : out   std_logic;                                        -- clk
 			reset_reset_n                                    : in    std_logic                     := 'X';             -- reset_n
 			spi_system_0_spi_interface_convst0               : out   std_logic;                                        -- convst0
 			spi_system_0_spi_interface_convst1               : out   std_logic;                                        -- convst1
@@ -72,15 +68,14 @@
 			spi_system_0_spi_interface_sclk2                 : out   std_logic;                                        -- sclk2
 			spi_system_0_spi_interface_busy_or0              : in    std_logic                     := 'X';             -- busy_or0
 			spi_system_0_spi_interface_busy_or1              : in    std_logic                     := 'X';             -- busy_or1
-			spi_system_0_spi_interface_busy_or2              : in    std_logic                     := 'X'              -- busy_or2
+			spi_system_0_spi_interface_busy_or2              : in    std_logic                     := 'X';             -- busy_or2
+			audio_pll_0_audio_clk_clk                        : out   std_logic;                                         -- clk
 		);
 	end component Pyramic_Array;
 
 	u0 : component Pyramic_Array
 		port map (
-			audio_0_external_interface_ADCDAT                => CONNECTED_TO_audio_0_external_interface_ADCDAT,                --                  audio_0_external_interface.ADCDAT
-			audio_0_external_interface_ADCLRCK               => CONNECTED_TO_audio_0_external_interface_ADCLRCK,               --                                            .ADCLRCK
-			audio_0_external_interface_BCLK                  => CONNECTED_TO_audio_0_external_interface_BCLK,                  --                                            .BCLK
+			audio_0_external_interface_BCLK                  => CONNECTED_TO_audio_0_external_interface_BCLK,                  --                  audio_0_external_interface.BCLK
 			audio_0_external_interface_DACDAT                => CONNECTED_TO_audio_0_external_interface_DACDAT,                --                                            .DACDAT
 			audio_0_external_interface_DACLRCK               => CONNECTED_TO_audio_0_external_interface_DACLRCK,               --                                            .DACLRCK
 			audio_and_video_config_0_external_interface_SDAT => CONNECTED_TO_audio_and_video_config_0_external_interface_SDAT, -- audio_and_video_config_0_external_interface.SDAT
@@ -127,8 +122,6 @@
 			hps_0_io_hps_io_gpio_inst_GPIO35                 => CONNECTED_TO_hps_0_io_hps_io_gpio_inst_GPIO35,                 --                                            .hps_io_gpio_inst_GPIO35
 			hps_0_io_hps_io_gpio_inst_GPIO53                 => CONNECTED_TO_hps_0_io_hps_io_gpio_inst_GPIO53,                 --                                            .hps_io_gpio_inst_GPIO53
 			hps_0_io_hps_io_gpio_inst_GPIO54                 => CONNECTED_TO_hps_0_io_hps_io_gpio_inst_GPIO54,                 --                                            .hps_io_gpio_inst_GPIO54
-			pll_0_outclk3_audio_clk                          => CONNECTED_TO_pll_0_outclk3_audio_clk,                          --                         pll_0_outclk3_audio.clk
-			pll_0_sdram_clk                                  => CONNECTED_TO_pll_0_sdram_clk,                                  --                                 pll_0_sdram.clk
 			reset_reset_n                                    => CONNECTED_TO_reset_reset_n,                                    --                                       reset.reset_n
 			spi_system_0_spi_interface_convst0               => CONNECTED_TO_spi_system_0_spi_interface_convst0,               --                  spi_system_0_spi_interface.convst0
 			spi_system_0_spi_interface_convst1               => CONNECTED_TO_spi_system_0_spi_interface_convst1,               --                                            .convst1
@@ -150,6 +143,7 @@
 			spi_system_0_spi_interface_sclk2                 => CONNECTED_TO_spi_system_0_spi_interface_sclk2,                 --                                            .sclk2
 			spi_system_0_spi_interface_busy_or0              => CONNECTED_TO_spi_system_0_spi_interface_busy_or0,              --                                            .busy_or0
 			spi_system_0_spi_interface_busy_or1              => CONNECTED_TO_spi_system_0_spi_interface_busy_or1,              --                                            .busy_or1
-			spi_system_0_spi_interface_busy_or2              => CONNECTED_TO_spi_system_0_spi_interface_busy_or2               --                                            .busy_or2
+			spi_system_0_spi_interface_busy_or2              => CONNECTED_TO_spi_system_0_spi_interface_busy_or2,              --                                            .busy_or2
+			audio_pll_0_audio_clk_clk                        => CONNECTED_TO_audio_pll_0_audio_clk_clk                         --                       audio_pll_0_audio_clk.clk
 		);
 

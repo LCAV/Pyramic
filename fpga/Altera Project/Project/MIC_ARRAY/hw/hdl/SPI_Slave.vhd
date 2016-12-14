@@ -22,7 +22,8 @@ Entity SPI_Slave is Port(
   RegLgt        : OUT std_logic_vector (31 DOWNTO 0);
   Start         : OUT std_logic;
   Buffer1		 : IN std_logic;
-  Buffer2		 : in std_logic
+  Buffer2		 : in std_logic;
+  DMA_Stop      : in std_logic
   );
 End SPI_Slave;
 
@@ -61,6 +62,7 @@ BEGIN
 			 when "010"  => AS_ReadData(0)	 <= sig_Start; -- When asserted the proces starts running and it never stops till it is deasserted
 			 when "011"  => AS_ReadData(0)	 <= Buffer1; -- Should be high during first  half period of the acquisition
 			 when "100" => AS_ReadData(0)  	 <= Buffer2; -- Should be high during second half period of the acquisition
+			 when "101" => AS_ReadData(0)  	 <= DMA_Stop; -- indicates the DMA asserts the stop signal
           when others => null;
         end case;
       end if;

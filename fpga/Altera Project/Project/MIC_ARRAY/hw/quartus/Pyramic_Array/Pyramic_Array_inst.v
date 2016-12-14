@@ -1,7 +1,5 @@
 	Pyramic_Array u0 (
-		.audio_0_external_interface_ADCDAT                (<connected-to-audio_0_external_interface_ADCDAT>),                //                  audio_0_external_interface.ADCDAT
-		.audio_0_external_interface_ADCLRCK               (<connected-to-audio_0_external_interface_ADCLRCK>),               //                                            .ADCLRCK
-		.audio_0_external_interface_BCLK                  (<connected-to-audio_0_external_interface_BCLK>),                  //                                            .BCLK
+		.audio_0_external_interface_BCLK                  (<connected-to-audio_0_external_interface_BCLK>),                  //                  audio_0_external_interface.BCLK
 		.audio_0_external_interface_DACDAT                (<connected-to-audio_0_external_interface_DACDAT>),                //                                            .DACDAT
 		.audio_0_external_interface_DACLRCK               (<connected-to-audio_0_external_interface_DACLRCK>),               //                                            .DACLRCK
 		.audio_and_video_config_0_external_interface_SDAT (<connected-to-audio_and_video_config_0_external_interface_SDAT>), // audio_and_video_config_0_external_interface.SDAT
@@ -48,8 +46,6 @@
 		.hps_0_io_hps_io_gpio_inst_GPIO35                 (<connected-to-hps_0_io_hps_io_gpio_inst_GPIO35>),                 //                                            .hps_io_gpio_inst_GPIO35
 		.hps_0_io_hps_io_gpio_inst_GPIO53                 (<connected-to-hps_0_io_hps_io_gpio_inst_GPIO53>),                 //                                            .hps_io_gpio_inst_GPIO53
 		.hps_0_io_hps_io_gpio_inst_GPIO54                 (<connected-to-hps_0_io_hps_io_gpio_inst_GPIO54>),                 //                                            .hps_io_gpio_inst_GPIO54
-		.pll_0_outclk3_audio_clk                          (<connected-to-pll_0_outclk3_audio_clk>),                          //                         pll_0_outclk3_audio.clk
-		.pll_0_sdram_clk                                  (<connected-to-pll_0_sdram_clk>),                                  //                                 pll_0_sdram.clk
 		.reset_reset_n                                    (<connected-to-reset_reset_n>),                                    //                                       reset.reset_n
 		.spi_system_0_spi_interface_convst0               (<connected-to-spi_system_0_spi_interface_convst0>),               //                  spi_system_0_spi_interface.convst0
 		.spi_system_0_spi_interface_convst1               (<connected-to-spi_system_0_spi_interface_convst1>),               //                                            .convst1
@@ -71,6 +67,7 @@
 		.spi_system_0_spi_interface_sclk2                 (<connected-to-spi_system_0_spi_interface_sclk2>),                 //                                            .sclk2
 		.spi_system_0_spi_interface_busy_or0              (<connected-to-spi_system_0_spi_interface_busy_or0>),              //                                            .busy_or0
 		.spi_system_0_spi_interface_busy_or1              (<connected-to-spi_system_0_spi_interface_busy_or1>),              //                                            .busy_or1
-		.spi_system_0_spi_interface_busy_or2              (<connected-to-spi_system_0_spi_interface_busy_or2>)               //                                            .busy_or2
+		.spi_system_0_spi_interface_busy_or2              (<connected-to-spi_system_0_spi_interface_busy_or2>),              //                                            .busy_or2
+		.audio_pll_0_audio_clk_clk                        (<connected-to-audio_pll_0_audio_clk_clk>)                         //                       audio_pll_0_audio_clk.clk
 	);
 

@@ -19,5 +19,8 @@ size_t h2f_lw_axi_master_span = ALT_LWFPGASLVS_UB_ADDR - ALT_LWFPGASLVS_LB_ADDR 
 size_t h2f_lw_axi_master_ofst = ALT_LWFPGASLVS_OFST;
 
 void *fpga_SPI_System = NULL; // Assign NULL value because we do not have an exact address to be assigned (NULL pointer)
+void *fpga_Output_Controller = NULL;
+
+
 
 #endif /* HPS_LINUX_H_ */
