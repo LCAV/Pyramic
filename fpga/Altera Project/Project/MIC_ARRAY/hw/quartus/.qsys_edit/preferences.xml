@@ -11,8 +11,7 @@
    <inputclock preferredWidth="150" />
   </columns>
  </systemtable>
- <library
-   expandedCategories="Library/Interface Protocols/Audio &amp; Video,Project,Library,Library/University Program,Library/University Program/Clock,Library/Interface Protocols" />
+ <library expandedCategories="Library,Project" />
  <window width="1930" height="1173" x="-5" y="20" />
  <generation synthesis="VHDL" block_symbol_file="0" />
 </preferences>

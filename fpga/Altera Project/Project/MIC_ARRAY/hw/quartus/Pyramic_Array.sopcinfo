@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="Pyramic_Array" kind="Pyramic_Array" version="1.0" fabric="QSYS">
  <!-- Format version 16.0 211 (Future versions may contain additional information.) -->
- <!-- 2016.12.14.14:25:34 -->
+ <!-- 2016.12.19.14:49:51 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1481721933</value>
+  <value>1482155390</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -3774,7 +3774,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="dataBitsPerSymbol">
     <type>int</type>
-    <value>8</value>
+    <value>22</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -3871,7 +3871,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>STSink_In_R_Data</name>
     <direction>Input</direction>
-    <width>16</width>
+    <width>22</width>
     <role>data</role>
    </port>
    <port>
@@ -3879,6 +3879,18 @@ parameters are a RESULT of the module parameters. -->
     <direction>Input</direction>
     <width>1</width>
     <role>valid</role>
+   </port>
+   <port>
+    <name>STSink_In_R_SOP</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>startofpacket</role>
+   </port>
+   <port>
+    <name>STSink_In_R_EOP</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>endofpacket</role>
    </port>
   </interface>
   <interface name="STSink_In_L" kind="avalon_streaming_sink" version="16.0">
@@ -3911,7 +3923,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="dataBitsPerSymbol">
     <type>int</type>
-    <value>8</value>
+    <value>22</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -4002,7 +4014,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>STSink_In_L_Data</name>
     <direction>Input</direction>
-    <width>16</width>
+    <width>22</width>
     <role>data</role>
    </port>
    <port>
@@ -4016,6 +4028,18 @@ parameters are a RESULT of the module parameters. -->
     <direction>Input</direction>
     <width>1</width>
     <role>valid</role>
+   </port>
+   <port>
+    <name>STSink_In_L_EOP</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>endofpacket</role>
+   </port>
+   <port>
+    <name>STSink_In_L_SOP</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>startofpacket</role>
    </port>
   </interface>
   <interface name="Out_R_Avalon" kind="avalon_streaming_source" version="16.0">
@@ -88216,7 +88240,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1481721933</value>
+   <value>1482155390</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -88236,7 +88260,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1481721933</value>
+   <value>1482155390</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -88252,7 +88276,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1481721933</value>
+   <value>1482155390</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -97003,65 +97027,11 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>avalon_right_channel_sink</endConnectionPoint>
  </connection>
  <connection
-   name="Beamformer_LEFT.Source_Beam/Output_Switcher.STSink_In_L"
-   kind="avalon_streaming"
-   version="16.0"
-   start="Beamformer_LEFT.Source_Beam"
-   end="Output_Switcher.STSink_In_L">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>Beamformer_LEFT</startModule>
-  <startConnectionPoint>Source_Beam</startConnectionPoint>
-  <endModule>Output_Switcher</endModule>
-  <endConnectionPoint>STSink_In_L</endConnectionPoint>
- </connection>
- <connection
-   name="Beamformer_RIGHT.Source_Beam/Output_Switcher.STSink_In_R"
-   kind="avalon_streaming"
-   version="16.0"
-   start="Beamformer_RIGHT.Source_Beam"
-   end="Output_Switcher.STSink_In_R">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>Beamformer_RIGHT</startModule>
-  <startConnectionPoint>Source_Beam</startConnectionPoint>
-  <endModule>Output_Switcher</endModule>
-  <endConnectionPoint>STSink_In_R</endConnectionPoint>
- </connection>
- <connection
-   name="SPI_System_0.Source_Left/FIR_LEFT.avalon_streaming_sink"
+   name="SPI_System_0.Source_Left/Output_Switcher.STSink_In_L"
    kind="avalon_streaming"
    version="16.0"
    start="SPI_System_0.Source_Left"
-   end="FIR_LEFT.avalon_streaming_sink">
+   end="Output_Switcher.STSink_In_L">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -97080,15 +97050,15 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <startModule>SPI_System_0</startModule>
   <startConnectionPoint>Source_Left</startConnectionPoint>
-  <endModule>FIR_LEFT</endModule>
-  <endConnectionPoint>avalon_streaming_sink</endConnectionPoint>
+  <endModule>Output_Switcher</endModule>
+  <endConnectionPoint>STSink_In_L</endConnectionPoint>
  </connection>
  <connection
-   name="SPI_System_0.Source_Right/FIR_RIGHT.avalon_streaming_sink"
+   name="SPI_System_0.Source_Right/Output_Switcher.STSink_In_R"
    kind="avalon_streaming"
    version="16.0"
    start="SPI_System_0.Source_Right"
-   end="FIR_RIGHT.avalon_streaming_sink">
+   end="Output_Switcher.STSink_In_R">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -97107,8 +97077,8 @@ parameters are a RESULT of the module parameters. -->
   </parameter>
   <startModule>SPI_System_0</startModule>
   <startConnectionPoint>Source_Right</startConnectionPoint>
-  <endModule>FIR_RIGHT</endModule>
-  <endConnectionPoint>avalon_streaming_sink</endConnectionPoint>
+  <endModule>Output_Switcher</endModule>
+  <endConnectionPoint>STSink_In_R</endConnectionPoint>
  </connection>
  <connection
    name="FIR_LEFT.avalon_streaming_source/Beamformer_LEFT.Sink_FIR"
@@ -98805,7 +98775,7 @@ parameters are a RESULT of the module parameters. -->
   <version>16.0</version>
  </plugin>
  <plugin>
-  <instanceCount>8</instanceCount>
+  <instanceCount>6</instanceCount>
   <name>avalon_streaming</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IConnection</subtype>

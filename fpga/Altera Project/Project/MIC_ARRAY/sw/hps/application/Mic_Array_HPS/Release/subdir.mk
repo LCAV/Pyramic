@@ -5,15 +5,18 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Mic_Array_linux.c \
-../make_wav.c 
+../make_wav.c \
+../read_wav.c 
 
 OBJS += \
 ./Mic_Array_linux.o \
-./make_wav.o 
+./make_wav.o \
+./read_wav.o 
 
 C_DEPS += \
 ./Mic_Array_linux.d \
-./make_wav.d 
+./make_wav.d \
+./read_wav.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

@@ -5,6 +5,7 @@ module Pyramic_Array (
 	audio_0_external_interface_DACLRCK,
 	audio_and_video_config_0_external_interface_SDAT,
 	audio_and_video_config_0_external_interface_SCLK,
+	audio_pll_0_audio_clk_clk,
 	clk_clk,
 	hps_0_ddr_mem_a,
 	hps_0_ddr_mem_ba,
@@ -68,14 +69,14 @@ module Pyramic_Array (
 	spi_system_0_spi_interface_sclk2,
 	spi_system_0_spi_interface_busy_or0,
 	spi_system_0_spi_interface_busy_or1,
-	spi_system_0_spi_interface_busy_or2,
-	audio_pll_0_audio_clk_clk);	
+	spi_system_0_spi_interface_busy_or2);	
 
 	input		audio_0_external_interface_BCLK;
 	output		audio_0_external_interface_DACDAT;
 	input		audio_0_external_interface_DACLRCK;
 	inout		audio_and_video_config_0_external_interface_SDAT;
 	output		audio_and_video_config_0_external_interface_SCLK;
+	output		audio_pll_0_audio_clk_clk;
 	input		clk_clk;
 	output	[14:0]	hps_0_ddr_mem_a;
 	output	[2:0]	hps_0_ddr_mem_ba;
@@ -140,5 +141,4 @@ module Pyramic_Array (
 	input		spi_system_0_spi_interface_busy_or0;
 	input		spi_system_0_spi_interface_busy_or1;
 	input		spi_system_0_spi_interface_busy_or2;
-	output		audio_pll_0_audio_clk_clk;
 endmodule

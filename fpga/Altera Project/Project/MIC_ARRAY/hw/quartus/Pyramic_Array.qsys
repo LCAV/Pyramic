@@ -1551,23 +1551,13 @@
  <connection
    kind="avalon_streaming"
    version="16.0"
-   start="Beamformer_LEFT.Source_Beam"
+   start="SPI_System_0.Source_Left"
    end="Output_Switcher.STSink_In_L" />
  <connection
    kind="avalon_streaming"
    version="16.0"
-   start="Beamformer_RIGHT.Source_Beam"
-   end="Output_Switcher.STSink_In_R" />
- <connection
-   kind="avalon_streaming"
-   version="16.0"
-   start="SPI_System_0.Source_Left"
-   end="FIR_LEFT.avalon_streaming_sink" />
- <connection
-   kind="avalon_streaming"
-   version="16.0"
    start="SPI_System_0.Source_Right"
-   end="FIR_RIGHT.avalon_streaming_sink" />
+   end="Output_Switcher.STSink_In_R" />
  <connection
    kind="avalon_streaming"
    version="16.0"

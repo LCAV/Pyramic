@@ -5,6 +5,7 @@
 			audio_0_external_interface_DACLRCK               : in    std_logic                     := 'X';             -- DACLRCK
 			audio_and_video_config_0_external_interface_SDAT : inout std_logic                     := 'X';             -- SDAT
 			audio_and_video_config_0_external_interface_SCLK : out   std_logic;                                        -- SCLK
+			audio_pll_0_audio_clk_clk                        : out   std_logic;                                        -- clk
 			clk_clk                                          : in    std_logic                     := 'X';             -- clk
 			hps_0_ddr_mem_a                                  : out   std_logic_vector(14 downto 0);                    -- mem_a
 			hps_0_ddr_mem_ba                                 : out   std_logic_vector(2 downto 0);                     -- mem_ba
@@ -68,8 +69,7 @@
 			spi_system_0_spi_interface_sclk2                 : out   std_logic;                                        -- sclk2
 			spi_system_0_spi_interface_busy_or0              : in    std_logic                     := 'X';             -- busy_or0
 			spi_system_0_spi_interface_busy_or1              : in    std_logic                     := 'X';             -- busy_or1
-			spi_system_0_spi_interface_busy_or2              : in    std_logic                     := 'X';             -- busy_or2
-			audio_pll_0_audio_clk_clk                        : out   std_logic;                                         -- clk
+			spi_system_0_spi_interface_busy_or2              : in    std_logic                     := 'X'              -- busy_or2
 		);
 	end component Pyramic_Array;
 
@@ -80,6 +80,7 @@
 			audio_0_external_interface_DACLRCK               => CONNECTED_TO_audio_0_external_interface_DACLRCK,               --                                            .DACLRCK
 			audio_and_video_config_0_external_interface_SDAT => CONNECTED_TO_audio_and_video_config_0_external_interface_SDAT, -- audio_and_video_config_0_external_interface.SDAT
 			audio_and_video_config_0_external_interface_SCLK => CONNECTED_TO_audio_and_video_config_0_external_interface_SCLK, --                                            .SCLK
+			audio_pll_0_audio_clk_clk                        => CONNECTED_TO_audio_pll_0_audio_clk_clk,                        --                       audio_pll_0_audio_clk.clk
 			clk_clk                                          => CONNECTED_TO_clk_clk,                                          --                                         clk.clk
 			hps_0_ddr_mem_a                                  => CONNECTED_TO_hps_0_ddr_mem_a,                                  --                                   hps_0_ddr.mem_a
 			hps_0_ddr_mem_ba                                 => CONNECTED_TO_hps_0_ddr_mem_ba,                                 --                                            .mem_ba
@@ -143,7 +144,6 @@
 			spi_system_0_spi_interface_sclk2                 => CONNECTED_TO_spi_system_0_spi_interface_sclk2,                 --                                            .sclk2
 			spi_system_0_spi_interface_busy_or0              => CONNECTED_TO_spi_system_0_spi_interface_busy_or0,              --                                            .busy_or0
 			spi_system_0_spi_interface_busy_or1              => CONNECTED_TO_spi_system_0_spi_interface_busy_or1,              --                                            .busy_or1
-			spi_system_0_spi_interface_busy_or2              => CONNECTED_TO_spi_system_0_spi_interface_busy_or2,              --                                            .busy_or2
-			audio_pll_0_audio_clk_clk                        => CONNECTED_TO_audio_pll_0_audio_clk_clk                         --                       audio_pll_0_audio_clk.clk
+			spi_system_0_spi_interface_busy_or2              => CONNECTED_TO_spi_system_0_spi_interface_busy_or2               --                                            .busy_or2
 		);
 

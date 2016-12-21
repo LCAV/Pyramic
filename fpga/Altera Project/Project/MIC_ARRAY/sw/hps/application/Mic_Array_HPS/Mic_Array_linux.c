@@ -27,6 +27,7 @@
 #include "socal/socal.h"
 
 #include "make_wav.h"
+#include "read_wav.h"
 
 // Define constants according with SPI_Slave implementation
 #define OFFSET 4
@@ -74,6 +75,7 @@ void mmap_fpga_peripherals();
 void munmap_fpga_peripherals();
 void SPI_System(uint32_t);
 void setOutputBufferBaseAddress(uint32_t baseAddr);
+void setOutputBufferUseMemory(int use);
 
 struct wavfile
 {
@@ -127,12 +129,14 @@ int main(int argc, char **argv) {
 	printf("Duration of the acquisition: = %3.6f\n", duration);
 
 	uint16_t *dma_buffer = (uint16_t *) reserved_memory;
-	uint16_t *out_buffer = (uint16_t *) output_memory;
+	int16_t *out_buffer = (int16_t*) output_memory;
 
 	// set the base addresses
 	//setOutputBufferBaseAddress((uint32_t)output_memory);
 
 	setOutputBufferBaseAddress(SEC_MEMORY_OFFSET_PHY);
+	printf("Disabling audio output via mem\n");
+	setOutputBufferUseMemory(0);
 
 	// Start SPI communication
 	SPI_System(num_samples);
@@ -148,15 +152,36 @@ int main(int argc, char **argv) {
 	    write_wav(filename,num_samples_mic, buffer, SAMPLING_FREQUENCY);
 
 	}
-	printf("Playback of what was captured on the last mic\n");
 
-	for(i = 0; i < num_samples_mic; i++) {
-		out_buffer[i] = buffer[i];
+	FILE* inputFile = fopen("sound.wav", "r");
+
+	if(!inputFile) {
+		printf("Playback of what was captured on the last mic\n");
+
+		for(i = 0; i < num_samples_mic; i++) {
+			out_buffer[2*i] = buffer[i];
+			out_buffer[2*i+1] = buffer[i];
+		}
+
+		alt_write_word(fpga_Output_Controller + SOUND_LEN_REG, num_samples_mic * 2);
+	} else {
+		struct wav_file* w = readWav(inputFile);
+		printf("Playback of the file 'sound.wav' of size %ld \n", w->dataSubchunkSize);
+		uint16_t* inbuf = (uint16_t*)w->dataPayload;
+		for(i = 0; i < w->numberOfSamples ; i++) {
+			out_buffer[i] = (int16_t)inbuf[i] / 30;
+		}
+
+		alt_write_word(fpga_Output_Controller + SOUND_LEN_REG,  w->dataSubchunkSize);
+
 	}
+
 	//printf(".wav files write");
 	//sprintf(filename_ssh,"scp -r /home/lcav/audio/ lcav@10.42.0.1:~/Desktop/Master_Thesis/Repository/realtimeaudio/data/%s",audio_folder);
 	//int a = system(filename_ssh);
 	//printf("ssh finish");
+	printf("Enabling audio output via mem\n");
+	setOutputBufferUseMemory(1);
 	munmap_fpga_peripherals();
 	close_physical_memory_device();
 	return 1;
@@ -193,6 +218,10 @@ void SPI_System(uint32_t num_samples) {
 	printf("SPI Acquisition completed \n");
 }
 
+void setOutputBufferUseMemory(int use) {
+	alt_write_word(fpga_Output_Controller + USE_MEMORY_REG, (use & 0x01) );
+}
+
 void setOutputBufferBaseAddress(uint32_t baseAddr) {
 	// Makes it use memory.
 	alt_write_word(fpga_Output_Controller + BASE_RDADDR_REG, baseAddr);
@@ -200,9 +229,9 @@ void setOutputBufferBaseAddress(uint32_t baseAddr) {
 	if(check != baseAddr) printf("Setting DMA Read base address failed: got %x instead of %x\n", check, baseAddr);
 	else printf("Setting DMA Read base address succeeded. \n");
 
-	alt_write_word(fpga_Output_Controller + USE_MEMORY_REG, 0x01);
+
 	//alt_write_word(fpga_Output_Controller + SOUND_LEN_REG, SEC_MEMORY_SIZE_PHY);
-	alt_write_word(fpga_Output_Controller + SOUND_LEN_REG, 48000 * 5 * 2);
+
 
 }
 

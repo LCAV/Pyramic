@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SopcSystem>
  <!-- An entire SOPC Builder system -->
- <!-- 2016.12.14.14:52:53 -->
+ <!-- 2016.12.15.16:02:29 -->
  <name>Pyramic_Array</name>
  <version>1.0</version>
  <sopcVersion>1.0</sopcVersion>
@@ -4979,7 +4979,7 @@
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1481721933</value>
+   <value>1481811316</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -4999,7 +4999,7 @@
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1481721933</value>
+   <value>1481811316</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>

@@ -1,92 +1,96 @@
 # # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
 # 
-preplace inst Pyramic_Array.sysid -pg 1 -lvl 59 -y 630
-preplace inst Pyramic_Array.hps_0.i2c2 -pg 1
 preplace inst Pyramic_Array.hps_0.clkmgr -pg 1
+preplace inst Pyramic_Array.hps_0.scu -pg 1
+preplace inst Pyramic_Array.FIR_RIGHT -pg 1 -lvl 44 -y 360
+preplace inst Pyramic_Array.hps_0.spim0 -pg 1
+preplace inst Pyramic_Array.hps_0.wd_timer0 -pg 1
+preplace inst Pyramic_Array.hps_0.spim1 -pg 1
+preplace inst Pyramic_Array.hps_0.wd_timer1 -pg 1
+preplace inst Pyramic_Array.hps_0.timer0 -pg 1
 preplace inst Pyramic_Array.hps_0.timer -pg 1
+preplace inst Pyramic_Array.FIR_LEFT -pg 1 -lvl 44 -y 180
+preplace inst Pyramic_Array.hps_0.timer1 -pg 1
+preplace inst Pyramic_Array.hps_0.l3regs -pg 1
+preplace inst Pyramic_Array.hps_0.fpgamgr -pg 1
+preplace inst Pyramic_Array.hps_0.timer2 -pg 1
+preplace inst Pyramic_Array.hps_0.timer3 -pg 1
+preplace inst Pyramic_Array.hps_0.axi_sdram -pg 1
+preplace inst Pyramic_Array.audio_controller -pg 1 -lvl 59 -y 200
+preplace inst Pyramic_Array.hps_0.arm_a9_0 -pg 1
+preplace inst Pyramic_Array.hps_0.arm_a9_1 -pg 1
+preplace inst Pyramic_Array.hps_0.f2s_periph_ref_clk -pg 1
+preplace inst Pyramic_Array.SPI_System_0 -pg 1 -lvl 26 -y 310
+preplace inst Pyramic_Array.hps_0 -pg 1 -lvl 57 -y 490
+preplace inst Pyramic_Array.Secondary_PLL -pg 1 -lvl 25 -y 270
+preplace inst Pyramic_Array.hps_0.gmac0 -pg 1
+preplace inst Pyramic_Array.hps_0.sdmmc -pg 1
+preplace inst Pyramic_Array.hps_0.uart0 -pg 1
+preplace inst Pyramic_Array.hps_0.gmac1 -pg 1
+preplace inst Pyramic_Array.hps_0.uart1 -pg 1
+preplace inst Pyramic_Array.hps_0.qspi -pg 1
+preplace inst Pyramic_Array.hps_0.gpio0 -pg 1
+preplace inst Pyramic_Array.hps_0.gpio1 -pg 1
+preplace inst Pyramic_Array.hps_0.dcan0 -pg 1
+preplace inst Pyramic_Array.sysid -pg 1 -lvl 59 -y 630
+preplace inst Pyramic_Array.hps_0.gpio2 -pg 1
+preplace inst Pyramic_Array.hps_0.dcan1 -pg 1
+preplace inst Pyramic_Array.hps_0.i2c0 -pg 1
+preplace inst Pyramic_Array.Output_Switcher -pg 1 -lvl 26 -y 80
+preplace inst Pyramic_Array.hps_0.axi_ocram -pg 1
+preplace inst Pyramic_Array.hps_0.i2c1 -pg 1
+preplace inst Pyramic_Array.hps_0.nand0 -pg 1
+preplace inst Pyramic_Array.hps_0.sysmgr -pg 1
+preplace inst Pyramic_Array.hps_0.rstmgr -pg 1
+preplace inst Pyramic_Array.hps_0.sdrctl -pg 1
+preplace inst Pyramic_Array.hps_0.i2c2 -pg 1
+preplace inst Pyramic_Array.jtag_uart_0 -pg 1 -lvl 59 -y 530
+preplace inst Pyramic_Array.Beamformer_RIGHT -pg 1 -lvl 55 -y 340
 preplace inst Pyramic_Array.hps_0.i2c3 -pg 1
 preplace inst Pyramic_Array.hps_0.arm_gic_0 -pg 1
-preplace inst Pyramic_Array.hps_0.hps_io.border -pg 1
-preplace inst Pyramic_Array.jtag_uart_0 -pg 1 -lvl 59 -y 530
-preplace inst Pyramic_Array.hps_0.l3regs -pg 1
-preplace inst Pyramic_Array.hps_0.dcan0 -pg 1
-preplace inst Pyramic_Array.hps_0.timer0 -pg 1
-preplace inst Pyramic_Array.hps_0.f2s_periph_ref_clk -pg 1
-preplace inst Pyramic_Array.hps_0.eosc1 -pg 1
-preplace inst Pyramic_Array.hps_0.clk_0 -pg 1
-preplace inst Pyramic_Array.hps_0.fpga_interfaces -pg 1
-preplace inst Pyramic_Array.hps_0.dcan1 -pg 1
-preplace inst Pyramic_Array.hps_0.usb0 -pg 1
-preplace inst Pyramic_Array.hps_0.sdmmc -pg 1
-preplace inst Pyramic_Array.hps_0.timer1 -pg 1
-preplace inst Pyramic_Array.hps_0.uart0 -pg 1
-preplace inst Pyramic_Array.hps_0.eosc2 -pg 1
-preplace inst Pyramic_Array.hps_0.scu -pg 1
-preplace inst Pyramic_Array.hps_0.usb1 -pg 1
-preplace inst Pyramic_Array.hps_0.timer2 -pg 1
-preplace inst Pyramic_Array.hps_0.uart1 -pg 1
-preplace inst Pyramic_Array.hps_0.sysmgr -pg 1
-preplace inst Pyramic_Array.hps_0.arm_a9_0 -pg 1
-preplace inst Pyramic_Array.hps_0.gmac0 -pg 1
-preplace inst Pyramic_Array.hps_0.spim0 -pg 1
-preplace inst Pyramic_Array.hps_0.nand0 -pg 1
-preplace inst Pyramic_Array.hps_0.timer3 -pg 1
-preplace inst Pyramic_Array.hps_0.arm_a9_1 -pg 1
-preplace inst Pyramic_Array.clk_0 -pg 1 -lvl 57 -y 680
-preplace inst Pyramic_Array.SPI_System_0 -pg 1 -lvl 26 -y 310
-preplace inst Pyramic_Array.hps_0.axi_ocram -pg 1
-preplace inst Pyramic_Array.hps_0.sdrctl -pg 1
-preplace inst Pyramic_Array.hps_0.gmac1 -pg 1
-preplace inst Pyramic_Array.hps_0.spim1 -pg 1
-preplace inst Pyramic_Array.hps_0 -pg 1 -lvl 57 -y 490
-preplace inst Pyramic_Array.audio_and_video_config_0 -pg 1 -lvl 59 -y 410
-preplace inst Pyramic_Array -pg 1 -lvl 1 -y 40 -regy -20
-preplace inst Pyramic_Array.Primary_PLL -pg 1 -lvl 24 -y 300
-preplace inst Pyramic_Array.Output_Switcher -pg 1 -lvl 26 -y 60
-preplace inst Pyramic_Array.hps_0.gpio0 -pg 1
-preplace inst Pyramic_Array.audio_controller -pg 1 -lvl 59 -y 220
-preplace inst Pyramic_Array.FIR_LEFT -pg 1 -lvl 44 -y 180
-preplace inst Pyramic_Array.hps_0.gpio1 -pg 1
-preplace inst Pyramic_Array.FIR_RIGHT -pg 1 -lvl 44 -y 360
-preplace inst Pyramic_Array.hps_0.axi_sdram -pg 1
-preplace inst Pyramic_Array.hps_0.qspi -pg 1
-preplace inst Pyramic_Array.hps_0.gpio2 -pg 1
-preplace inst Pyramic_Array.hps_0.wd_timer0 -pg 1
-preplace inst Pyramic_Array.hps_0.rstmgr -pg 1
-preplace inst Pyramic_Array.hps_0.L2 -pg 1
-preplace inst Pyramic_Array.hps_0.f2s_sdram_ref_clk -pg 1
-preplace inst Pyramic_Array.Secondary_PLL -pg 1 -lvl 25 -y 270
-preplace inst Pyramic_Array.hps_0.i2c0 -pg 1
-preplace inst Pyramic_Array.hps_0.wd_timer1 -pg 1
+preplace inst Pyramic_Array.audio_pll_0.audio_pll -pg 1
 preplace inst Pyramic_Array.hps_0.bridges -pg 1
-preplace inst Pyramic_Array.Beamformer_LEFT -pg 1 -lvl 55 -y 240
-preplace inst Pyramic_Array.hps_0.i2c1 -pg 1
-preplace inst Pyramic_Array.hps_0.fpgamgr -pg 1
+preplace inst Pyramic_Array.hps_0.L2 -pg 1
+preplace inst Pyramic_Array -pg 1 -lvl 1 -y 40 -regy -20
 preplace inst Pyramic_Array.hps_0.dma -pg 1
+preplace inst Pyramic_Array.clk_0 -pg 1 -lvl 57 -y 680
+preplace inst Pyramic_Array.audio_pll_0 -pg 1 -lvl 58 -y 290
+preplace inst Pyramic_Array.hps_0.usb0 -pg 1
+preplace inst Pyramic_Array.audio_pll_0.reset_from_locked -pg 1
+preplace inst Pyramic_Array.hps_0.usb1 -pg 1
+preplace inst Pyramic_Array.hps_0.fpga_interfaces -pg 1
+preplace inst Pyramic_Array.audio_and_video_config_0 -pg 1 -lvl 59 -y 410
+preplace inst Pyramic_Array.hps_0.hps_io.border -pg 1
+preplace inst Pyramic_Array.hps_0.f2s_sdram_ref_clk -pg 1
+preplace inst Pyramic_Array.Primary_PLL -pg 1 -lvl 24 -y 300
+preplace inst Pyramic_Array.hps_0.eosc1 -pg 1
+preplace inst Pyramic_Array.hps_0.eosc2 -pg 1
+preplace inst Pyramic_Array.hps_0.clk_0 -pg 1
 preplace inst Pyramic_Array.hps_0.hps_io -pg 1
-preplace inst Pyramic_Array.Beamformer_RIGHT -pg 1 -lvl 55 -y 360
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)Primary_PLL.outclk0,(SLAVE)Secondary_PLL.refclk) 1 24 1 4460
+preplace inst Pyramic_Array.Beamformer_LEFT -pg 1 -lvl 55 -y 220
+preplace netloc FAN_OUT<net_container>Pyramic_Array</net_container>(SLAVE)jtag_uart_0.clk,(SLAVE)Output_Switcher.clock,(SLAVE)audio_controller.clk,(SLAVE)Beamformer_RIGHT.clock,(SLAVE)Beamformer_LEFT.clock,(SLAVE)audio_and_video_config_0.clk,(SLAVE)audio_pll_0.ref_clk,(SLAVE)sysid.clk,(SLAVE)SPI_System_0.clock,(MASTER)Secondary_PLL.outclk0,(SLAVE)FIR_RIGHT.clk,(SLAVE)FIR_LEFT.clk,(SLAVE)hps_0.h2f_lw_axi_clock) 1 25 34 4710 30 NJ 50 NJ 50 NJ 50 NJ 50 NJ 50 NJ 50 NJ 50 NJ 50 NJ 50 NJ 50 NJ 50 NJ 50 NJ 50 NJ 50 NJ 50 NJ 50 NJ 50 5550 170 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 6020 310 NJ 310 6410 450 6780 250 7060
 preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Pyramic_Array.hps_0_io,(SLAVE)hps_0.hps_io) 1 0 57 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)audio_controller.avalon_right_channel_sink,(MASTER)Output_Switcher.Out_R_Avalon) 1 26 33 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 250 NJ 250 NJ 250 N
-preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Pyramic_Array.reset,(SLAVE)clk_0.clk_in_reset) 1 0 57 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)SPI_System_0.Source_Left,(SLAVE)FIR_LEFT.avalon_streaming_sink) 1 26 18 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 5470
-preplace netloc INTERCONNECT<net_container>Pyramic_Array</net_container>(SLAVE)Primary_PLL.reset,(SLAVE)jtag_uart_0.reset,(SLAVE)FIR_RIGHT.rst,(MASTER)clk_0.clk_reset,(SLAVE)Secondary_PLL.reset,(SLAVE)audio_and_video_config_0.reset,(SLAVE)Beamformer_RIGHT.reset,(MASTER)hps_0.h2f_reset,(SLAVE)Beamformer_LEFT.reset,(SLAVE)FIR_LEFT.rst,(SLAVE)sysid.reset,(SLAVE)audio_controller.reset,(SLAVE)SPI_System_0.reset,(SLAVE)Output_Switcher.reset) 1 23 36 4050 290 4420 260 4710 300 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 NJ 300 5530 290 NJ 290 NJ 290 NJ 290 NJ 290 NJ 290 NJ 290 NJ 290 NJ 290 NJ 290 NJ 290 5980 630 NJ 630 NJ 630 6660 470 6740
-preplace netloc FAN_OUT<net_container>Pyramic_Array</net_container>(SLAVE)audio_and_video_config_0.avalon_av_config_slave,(SLAVE)SPI_System_0.avalon_slave,(SLAVE)Output_Switcher.cfg_avalon,(MASTER)hps_0.h2f_lw_axi_master) 1 25 34 4730 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 410 NJ 410 6620 420 NJ
-preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)audio_and_video_config_0.external_interface,(SLAVE)Pyramic_Array.audio_and_video_config_0_external_interface) 1 0 59 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 450 NJ 450 NJ 490 NJ
+preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(MASTER)audio_pll_0.audio_clk,(MASTER)Pyramic_Array.audio_pll_0_audio_clk) 1 58 2 NJ 330 NJ
+preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Pyramic_Array.audio_and_video_config_0_external_interface,(SLAVE)audio_and_video_config_0.external_interface) 1 0 59 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 490 NJ 460 NJ 430 NJ 490 NJ
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)clk_0.clk,(SLAVE)Primary_PLL.refclk) 1 23 35 4090 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 6720
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)Secondary_PLL.outclk1,(SLAVE)hps_0.f2h_sdram0_clock) 1 25 32 4670 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 500 NJ
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)Output_Switcher.Out_R_Avalon,(SLAVE)audio_controller.avalon_right_channel_sink) 1 26 33 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 220 NJ 270 NJ 270 NJ 270 NJ 270 NJ 270 NJ 270 NJ 270 NJ 270 NJ 270 NJ 270 NJ 270 NJ 210 NJ 230 NJ 230 NJ 230 N
+preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)clk_0.clk_in_reset,(SLAVE)Pyramic_Array.reset) 1 0 57 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ 710 NJ
+preplace netloc INTERCONNECT<net_container>Pyramic_Array</net_container>(MASTER)hps_0.h2f_reset,(SLAVE)Beamformer_LEFT.reset,(SLAVE)audio_and_video_config_0.reset,(SLAVE)FIR_LEFT.rst,(SLAVE)Primary_PLL.reset,(SLAVE)sysid.reset,(SLAVE)Secondary_PLL.reset,(SLAVE)jtag_uart_0.reset,(SLAVE)Beamformer_RIGHT.reset,(SLAVE)SPI_System_0.reset,(SLAVE)FIR_RIGHT.rst,(SLAVE)audio_pll_0.ref_reset,(SLAVE)Output_Switcher.reset,(SLAVE)audio_controller.reset,(MASTER)clk_0.clk_reset) 1 23 36 4050 290 4420 360 4690 210 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 NJ 200 5510 290 NJ 290 NJ 290 NJ 290 NJ 290 NJ 290 NJ 290 NJ 290 NJ 290 NJ 290 NJ 290 6060 470 NJ 430 NJ 410 6740 470 7080
 preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)Primary_PLL.cascade_out,(SLAVE)Secondary_PLL.adjpllin) 1 23 2 4070 390 NJ
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)Output_Switcher.Out_L_Avalon,(SLAVE)audio_controller.avalon_left_channel_sink) 1 26 33 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 110 NJ 230 NJ 230 NJ 230 NJ
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)FIR_LEFT.avalon_streaming_sink,(MASTER)SPI_System_0.Source_Left) 1 26 18 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 NJ 320 5530
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)Output_Switcher.Out_L_Avalon,(SLAVE)audio_controller.avalon_left_channel_sink) 1 26 33 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 130 NJ 210 NJ 210 NJ 210 NJ
+preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)Pyramic_Array.hps_0_ddr,(SLAVE)hps_0.memory) 1 0 57 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ
 preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)FIR_RIGHT.avalon_streaming_source,(SLAVE)Beamformer_RIGHT.Sink_FIR) 1 44 11 NJ 390 NJ 390 NJ 390 NJ 390 NJ 390 NJ 390 NJ 390 NJ 390 NJ 390 NJ 390 NJ
-preplace netloc FAN_IN<net_container>Pyramic_Array</net_container>(MASTER)Output_Switcher.DMA,(SLAVE)hps_0.f2h_sdram0_data,(MASTER)SPI_System_0.avalon_master) 1 26 31 5030 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 430 6290
 preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)SPI_System_0.Source_Right,(SLAVE)FIR_RIGHT.avalon_streaming_sink) 1 26 18 NJ 370 NJ 370 NJ 370 NJ 370 NJ 370 NJ 370 NJ 370 NJ 370 NJ 370 NJ 370 NJ 370 NJ 370 NJ 370 NJ 370 NJ 370 NJ 370 NJ 370 NJ
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)Beamformer_RIGHT.Source_Beam,(SLAVE)Output_Switcher.STSink_In_R) 1 25 31 4730 50 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 6190
-preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)audio_controller.external_interface,(SLAVE)Pyramic_Array.audio_0_external_interface) 1 0 59 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 290 NJ 290 NJ 290 NJ
-preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)hps_0.memory,(SLAVE)Pyramic_Array.hps_0_ddr) 1 0 57 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ 580 NJ
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)Output_Switcher.STSink_In_L,(MASTER)Beamformer_LEFT.Source_Beam) 1 25 31 4670 30 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 6210
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)Beamformer_RIGHT.Source_Beam,(SLAVE)Output_Switcher.STSink_In_R) 1 25 31 4730 50 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 NJ 90 6230
+preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)audio_controller.external_interface,(SLAVE)Pyramic_Array.audio_0_external_interface) 1 0 59 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 330 NJ 370 NJ 370 NJ 370 NJ
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)Secondary_PLL.refclk,(MASTER)Primary_PLL.outclk0) 1 24 1 4460
+preplace netloc FAN_OUT<net_container>Pyramic_Array</net_container>(SLAVE)SPI_System_0.avalon_slave,(SLAVE)audio_and_video_config_0.avalon_av_config_slave,(MASTER)hps_0.h2f_lw_axi_master,(SLAVE)Output_Switcher.cfg_avalon) 1 25 34 4750 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 430 NJ 430 NJ 430 NJ 430 NJ 430 NJ 430 NJ 430 NJ 430 NJ 430 NJ 430 NJ 430 NJ 390 NJ 390 6760 420 NJ
 preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)clk_0.clk_in,(SLAVE)Pyramic_Array.clk) 1 0 57 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ 690 NJ
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)hps_0.f2h_sdram0_clock,(MASTER)Secondary_PLL.outclk1) 1 25 32 4670 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 500 NJ
-preplace netloc FAN_OUT<net_container>Pyramic_Array</net_container>(SLAVE)Beamformer_RIGHT.clock,(MASTER)Secondary_PLL.outclk0,(SLAVE)sysid.clk,(SLAVE)FIR_RIGHT.clk,(SLAVE)hps_0.h2f_lw_axi_clock,(SLAVE)audio_and_video_config_0.clk,(SLAVE)FIR_LEFT.clk,(SLAVE)audio_controller.clk,(SLAVE)SPI_System_0.clock,(SLAVE)Beamformer_LEFT.clock,(SLAVE)jtag_uart_0.clk,(SLAVE)Output_Switcher.clock) 1 25 34 4690 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 NJ 210 5510 270 NJ 270 NJ 270 NJ 270 NJ 270 NJ 270 NJ 270 NJ 270 NJ 270 NJ 270 NJ 270 6020 350 NJ 350 6310 270 NJ 270 6720
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)Primary_PLL.refclk,(MASTER)clk_0.clk) 1 23 35 4090 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 NJ 670 6640
 preplace netloc EXPORT<net_container>Pyramic_Array</net_container>(SLAVE)SPI_System_0.spi_interface,(SLAVE)Pyramic_Array.spi_system_0_spi_interface) 1 0 26 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 380 NJ 430 NJ 380 NJ
-preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)Beamformer_LEFT.Sink_FIR,(MASTER)FIR_LEFT.avalon_streaming_source) 1 44 11 5760 250 NJ 250 NJ 250 NJ 250 NJ 250 NJ 250 NJ 250 NJ 250 NJ 250 NJ 250 NJ
-levelinfo -pg 1 0 200 7150
-levelinfo -hier Pyramic_Array 210 230 550 840 1130 1530 1790 2060 2410 2680 2700 2720 2740 2760 2780 2950 3190 3210 3230 3250 3270 3380 3610 4030 4290 4530 4840 5130 5150 5170 5190 5210 5230 5250 5270 5290 5310 5330 5350 5370 5390 5410 5430 5450 5560 5780 5800 5820 5840 5860 5880 5900 5920 5940 5960 6050 6270 6430 6700 6790 7140
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(MASTER)Beamformer_LEFT.Source_Beam,(SLAVE)Output_Switcher.STSink_In_L) 1 25 31 4750 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 NJ 70 6250
+preplace netloc POINT_TO_POINT<net_container>Pyramic_Array</net_container>(SLAVE)Beamformer_LEFT.Sink_FIR,(MASTER)FIR_LEFT.avalon_streaming_source) 1 44 11 NJ 230 NJ 230 NJ 230 NJ 230 NJ 230 NJ 230 NJ 230 NJ 230 NJ 230 NJ 230 NJ
+preplace netloc FAN_IN<net_container>Pyramic_Array</net_container>(MASTER)Output_Switcher.DMA,(MASTER)SPI_System_0.avalon_master,(SLAVE)hps_0.f2h_sdram0_data) 1 26 31 5030 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 470 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 450 NJ 410 6350
+levelinfo -pg 1 0 200 7640
+levelinfo -hier Pyramic_Array 210 230 550 840 1130 1530 1790 2060 2410 2680 2700 2720 2740 2760 2780 2950 3190 3210 3230 3250 3270 3380 3610 4030 4290 4530 4840 5130 5150 5170 5190 5210 5230 5250 5270 5290 5310 5330 5350 5370 5390 5410 5430 5450 5580 5820 5840 5860 5880 5900 5920 5940 5960 5980 6000 6090 6330 6530 6860 7130 7480

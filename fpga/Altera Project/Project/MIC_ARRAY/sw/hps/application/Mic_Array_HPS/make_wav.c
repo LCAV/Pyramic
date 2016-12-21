@@ -19,7 +19,7 @@ void write_little_endian(unsigned int word, int num_bytes, FILE *wav_file)
     {   buf = word & 0xff;
         fwrite(&buf, 1,1, wav_file);
         num_bytes--;
-    word >>= 8;
+        word >>= 8;
     }
 }
 
