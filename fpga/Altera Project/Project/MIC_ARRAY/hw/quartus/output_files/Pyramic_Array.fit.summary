@@ -1,16 +1,16 @@
-Fitter Status : Successful - Mon Dec 19 14:53:10 2016
+Fitter Status : Successful - Thu Dec 22 14:42:53 2016
 Quartus Prime Version : 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 Revision Name : Pyramic_Array
 Top-level Entity Name : DE1_SoC_top_level
 Family : Cyclone V
 Device : 5CSEMA5F31C6
 Timing Models : Final
-Logic utilization (in ALMs) : 3,151 / 32,070 ( 10 % )
-Total registers : 6723
+Logic utilization (in ALMs) : 2,622 / 32,070 ( 8 % )
+Total registers : 4918
 Total pins : 179 / 457 ( 39 % )
 Total virtual pins : 0
-Total block memory bits : 870,416 / 4,065,280 ( 21 % )
-Total RAM Blocks : 158 / 397 ( 40 % )
+Total block memory bits : 1,718,288 / 4,065,280 ( 42 % )
+Total RAM Blocks : 261 / 397 ( 66 % )
 Total DSP Blocks : 0 / 87 ( 0 % )
 Total HSSI RX PCSs : 0
 Total HSSI PMA RX Deserializers : 0
