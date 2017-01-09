@@ -1,0 +1,247 @@
+\hypertarget{pyramicio_8h}{}\section{pyramicio.\+h File Reference}
+\label{pyramicio_8h}\index{pyramicio.\+h@{pyramicio.\+h}}
+
+
+A library that allows an easy access to the Pyramic array.  
+
+
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structinputBuffer}{input\+Buffer}
+\begin{DoxyCompactList}\small\item\em This structure represents an input buffer, which direction is the microphone array towards the memory. \end{DoxyCompactList}\item 
+struct \hyperlink{structoutputBuffer}{output\+Buffer}
+\begin{DoxyCompactList}\small\item\em This structure represents an output buffer, which direction is the memory towards the F\+P\+GA C\+O\+D\+EC. \end{DoxyCompactList}\item 
+struct \hyperlink{structpyramic}{pyramic}
+\begin{DoxyCompactList}\small\item\em Structure contanining the addresses used by the library internals . \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{pyramicio_8h_a7859797e0f1a087fc69a50ab916fd187}{}\label{pyramicio_8h_a7859797e0f1a087fc69a50ab916fd187} 
+\#define {\bfseries S\+R\+C\+\_\+\+B\+E\+A\+M\+F\+O\+R\+M\+ER}~0
+\item 
+\hypertarget{pyramicio_8h_a4c3d8190e98fdf12574f8938050eeefe}{}\label{pyramicio_8h_a4c3d8190e98fdf12574f8938050eeefe} 
+\#define {\bfseries S\+R\+C\+\_\+\+M\+E\+M\+O\+RY}~1
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpyramic}{pyramic} $\ast$ \hyperlink{pyramicio_8h_ac3c433fb9ac54d8e5e93a2423ed79e5e}{pyramic\+Initialize\+Pyramic} ()
+\begin{DoxyCompactList}\small\item\em Initializes the Pyramic array and returns a reference to the associated Pyramic object. \end{DoxyCompactList}\item 
+void \hyperlink{pyramicio_8h_ac94c73d19dd0e24d95d54e36a58d3773}{pyramic\+Deinit\+Pyramic} (struct \hyperlink{structpyramic}{pyramic} $\ast$p)
+\begin{DoxyCompactList}\small\item\em Closes the file descriptors assoiated with the Pyramic and frees the reserved memory resources. \end{DoxyCompactList}\item 
+struct \hyperlink{structinputBuffer}{input\+Buffer} $\ast$ \hyperlink{pyramicio_8h_a81011a5908eb9e8ba814fc915d3cf39c}{pyramic\+Get\+Input\+Buffer} (struct \hyperlink{structpyramic}{pyramic} $\ast$p, int buffer\+Half)
+\begin{DoxyCompactList}\small\item\em Gets the current input buffer. \end{DoxyCompactList}\item 
+int \hyperlink{pyramicio_8h_a9d6dd3246d067af5d9c8f883076a8d86}{pyramic\+Get\+Current\+Buffer\+Half} (struct \hyperlink{structpyramic}{pyramic} $\ast$p)
+\begin{DoxyCompactList}\small\item\em Gets the number of the half on which the Pyramic is currently recording samples. \end{DoxyCompactList}\item 
+struct \hyperlink{structoutputBuffer}{output\+Buffer} $\ast$ \hyperlink{pyramicio_8h_ac64771d55b17cf9fef4db7b7d85b2d29}{pyramic\+Allocate\+Output\+Buffer} (struct \hyperlink{structpyramic}{pyramic} $\ast$p, uint32\+\_\+t length\+In\+Samples)
+\begin{DoxyCompactList}\small\item\em Allocates memory as a buffer to output samples. \end{DoxyCompactList}\item 
+void \hyperlink{pyramicio_8h_a52d1e783df48e8eacef637a196aca3a0}{pyramic\+Deallocate\+Output\+Buffer} (struct \hyperlink{structpyramic}{pyramic} $\ast$p, struct \hyperlink{structoutputBuffer}{output\+Buffer} $\ast$\hyperlink{structoutputBuffer}{output\+Buffer})
+\begin{DoxyCompactList}\small\item\em Sets the Pyramic output buffer to be the specified address space. \end{DoxyCompactList}\item 
+int \hyperlink{pyramicio_8h_a9c174a1fe3dc16e77ef17c11a349be0f}{pyramic\+Start\+Capture} (struct \hyperlink{structpyramic}{pyramic} $\ast$p, int buffer\+Length\+In\+Seconds)
+\begin{DoxyCompactList}\small\item\em Starts a continuous capture on the Pyramic array. \end{DoxyCompactList}\item 
+int \hyperlink{pyramicio_8h_ae3c8c7cbb8871e075bb3f4af1a961e71}{pyramic\+Fixed\+Length\+Capture} (struct \hyperlink{structpyramic}{pyramic} $\ast$p, int duration\+In\+Seconds)
+\begin{DoxyCompactList}\small\item\em Starts a fixed length capture on the Pyramic array. \end{DoxyCompactList}\item 
+int \hyperlink{pyramicio_8h_ae3e5d9483452a3e2dd851413d58a2336}{pyramic\+Stop\+Capture} (struct \hyperlink{structpyramic}{pyramic} $\ast$p)
+\begin{DoxyCompactList}\small\item\em Stops the ongoing capture on the Pyramic array at the end of the current sample. \end{DoxyCompactList}\item 
+int \hyperlink{pyramicio_8h_a90eb22cc274f3a9ef5686a83b7764ae7}{pyramic\+Select\+Output\+Source} (struct \hyperlink{structpyramic}{pyramic} $\ast$p, int source)
+\begin{DoxyCompactList}\small\item\em Selects if the output samples come from the Beamformer or a software buffer. \end{DoxyCompactList}\item 
+int \hyperlink{pyramicio_8h_a017b36211ed54afd24e90d8633a062a3}{pyramic\+Set\+Output\+Buffer} (struct \hyperlink{structpyramic}{pyramic} $\ast$p, struct \hyperlink{structoutputBuffer}{output\+Buffer} $\ast$\hyperlink{structoutputBuffer}{output\+Buffer})
+\begin{DoxyCompactList}\small\item\em Sets the Pyramic\textquotesingle{}s output buffer as the designated one. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A library that allows an easy access to the Pyramic array. 
+
+This library is compiled using headers derived from the V\+H\+DL code available at\+: \href{http://github.com/lcav/pyramic.git}{\tt http\+://github.\+com/lcav/pyramic.\+git}. In order to compile this library, one has to run the \char`\"{}headers\+\_\+rbf.\+sh\char`\"{} file that can be found in the toplevel M\+I\+C\+\_\+\+A\+R\+R\+AY directory to provide the Quartus generated header files.
+
+The \hyperlink{pyramicio_8h}{pyramicio.\+h} file gives access to the A\+PI provided by libpyramicio. It enables the use of a Pyramic array with an abstraction layer that removes the hassle of the F\+P\+GA addresses. This enables programming applications that use the Pyramic array against an existing design without using the Quartus Prime tools.
+
+\begin{DoxyAuthor}{Author}
+Corentin Ferry 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+December 2016
+\end{DoxyDate}
+\begin{DoxySeeAlso}{See also}
+\href{https://github.com/cferr/pyramic.git}{\tt https\+://github.\+com/cferr/pyramic.\+git} 
+\end{DoxySeeAlso}
+
+
+\subsection{Function Documentation}
+\hypertarget{pyramicio_8h_ac64771d55b17cf9fef4db7b7d85b2d29}{}\label{pyramicio_8h_ac64771d55b17cf9fef4db7b7d85b2d29} 
+\index{pyramicio.\+h@{pyramicio.\+h}!pyramic\+Allocate\+Output\+Buffer@{pyramic\+Allocate\+Output\+Buffer}}
+\index{pyramic\+Allocate\+Output\+Buffer@{pyramic\+Allocate\+Output\+Buffer}!pyramicio.\+h@{pyramicio.\+h}}
+\subsubsection{\texorpdfstring{pyramic\+Allocate\+Output\+Buffer()}{pyramicAllocateOutputBuffer()}}
+{\footnotesize\ttfamily struct \hyperlink{structoutputBuffer}{output\+Buffer}$\ast$ pyramic\+Allocate\+Output\+Buffer (\begin{DoxyParamCaption}\item[{struct \hyperlink{structpyramic}{pyramic} $\ast$}]{p,  }\item[{uint32\+\_\+t}]{length\+In\+Samples }\end{DoxyParamCaption})}
+
+
+
+Allocates memory as a buffer to output samples. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The Pyramic object structure on which the function is executed. \\
+\hline
+{\em length\+In\+Samples} & The nummber of samples that the output buffer will hold. Note that the output frequency is 48000 Hz. \\
+\hline
+\end{DoxyParams}
+\hypertarget{pyramicio_8h_a52d1e783df48e8eacef637a196aca3a0}{}\label{pyramicio_8h_a52d1e783df48e8eacef637a196aca3a0} 
+\index{pyramicio.\+h@{pyramicio.\+h}!pyramic\+Deallocate\+Output\+Buffer@{pyramic\+Deallocate\+Output\+Buffer}}
+\index{pyramic\+Deallocate\+Output\+Buffer@{pyramic\+Deallocate\+Output\+Buffer}!pyramicio.\+h@{pyramicio.\+h}}
+\subsubsection{\texorpdfstring{pyramic\+Deallocate\+Output\+Buffer()}{pyramicDeallocateOutputBuffer()}}
+{\footnotesize\ttfamily void pyramic\+Deallocate\+Output\+Buffer (\begin{DoxyParamCaption}\item[{struct \hyperlink{structpyramic}{pyramic} $\ast$}]{p,  }\item[{struct \hyperlink{structoutputBuffer}{output\+Buffer} $\ast$}]{output\+Buffer }\end{DoxyParamCaption})}
+
+
+
+Sets the Pyramic output buffer to be the specified address space. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The Pyramic object structure on which the function is executed. \\
+\hline
+{\em \hyperlink{structoutputBuffer}{output\+Buffer}} & The output buffer that has to be freed. \\
+\hline
+\end{DoxyParams}
+\hypertarget{pyramicio_8h_ac94c73d19dd0e24d95d54e36a58d3773}{}\label{pyramicio_8h_ac94c73d19dd0e24d95d54e36a58d3773} 
+\index{pyramicio.\+h@{pyramicio.\+h}!pyramic\+Deinit\+Pyramic@{pyramic\+Deinit\+Pyramic}}
+\index{pyramic\+Deinit\+Pyramic@{pyramic\+Deinit\+Pyramic}!pyramicio.\+h@{pyramicio.\+h}}
+\subsubsection{\texorpdfstring{pyramic\+Deinit\+Pyramic()}{pyramicDeinitPyramic()}}
+{\footnotesize\ttfamily void pyramic\+Deinit\+Pyramic (\begin{DoxyParamCaption}\item[{struct \hyperlink{structpyramic}{pyramic} $\ast$}]{p }\end{DoxyParamCaption})}
+
+
+
+Closes the file descriptors assoiated with the Pyramic and frees the reserved memory resources. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The Pyramic object structure on which the function is executed. \\
+\hline
+\end{DoxyParams}
+\hypertarget{pyramicio_8h_ae3c8c7cbb8871e075bb3f4af1a961e71}{}\label{pyramicio_8h_ae3c8c7cbb8871e075bb3f4af1a961e71} 
+\index{pyramicio.\+h@{pyramicio.\+h}!pyramic\+Fixed\+Length\+Capture@{pyramic\+Fixed\+Length\+Capture}}
+\index{pyramic\+Fixed\+Length\+Capture@{pyramic\+Fixed\+Length\+Capture}!pyramicio.\+h@{pyramicio.\+h}}
+\subsubsection{\texorpdfstring{pyramic\+Fixed\+Length\+Capture()}{pyramicFixedLengthCapture()}}
+{\footnotesize\ttfamily int pyramic\+Fixed\+Length\+Capture (\begin{DoxyParamCaption}\item[{struct \hyperlink{structpyramic}{pyramic} $\ast$}]{p,  }\item[{int}]{duration\+In\+Seconds }\end{DoxyParamCaption})}
+
+
+
+Starts a fixed length capture on the Pyramic array. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The Pyramic object structure on which the function is executed. \\
+\hline
+{\em duration\+In\+Seconds} & The duration of the capture. After the capture, you will be able to get the samples through the \hyperlink{pyramicio_8h_a81011a5908eb9e8ba814fc915d3cf39c}{pyramic\+Get\+Input\+Buffer()} function. \\
+\hline
+\end{DoxyParams}
+\hypertarget{pyramicio_8h_a9d6dd3246d067af5d9c8f883076a8d86}{}\label{pyramicio_8h_a9d6dd3246d067af5d9c8f883076a8d86} 
+\index{pyramicio.\+h@{pyramicio.\+h}!pyramic\+Get\+Current\+Buffer\+Half@{pyramic\+Get\+Current\+Buffer\+Half}}
+\index{pyramic\+Get\+Current\+Buffer\+Half@{pyramic\+Get\+Current\+Buffer\+Half}!pyramicio.\+h@{pyramicio.\+h}}
+\subsubsection{\texorpdfstring{pyramic\+Get\+Current\+Buffer\+Half()}{pyramicGetCurrentBufferHalf()}}
+{\footnotesize\ttfamily int pyramic\+Get\+Current\+Buffer\+Half (\begin{DoxyParamCaption}\item[{struct \hyperlink{structpyramic}{pyramic} $\ast$}]{p }\end{DoxyParamCaption})}
+
+
+
+Gets the number of the half on which the Pyramic is currently recording samples. 
+
+The other half can be safely used for processing the signal. 
+\begin{DoxyParams}{Parameters}
+{\em p} & The Pyramic object structure on which the function is executed. \\
+\hline
+\end{DoxyParams}
+\hypertarget{pyramicio_8h_a81011a5908eb9e8ba814fc915d3cf39c}{}\label{pyramicio_8h_a81011a5908eb9e8ba814fc915d3cf39c} 
+\index{pyramicio.\+h@{pyramicio.\+h}!pyramic\+Get\+Input\+Buffer@{pyramic\+Get\+Input\+Buffer}}
+\index{pyramic\+Get\+Input\+Buffer@{pyramic\+Get\+Input\+Buffer}!pyramicio.\+h@{pyramicio.\+h}}
+\subsubsection{\texorpdfstring{pyramic\+Get\+Input\+Buffer()}{pyramicGetInputBuffer()}}
+{\footnotesize\ttfamily struct \hyperlink{structinputBuffer}{input\+Buffer}$\ast$ pyramic\+Get\+Input\+Buffer (\begin{DoxyParamCaption}\item[{struct \hyperlink{structpyramic}{pyramic} $\ast$}]{p,  }\item[{int}]{buffer\+Half }\end{DoxyParamCaption})}
+
+
+
+Gets the current input buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The Pyramic object structure on which the function is executed. \\
+\hline
+{\em buffer\+Half} & If this parameter is 0, the samples start at the beginning of the buffer (thus giving you access to the first half and the second half as well). If it is 1, the samples start at the beginning of the second half of the buffer. This parameter is useful for continuous captures where it is safe to use a single half of the buffer at a time. \\
+\hline
+\end{DoxyParams}
+\hypertarget{pyramicio_8h_ac3c433fb9ac54d8e5e93a2423ed79e5e}{}\label{pyramicio_8h_ac3c433fb9ac54d8e5e93a2423ed79e5e} 
+\index{pyramicio.\+h@{pyramicio.\+h}!pyramic\+Initialize\+Pyramic@{pyramic\+Initialize\+Pyramic}}
+\index{pyramic\+Initialize\+Pyramic@{pyramic\+Initialize\+Pyramic}!pyramicio.\+h@{pyramicio.\+h}}
+\subsubsection{\texorpdfstring{pyramic\+Initialize\+Pyramic()}{pyramicInitializePyramic()}}
+{\footnotesize\ttfamily struct \hyperlink{structpyramic}{pyramic}$\ast$ pyramic\+Initialize\+Pyramic (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initializes the Pyramic array and returns a reference to the associated Pyramic object. 
+
+This initialization is exclusive\+: only one thread can have control over the Pyramic array at the same time. \hypertarget{pyramicio_8h_a90eb22cc274f3a9ef5686a83b7764ae7}{}\label{pyramicio_8h_a90eb22cc274f3a9ef5686a83b7764ae7} 
+\index{pyramicio.\+h@{pyramicio.\+h}!pyramic\+Select\+Output\+Source@{pyramic\+Select\+Output\+Source}}
+\index{pyramic\+Select\+Output\+Source@{pyramic\+Select\+Output\+Source}!pyramicio.\+h@{pyramicio.\+h}}
+\subsubsection{\texorpdfstring{pyramic\+Select\+Output\+Source()}{pyramicSelectOutputSource()}}
+{\footnotesize\ttfamily int pyramic\+Select\+Output\+Source (\begin{DoxyParamCaption}\item[{struct \hyperlink{structpyramic}{pyramic} $\ast$}]{p,  }\item[{int}]{source }\end{DoxyParamCaption})}
+
+
+
+Selects if the output samples come from the Beamformer or a software buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The Pyramic object structure on which the function is executed. \\
+\hline
+{\em source} & Either S\+R\+C\+\_\+\+B\+E\+A\+M\+F\+O\+R\+M\+ER (not implemented yet, gives silence) or S\+R\+C\+\_\+\+M\+E\+M\+O\+RY (the pyramic then takes its input from an output buffer in the D\+D\+R3). It is recommended to set the output buffer address through \hyperlink{pyramicio_8h_a017b36211ed54afd24e90d8633a062a3}{pyramic\+Set\+Output\+Buffer()} before calling this function with S\+R\+C\+\_\+\+M\+E\+M\+O\+RY. \\
+\hline
+\end{DoxyParams}
+\hypertarget{pyramicio_8h_a017b36211ed54afd24e90d8633a062a3}{}\label{pyramicio_8h_a017b36211ed54afd24e90d8633a062a3} 
+\index{pyramicio.\+h@{pyramicio.\+h}!pyramic\+Set\+Output\+Buffer@{pyramic\+Set\+Output\+Buffer}}
+\index{pyramic\+Set\+Output\+Buffer@{pyramic\+Set\+Output\+Buffer}!pyramicio.\+h@{pyramicio.\+h}}
+\subsubsection{\texorpdfstring{pyramic\+Set\+Output\+Buffer()}{pyramicSetOutputBuffer()}}
+{\footnotesize\ttfamily int pyramic\+Set\+Output\+Buffer (\begin{DoxyParamCaption}\item[{struct \hyperlink{structpyramic}{pyramic} $\ast$}]{p,  }\item[{struct \hyperlink{structoutputBuffer}{output\+Buffer} $\ast$}]{output\+Buffer }\end{DoxyParamCaption})}
+
+
+
+Sets the Pyramic\textquotesingle{}s output buffer as the designated one. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The Pyramic object structure on which the function is executed. \\
+\hline
+{\em \hyperlink{structoutputBuffer}{output\+Buffer}} & An output buffer that has been allocated with \hyperlink{pyramicio_8h_ac64771d55b17cf9fef4db7b7d85b2d29}{pyramic\+Allocate\+Output\+Buffer()}. \\
+\hline
+\end{DoxyParams}
+\hypertarget{pyramicio_8h_a9c174a1fe3dc16e77ef17c11a349be0f}{}\label{pyramicio_8h_a9c174a1fe3dc16e77ef17c11a349be0f} 
+\index{pyramicio.\+h@{pyramicio.\+h}!pyramic\+Start\+Capture@{pyramic\+Start\+Capture}}
+\index{pyramic\+Start\+Capture@{pyramic\+Start\+Capture}!pyramicio.\+h@{pyramicio.\+h}}
+\subsubsection{\texorpdfstring{pyramic\+Start\+Capture()}{pyramicStartCapture()}}
+{\footnotesize\ttfamily int pyramic\+Start\+Capture (\begin{DoxyParamCaption}\item[{struct \hyperlink{structpyramic}{pyramic} $\ast$}]{p,  }\item[{int}]{buffer\+Length\+In\+Seconds }\end{DoxyParamCaption})}
+
+
+
+Starts a continuous capture on the Pyramic array. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The Pyramic object structure on which the function is executed. \\
+\hline
+{\em buffer\+Length\+In\+Seconds} & The duration of the sample buffer. Note that the sample buffer is divided into two halves, and you can safely read and write into each half while it is not being processed, using \hyperlink{pyramicio_8h_a9d6dd3246d067af5d9c8f883076a8d86}{pyramic\+Get\+Current\+Buffer\+Half()}. The buffer has to be long enough so that half of it can be entirely processed while the other half is under capture. You can get the capture buffers through the \hyperlink{pyramicio_8h_a81011a5908eb9e8ba814fc915d3cf39c}{pyramic\+Get\+Input\+Buffer()} function. \\
+\hline
+\end{DoxyParams}
+\hypertarget{pyramicio_8h_ae3e5d9483452a3e2dd851413d58a2336}{}\label{pyramicio_8h_ae3e5d9483452a3e2dd851413d58a2336} 
+\index{pyramicio.\+h@{pyramicio.\+h}!pyramic\+Stop\+Capture@{pyramic\+Stop\+Capture}}
+\index{pyramic\+Stop\+Capture@{pyramic\+Stop\+Capture}!pyramicio.\+h@{pyramicio.\+h}}
+\subsubsection{\texorpdfstring{pyramic\+Stop\+Capture()}{pyramicStopCapture()}}
+{\footnotesize\ttfamily int pyramic\+Stop\+Capture (\begin{DoxyParamCaption}\item[{struct \hyperlink{structpyramic}{pyramic} $\ast$}]{p }\end{DoxyParamCaption})}
+
+
+
+Stops the ongoing capture on the Pyramic array at the end of the current sample. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The Pyramic object structure on which the function is executed. \\
+\hline
+\end{DoxyParams}

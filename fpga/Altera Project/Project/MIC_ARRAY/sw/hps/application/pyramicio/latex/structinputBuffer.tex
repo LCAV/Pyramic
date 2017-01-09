@@ -1,0 +1,73 @@
+\hypertarget{structinputBuffer}{}\section{input\+Buffer Struct Reference}
+\label{structinputBuffer}\index{input\+Buffer@{input\+Buffer}}
+
+
+This structure represents an input buffer, which direction is the microphone array towards the memory.  
+
+
+
+
+{\ttfamily \#include $<$pyramicio.\+h$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{structinputBuffer_a35bfb2e7cb4d0c0491f9efbe0273e455}{microphone\+Count}
+\begin{DoxyCompactList}\small\item\em How many microphones the Pyramic array has. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{structinputBuffer_a37bcaba2336dc42b37c4362e30483129}{total\+Sample\+Count}
+\begin{DoxyCompactList}\small\item\em How many samples the buffer contains. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{structinputBuffer_ab8b6a76bd2e891f34932e80268b66178}{samples\+Per\+Mic}
+\begin{DoxyCompactList}\small\item\em How many samples are found for each microphone in the buffer. \end{DoxyCompactList}\item 
+int16\+\_\+t $\ast$ \hyperlink{structinputBuffer_af6cdbaa4124d3e9db0272c19c94b2707}{samples}
+\begin{DoxyCompactList}\small\item\em The actual samples, organized the R\+I\+FF way. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This structure represents an input buffer, which direction is the microphone array towards the memory. 
+
+\subsection{Member Data Documentation}
+\hypertarget{structinputBuffer_a35bfb2e7cb4d0c0491f9efbe0273e455}{}\label{structinputBuffer_a35bfb2e7cb4d0c0491f9efbe0273e455} 
+\index{input\+Buffer@{input\+Buffer}!microphone\+Count@{microphone\+Count}}
+\index{microphone\+Count@{microphone\+Count}!input\+Buffer@{input\+Buffer}}
+\subsubsection{\texorpdfstring{microphone\+Count}{microphoneCount}}
+{\footnotesize\ttfamily int input\+Buffer\+::microphone\+Count}
+
+
+
+How many microphones the Pyramic array has. 
+
+\hypertarget{structinputBuffer_af6cdbaa4124d3e9db0272c19c94b2707}{}\label{structinputBuffer_af6cdbaa4124d3e9db0272c19c94b2707} 
+\index{input\+Buffer@{input\+Buffer}!samples@{samples}}
+\index{samples@{samples}!input\+Buffer@{input\+Buffer}}
+\subsubsection{\texorpdfstring{samples}{samples}}
+{\footnotesize\ttfamily int16\+\_\+t$\ast$ input\+Buffer\+::samples}
+
+
+
+The actual samples, organized the R\+I\+FF way. 
+
+\hypertarget{structinputBuffer_ab8b6a76bd2e891f34932e80268b66178}{}\label{structinputBuffer_ab8b6a76bd2e891f34932e80268b66178} 
+\index{input\+Buffer@{input\+Buffer}!samples\+Per\+Mic@{samples\+Per\+Mic}}
+\index{samples\+Per\+Mic@{samples\+Per\+Mic}!input\+Buffer@{input\+Buffer}}
+\subsubsection{\texorpdfstring{samples\+Per\+Mic}{samplesPerMic}}
+{\footnotesize\ttfamily uint32\+\_\+t input\+Buffer\+::samples\+Per\+Mic}
+
+
+
+How many samples are found for each microphone in the buffer. 
+
+\hypertarget{structinputBuffer_a37bcaba2336dc42b37c4362e30483129}{}\label{structinputBuffer_a37bcaba2336dc42b37c4362e30483129} 
+\index{input\+Buffer@{input\+Buffer}!total\+Sample\+Count@{total\+Sample\+Count}}
+\index{total\+Sample\+Count@{total\+Sample\+Count}!input\+Buffer@{input\+Buffer}}
+\subsubsection{\texorpdfstring{total\+Sample\+Count}{totalSampleCount}}
+{\footnotesize\ttfamily uint32\+\_\+t input\+Buffer\+::total\+Sample\+Count}
+
+
+
+How many samples the buffer contains. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{pyramicio_8h}{pyramicio.\+h}\end{DoxyCompactItemize}
