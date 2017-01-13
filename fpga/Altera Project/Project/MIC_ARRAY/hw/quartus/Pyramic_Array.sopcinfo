@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="Pyramic_Array" kind="Pyramic_Array" version="1.0" fabric="QSYS">
  <!-- Format version 16.0 211 (Future versions may contain additional information.) -->
- <!-- 2016.12.22.14:39:33 -->
+ <!-- 2017.01.13.16:47:31 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1482413972</value>
+  <value>1484322451</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -88240,7 +88240,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1482413972</value>
+   <value>1484322451</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -88260,7 +88260,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1482413972</value>
+   <value>1484322451</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -88276,7 +88276,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1482413972</value>
+   <value>1484322451</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>

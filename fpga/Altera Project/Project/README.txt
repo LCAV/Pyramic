@@ -2,6 +2,7 @@
 # README
 #
 # Author        : Juan Azcarreta & Sahand Kashani-Akhavan & Philémon Favrod
+# Modified by   : Corentin Ferry on 2017/01/13
 # Revision      : 1.1
 # Creation date : 2016/08/21
 #
@@ -12,6 +13,14 @@ About
 This README describes the standard project structure that is used in the
 following project:
     - Pyramic array: an FPGA-based multi channel audio acquisition system.
+
+The modifications done by Corentin Ferry appear in the following files:
+MIC_ARRAY/hw/hdl/Output_Buffer_Driver.vhd
+MIC_ARRAY/hw/hdl/SPI_Controller.vhd
+MIC_ARRAY/hw/hdl/SPI_DMA.vhd
+MIC_ARRAY/sw/hps/application/
+
+
 
 Folder structure
 ================
@@ -36,39 +45,55 @@ structure for all your projects.
 
 MIC_ARRAY
 ├── hw
-│   ├── hdl
-│   │   └── DE1_SoC_top_level.vhd
-│   │   └── SPI_Controller.vhd
-│   │   └── SPI_Slave.vhd
-│   │   └── SPI_DMA.vhd
-│   │   └── FIFO_Mic.vhd
-│   │   └── SPI_System.vhd
-│   │   └── SPI_Streaming.vhd
-│   │   └── FIFO_Streaming.vhd
-│   │   └── Beamformer_Adder.vhd
-│   ├── modelsim
-│   │   └── vsim.wlf
-│   │   └── Test?Bench?SPI
-│   └── quartus
-│       └── pin_assignment_DE1_SoC.tcl
-│       └── Pyramic_array.qpf
-│       └── pin_assignment_DE1_SoC.tcl
+│	├── hdl
+│	│	└── DE1_SoC_top_level.vhd
+│	│	└── SPI_Controller.vhd
+│	│	└── SPI_Slave.vhd
+│	│	└── SPI_DMA.vhd
+│	│	└── FIFO_Mic.vhd
+│	│	└── SPI_System.vhd
+│	│	└── SPI_Streaming.vhd
+│	│	└── FIFO_Streaming.vhd
+│	│	└── Beamformer_Adder.vhd
+│	│	└── Output_Buffer_Driver.vhd
+│	├── modelsim
+│	│	└── vsim.wlf
+│	│	└── Test?Bench?SPI
+│	└── quartus
+│	    └── pin_assignment_DE1_SoC.tcl
+│	    └── Pyramic_array.qpf
+│	    └── pin_assignment_DE1_SoC.tcl
 ├── README
 └── sw
     ├── hps
-    │   ├── application
-    │   │	└── Mic_Array_HPS
-	│	│	│       └── makefile
-	│	│	│       └── Mic_Array_HPS
-    │   │	└── debug
-    │   │	│   └── make_wav.c
-    │   │	│   └── make_wav.h
-    │   │	│   └── Mic_Array_linux.c
-    │   │	│   └── Mic_Array_linux.h
-    │   │	│   └── Mic_Array_soc.h
-    │   ├── linux
-    │   │   └── driver
-    │   └── preloader
+    │	├── application
+    │	│	└── Mic_Array_HPS
+    │	│	│	└── makefile
+    │	│	│	└── Mic_Array_HPS
+    │	│	│	└── debug
+    │	│	│	└── make_wav.c
+    │	│	│	└── make_wav.h
+    │	│	│	└── Mic_Array_linux.c
+    │	│	│	└── Mic_Array_linux.h
+    │	│	│	└── Mic_Array_soc.h
+    │	│	│── pyramicio
+    │	│	│	└── pyramicio.c
+    │	│	│	└── pyramicio.h
+    │	│	│	└── Mic_Array_soc.h
+    │	│	│	└── refman.pdf (Doxygen documentation for libpyramicio in PDF)
+    │	│	│	└── Release    
+    │	│	│		└── libpyramicio.so
+    │	│	│	└── html    
+    │	│	│		└── index.html (Doxygen documentation for libpyramicio in HTML)
+    │	│	│	└── latex    
+    │	│	│		└── refman.tex (Doxygen documentation for libpyramicio in LaTeX)
+    │	│	│── libpyramicio_test
+    │	│	│	└── main.c
+    │	│	│	└── Release    
+    │	│	│		└── libpyramicio_test
+    │	├── linux
+    │	│	└── driver
+    │	└── preloader
     └── nios
         └── application (not used in Pyramic project)
 
@@ -82,7 +107,7 @@ The sdcard folder contains the partitions that are written in the physical micro
 			- Partition the sdcard
 			- Write files in the sdcard
 		
-		- Pyramic_array.h: header file of the Pyramic array system for Eclipse DS-5.
+		- Mic_Array_soc.h: header file of the Pyramic array system for Eclipse DS-5.
 		- coeff filter: Filter banks coefficients loadable in the FIR II IP core
 		
 We ask that you use the following guidelines for placing your various files:
