@@ -20,7 +20,7 @@
 #include <stdio.h>
 
 #include <alt_generalpurpose_io.h>
-#include "Mic_Array_soc.h"
+#include "Pyramic_Array.h"
 #include "socal/hps.h"
 #include "socal/alt_gpio.h"
 #include "socal/socal.h"
