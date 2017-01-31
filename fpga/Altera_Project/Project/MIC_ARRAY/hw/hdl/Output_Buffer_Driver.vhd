@@ -81,7 +81,7 @@ architecture master of Output_Buffer_Driver is
     -- Configuration Slave (constants for now)
     signal base_read_addr : unsigned(31 downto 0) := to_unsigned(900 * 1024 * 1024, 32);  -- 900 MiB = 900 * 1024 KiB = 900 * 1024 * 1024 B
     signal sound_len      : unsigned(31 downto 0) := to_unsigned(100 * 1024 * 1024, 32);  -- 100 MiB
-    signal byteEnable     : unsigned(3 downto 0)  := "1111";  -- 32 bits are enabled ( L + R )
+    constant byteEnable   : unsigned(3 downto 0)  := "1111";  -- 32 bits are enabled ( L + R )
     signal Use_Memory     : std_logic             := '1';
 
     -- Clock divider
