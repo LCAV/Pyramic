@@ -69,7 +69,7 @@ architecture comp of SPI_Controller is
     type mic_dim_vector is array (natural range <>) of mic_dim;
     subtype array_dim is mic_dim_vector(0 to ARRAY_N - 1);
 
-    -- register_array: Register of (MICS_N*ARRAY_N) channels and RESOLUTION depth per chanel.
+    -- register_array: Register of (MICS_N*ARRAY_N) channels and RESOLUTION depth per channel.
     type register_array is array (0 to (MICS_N * ARRAY_N) - 1) of std_logic_vector(RESOLUTION - 1 downto 0);
     type FIFO_size is array (0 to (MICS_N * ARRAY_N) - 1) of std_logic_vector(2 downto 0);
 
@@ -78,8 +78,7 @@ architecture comp of SPI_Controller is
     signal SPI_state : state_transfer;
 
     -- System counter signals and variables
-    signal t2 : integer range 0 to 5;  -- Control CONVST low pulse duration (Refer to Note 1 in the header of this file)
-    signal i  : integer range 0 to CHANNELS - 1;
+    signal i : integer range 0 to CHANNELS - 1;
 
     -- Define FIFOs signals
     signal wrreq  : MICS_Number;        -- Write request
@@ -186,7 +185,6 @@ begin
         if reset_n = '0' then
             -- Reset the system to default values
             SPI_state   <= Idle;
-            t2          <= 0;
             po          <= (others => (others => '0'));
             wrreq       <= (others => '0');
             rdreq       <= (others => '0');
@@ -202,23 +200,25 @@ begin
                 case SPI_state is
                     when Idle =>
                         -- If Start asserted by Slave unit
-                        t2 <= 0;
                         if Start = '1' then
                             SPI_state <= Waiting1;
                             reset     <= '0';
                         end if;
                     -- Waiting states to fill timing requirements of ADC regarding reset signal (50 ns min high pulse width, p.7)
                     -- 48 MHz : 1 cycle = 20.83333 ns which means 3 waiting cycles
-                    when Waiting1 => SPI_state <= Waiting2;
-                                     reset <= '1';
-                    when Waiting2 => SPI_state <= Waiting3;
-                    when Waiting3 => SPI_state <= Waiting4;
-                    when Waiting4 => SPI_state <= Waiting5;
-                                     reset <= '0';           -- t2 starts here
-                    when Waiting5 => SPI_state <= Waiting6;  -- t2 : 20.8333 ns
-                                     --when Waiting6    =>       SPI_state <= Waiting7; -- t2 : 41.6667 ns
-
-                    when Waiting6 =>  -- chqnged Waiting7 to Waiting6 so that t2 < 40 ns is respected
+                    when Waiting1 =>
+                        SPI_state <= Waiting2;
+                        reset     <= '1';
+                    when Waiting2 =>
+                        SPI_state <= Waiting3;
+                    when Waiting3 =>
+                        SPI_state <= Waiting4;
+                    when Waiting4 =>
+                        SPI_state <= Waiting5;
+                        reset     <= '0';  -- t2 starts here
+                    when Waiting5 =>
+                        SPI_state <= Waiting6;  -- t2 : 20.8333 ns
+                    when Waiting6 =>  -- changed Waiting7 to Waiting6 so that t2 < 40 ns is respected
                         wrreq     <= (others => '0');
                         convBlock <= '0';  -- this triggers the convst state machine that will generate the 1st CONVST high after 4 cycles
                         SPI_state <= Wait_For_Conversion;
