@@ -166,7 +166,7 @@ architecture rtl of DE1_SoC_top_level is
 
     component Pyramic_Array is
         port (
-            audio_0_external_interface_ADCDAT                : in    std_logic                     := 'X';             --
+            audio_0_external_interface_ADCDAT                : in    std_logic                     := 'X';
             audio_0_external_interface_ADCLRCK               : in    std_logic                     := 'X';
             audio_0_external_interface_BCLK                  : in    std_logic                     := 'X';
             audio_0_external_interface_DACDAT                : out   std_logic;
@@ -378,5 +378,21 @@ begin
         spi_system_0_spi_interface_busy_or1              => GPIO_0(16),
         spi_system_0_spi_interface_busy_or2              => GPIO_0(23)
     );
+
+    GPIO_0(0)  <= '0';
+    GPIO_0(1)  <= '0';
+    GPIO_0(2)  <= '0';
+    GPIO_0(3)  <= '0';
+    GPIO_0(4)  <= '0';
+    GPIO_0(5)  <= '0';
+    GPIO_0(6)  <= '0';
+    GPIO_0(7)  <= '0';
+    GPIO_0(9)  <= '0';
+    GPIO_0(30) <= '0';
+    GPIO_0(31) <= '0';
+    GPIO_0(32) <= '0';
+    GPIO_0(33) <= '0';
+    GPIO_0(34) <= '0';
+    GPIO_0(35) <= '0';
 
 end;
