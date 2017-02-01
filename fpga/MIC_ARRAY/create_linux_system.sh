@@ -448,6 +448,7 @@ exit 0
 EOF
     
     sudo mv "rc.local" "${rootfs_chroot_dir}/etc/rc.local"
+    sudo chmod a+x "${rootfs_chroot_dir}/etc/rc.local"
     
     # remove chroot configuration script to chroot directory
     #sudo rm "${rootfs_chroot_dir}/$(basename "${rootfs_config_script_file}")"
