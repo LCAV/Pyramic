@@ -36,9 +36,15 @@ linux_dtb_file="$(readlink -m "${linux_src_dir}/arch/arm/boot/dts/socfpga_cyclon
 
 rootfs_dir="${linux_dir}/rootfs"
 rootfs_chroot_dir="$(readlink -m ${rootfs_dir}/ubuntu-core-rootfs)"
-rootfs_src_tgz_link="http://cdimage.ubuntu.com/ubuntu-base/releases/14.04/release/ubuntu-base-14.04.4-core-armhf.tar.gz"
+rootfs_src_tgz_link="http://cdimage.ubuntu.com/ubuntu-base/releases/16.04/release/ubuntu-base-16.04-core-armhf.tar.gz"
 rootfs_src_tgz_file="$(readlink -m "${rootfs_dir}/${rootfs_src_tgz_link##*/}")"
 rootfs_config_script_file="${rootfs_dir}/rootfs_config.sh"
+
+ipconf_package="http://ftp.fr.debian.org/debian/pool/main/i/iproute2/iproute2_3.16.0-2_armhf.deb"
+ipconf_packagename="iproute2.deb"
+dhclient_package="http://ftp.fr.debian.org/debian/pool/main/d/dhcpcd5/dhcpcd5_6.0.5-2_armhf.deb"
+dhclient_packagename="dhcpcd5.deb"
+
 
 sdcard_fat32_dir="$(readlink -m "sdcard/fat32")"
 sdcard_fat32_rbf_file="$(readlink -m "${sdcard_fat32_dir}/socfpga.rbf")"
@@ -55,7 +61,7 @@ sdcard_a2_dir="$(readlink -m "sdcard/a2")"
 sdcard_a2_preloader_bin_file="$(readlink -m "${sdcard_a2_dir}/$(basename "${preloader_bin_file}")")"
 
 sdcard_partition_size_fat32="32M"
-sdcard_partition_size_linux="24G"
+sdcard_partition_size_linux="2G"
 
 sdcard_partition_number_fat32="1"
 sdcard_partition_number_ext3="2"
@@ -404,22 +410,47 @@ create_rootfs() {
 
     # chroot environment needs network connectivity, so we copy /etc/resolv.conf
     # so DNS name resolution can occur
-    sudo cp "/etc/resolv.conf" "${rootfs_chroot_dir}/etc/resolv.conf"
+    # sudo cp "/etc/resolv.conf" "${rootfs_chroot_dir}/etc/resolv.conf"
 
     # the ubuntu core image is for armhf, not x86, so we need qemu to actually
     # emulate the chroot (x86 cannot run bash executable included in the rootfs,
     # since it is for armhf)
     # dependencies : sudo apt-get install qemu-user-static
-    sudo cp "/usr/bin/qemu-arm-static" "${rootfs_chroot_dir}/usr/bin/"
+    #sudo cp "/usr/bin/qemu-arm-static" "${rootfs_chroot_dir}/usr/bin/"
 
     # copy chroot configuration script to chroot directory
-    sudo cp "${rootfs_config_script_file}" "${rootfs_chroot_dir}"
+    sudo cp "${rootfs_config_script_file}" "${rootfs_chroot_dir}/usr/bin/"
+    
+    # download the network configuration packages
+    wget "${ipconf_package}" -O "${ipconf_packagename}"
+    sudo mv "${ipconf_packagename}" "${rootfs_chroot_dir}/${ipconf_packagename}"
+    wget "${dhclient_package}" -O "${dhclient_packagename}"
+    sudo mv "${dhclient_packagename}" "${rootfs_chroot_dir}/${dhclient_packagename}"
+    
+    # Enable the config script in rc.local
+    cat <<EOF > "rc.local"
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
 
-    # perform chroot and configure rootfs through script
-    sudo chroot "${rootfs_chroot_dir}" ./"$(basename "${rootfs_config_script_file}")"
+/usr/bin/rootfs_config.sh
 
+exit 0
+EOF
+    
+    sudo mv "rc.local" "${rootfs_chroot_dir}/etc/rc.local"
+    
     # remove chroot configuration script to chroot directory
-    sudo rm "${rootfs_chroot_dir}/$(basename "${rootfs_config_script_file}")"
+    #sudo rm "${rootfs_chroot_dir}/$(basename "${rootfs_config_script_file}")"
 
     # unmount host directories temporarily used for chroot
     sudo umount "${rootfs_chroot_dir}/proc"
@@ -507,10 +538,10 @@ if [ ! -d "${sdcard_fat32_dir}" ]; then
 fi
 
 compile_quartus_project
-# compile_preloader
-# compile_uboot
-# compile_linux
-# create_rootfs
+compile_preloader
+compile_uboot
+compile_linux
+create_rootfs
 
 if [ ! -b "${sdcard_dev}" ]; then
     usage
@@ -518,7 +549,7 @@ if [ ! -b "${sdcard_dev}" ]; then
     exit 1
 fi
 
-# partition_sdcard
-# write_sdcard
+partition_sdcard
+write_sdcard
 
 # Make sure MSEL = 000000
