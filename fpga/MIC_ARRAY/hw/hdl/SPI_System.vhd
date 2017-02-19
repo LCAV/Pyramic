@@ -112,7 +112,7 @@ architecture project of SPI_System is
             sel            : in    std_logic_vector(2 downto 0);
             array_vector   : in    std_logic_vector(2 downto 0);
             Data_Available : out   std_logic;  -- Wait till 32*48 data available (i.e. 1536)
-            Stop           : inout std_logic
+            Stop           : in    std_logic
         );
 
     end component;
@@ -160,7 +160,7 @@ architecture project of SPI_System is
             RegAddStart    : in    std_logic_vector(31 downto 0);
             RegLgt         : in    std_logic_vector(31 downto 0);
             Start          : in    std_logic;
-            Stop           : inout std_logic;
+            Stop           : out   std_logic;
             Buffer1        : out   std_logic;
             Buffer2        : out   std_logic;
 
