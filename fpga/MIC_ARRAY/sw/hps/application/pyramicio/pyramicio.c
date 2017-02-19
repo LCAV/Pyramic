@@ -48,6 +48,9 @@
 
 struct pyramic *pyramicInitializePyramic() {
     struct pyramic *p = malloc(sizeof(struct pyramic));
+    if (p == NULL) {
+        return NULL;
+    }
 
     p->h2f_lw_axi_master_span = ALT_LWFPGASLVS_UB_ADDR - ALT_LWFPGASLVS_LB_ADDR + 1;
     p->h2f_lw_axi_master_ofst = ALT_LWFPGASLVS_OFST;
@@ -101,7 +104,7 @@ struct pyramic *pyramicInitializePyramic() {
     return p;
 }
 
-struct inputBuffer *pyramicGetInputBuffer(struct pyramic *p, int bufferHalf)
+struct inputBuffer pyramicGetInputBuffer(struct pyramic *p, int bufferHalf)
 {
     /*
      * struct inputBuffer {
@@ -112,11 +115,11 @@ struct inputBuffer *pyramicGetInputBuffer(struct pyramic *p, int bufferHalf)
     };
     */
 
-    struct inputBuffer *b = malloc(sizeof(struct inputBuffer));
-    b->microphoneCount = NUM_BOARDS * MICS_PER_BOARD;
-    b->totalSampleCount = p->captureDuration * SAMPLING_FREQUENCY * b-> microphoneCount;
-    b->samplesPerMic = p->captureDuration * SAMPLING_FREQUENCY;
-    b->samples = (int16_t *)(p->reserved_memory) + bufferHalf * (b->totalSampleCount >> 1);
+    struct inputBuffer b = {0};
+    b.microphoneCount = NUM_BOARDS * MICS_PER_BOARD;
+    b.totalSampleCount = p->captureDuration * SAMPLING_FREQUENCY * b.microphoneCount;
+    b.samplesPerMic = p->captureDuration * SAMPLING_FREQUENCY;
+    b.samples = (int16_t *)(p->reserved_memory) + bufferHalf * (b.totalSampleCount >> 1);
 
     return b;
 }
@@ -129,7 +132,7 @@ int pyramicGetCurrentBufferHalf(struct pyramic *p)
     return 2 * buf2 + buf1;
 }
 
-struct outputBuffer *pyramicAllocateOutputBuffer(struct pyramic *p, uint32_t lengthInSamples)
+struct outputBuffer pyramicGetOutputBuffer(struct pyramic *p, uint32_t lengthInSamples)
 {
 /*
     struct outputBuffer {
@@ -139,17 +142,11 @@ struct outputBuffer *pyramicAllocateOutputBuffer(struct pyramic *p, uint32_t len
     };
 */
 
-    struct outputBuffer *o = malloc(sizeof(struct outputBuffer));
-    o->baseAddress = SEC_MEMORY_OFFSET_PHY; // TODO allow for multiple buffers that we swap
-    o->length = lengthInSamples; // 16 bits per sample in stereo make 32 bit words
-    o->samples = (int16_t *)p->output_memory;
+    struct outputBuffer o = {0};
+    o.baseAddress = SEC_MEMORY_OFFSET_PHY; // TODO allow for multiple buffers that we swap
+    o.length = lengthInSamples; // 16 bits per sample in stereo make 32 bit words
+    o.samples = (int16_t *)p->output_memory;
     return o;
-}
-
-void pyramicDeallocateOutputBuffer(struct pyramic *p, struct outputBuffer *outputBuffer)
-{
-    // For the moment this is simple as we don't dynamically manage them
-    free(outputBuffer);
 }
 
 int pyramicStartCapture(struct pyramic *p, int bufferLengthInSeconds)
@@ -198,14 +195,14 @@ int pyramicSelectOutputSource(struct pyramic *p, int source) {
     return 0;
 }
 
-int pyramicSetOutputBuffer(struct pyramic *p, struct outputBuffer *outputBuffer) {
-    alt_write_word(p->fpga_Output_Controller + BASE_RDADDR_REG, outputBuffer->baseAddress);
+int pyramicSetOutputBuffer(struct pyramic *p, struct outputBuffer outputBuffer) {
+    alt_write_word(p->fpga_Output_Controller + BASE_RDADDR_REG, outputBuffer.baseAddress);
     uint32_t check = alt_read_word(p->fpga_Output_Controller + BASE_RDADDR_REG);
 
-    if(check != outputBuffer->baseAddress)
+    if(check != outputBuffer.baseAddress)
         return -EINVAL;
 
-    alt_write_word(p->fpga_Output_Controller + SOUND_LEN_REG, outputBuffer->length);
+    alt_write_word(p->fpga_Output_Controller + SOUND_LEN_REG, outputBuffer.length);
 
     return 0;
 }

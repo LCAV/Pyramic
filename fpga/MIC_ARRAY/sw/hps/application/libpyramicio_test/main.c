@@ -28,13 +28,13 @@ int main(void)
 
 		}
 		printf("5s capture finished\n");
-		struct inputBuffer* inBuf = pyramicGetInputBuffer(p, 0); // 0 for 1st half, but we can indeed get all samples
-		struct outputBuffer* outBuf = pyramicAllocateOutputBuffer(p, 2*inBuf->samplesPerMic);
+		struct inputBuffer inBuf = pyramicGetInputBuffer(p, 0); // 0 for 1st half, but we can indeed get all samples
+		struct outputBuffer outBuf = pyramicGetOutputBuffer(p, 2*inBuf.samplesPerMic);
 
 		uint32_t i;
-		for(i = 0; i < inBuf->samplesPerMic; i++) { // two halves
-			outBuf->samples[2*i] = inBuf->samples[48*i]; // L microphone 6
-			outBuf->samples[2*i+1] = inBuf->samples[48*i + 1]; // R
+		for(i = 0; i < inBuf.samplesPerMic; i++) { // two halves
+			outBuf.samples[2*i] = inBuf.samples[48*i]; // L microphone 6
+			outBuf.samples[2*i+1] = inBuf.samples[48*i + 1]; // R
 		}
 
 		printf("Output buffer filled !\n");

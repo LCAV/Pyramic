@@ -11,7 +11,6 @@
 #include <pyramicio.h>
 #include <string.h>
 #include "make_wav.h"
-//#include <unistd.h>
 
 int main(int argc, char* argv[])
 {
@@ -79,19 +78,19 @@ int main(int argc, char* argv[])
 	while(pyramicGetCurrentBufferHalf(p) != 0) {
 	}
 
-	struct inputBuffer* inbuf = pyramicGetInputBuffer(p, 0);
+	struct inputBuffer inbuf = pyramicGetInputBuffer(p, 0);
 
 	/* Wait for capture finish */
 
 	for(int i = 0; i < micListLength; i++)
 	{
 		printf("Handling microphone %d\n", micList[i]);
-		int16_t* buffer = malloc(inbuf->samplesPerMic * sizeof(uint16_t));
-		int numSamples = inbuf->samplesPerMic;
+		int16_t* buffer = malloc(inbuf.samplesPerMic * sizeof(uint16_t));
+		int numSamples = inbuf.samplesPerMic;
 		for(int sample = 0; sample < numSamples; sample++)
 		{
 			int sampleInBuf = 48 * sample + micList[i];
-			buffer[sample] = inbuf->samples[sampleInBuf];
+			buffer[sample] = inbuf.samples[sampleInBuf];
 		}
 
 		char* filename;

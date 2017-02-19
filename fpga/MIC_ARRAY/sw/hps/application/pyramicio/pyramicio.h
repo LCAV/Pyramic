@@ -94,24 +94,19 @@ void pyramicDeinitPyramic(struct pyramic *p);
  * This parameter is useful for continuous captures where it is safe to use a
  * single half of the buffer at a time.
  */
-struct inputBuffer *pyramicGetInputBuffer(struct pyramic *p, int bufferHalf);
+struct inputBuffer pyramicGetInputBuffer(struct pyramic *p, int bufferHalf);
 /** Gets the number of the half on which the Pyramic is currently recording
  * samples. The other half can be safely used for processing the signal.
  * @param p The Pyramic object structure on which the function is executed.
  */
 int pyramicGetCurrentBufferHalf(struct pyramic *p);
-/** Allocates memory as a buffer to output samples.
+/** Gets handle to output buffer memory for output samples.
  * @param p The Pyramic object structure on which the function is executed.
  * @param lengthInSamples The nummber of samples that the output buffer will
  * hold.
  * Note that the output frequency is 48000 Hz.
  */
-struct outputBuffer *pyramicAllocateOutputBuffer(struct pyramic *p, uint32_t lengthInSamples);
-/** Sets the Pyramic output buffer to be the specified address space.
- * @param p The Pyramic object structure on which the function is executed.
- * @param outputBuffer The output buffer that has to be freed.
- */
-void pyramicDeallocateOutputBuffer(struct pyramic *p, struct outputBuffer *outputBuffer);
+struct outputBuffer pyramicGetOutputBuffer(struct pyramic *p, uint32_t lengthInSamples);
 
 /** Starts a continuous capture on the Pyramic array.
  * @param p The Pyramic object structure on which the function is executed.
@@ -145,9 +140,9 @@ int pyramicStopCapture(struct pyramic *p);
 int pyramicSelectOutputSource(struct pyramic *p, int source);
 /** Sets the Pyramic's output buffer as the designated one.
  * @param p The Pyramic object structure on which the function is executed.
- * @param outputBuffer An output buffer that has been allocated with
- * pyramicAllocateOutputBuffer().
+ * @param outputBuffer An output buffer that has been obtained with
+ * pyramicGetOutputBuffer().
  */
-int pyramicSetOutputBuffer(struct pyramic *p, struct outputBuffer *outputBuffer);
+int pyramicSetOutputBuffer(struct pyramic *p, struct outputBuffer outputBuffer);
 
 #endif /* PYRAMICIO_PYRAMICIO_H_ */
