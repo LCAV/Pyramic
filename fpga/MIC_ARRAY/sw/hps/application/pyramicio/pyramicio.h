@@ -98,6 +98,7 @@ struct inputBuffer pyramicGetInputBuffer(struct pyramic *p, int bufferHalf);
 /** Gets the number of the half on which the Pyramic is currently recording
  * samples. The other half can be safely used for processing the signal.
  * @param p The Pyramic object structure on which the function is executed.
+ * Returns 1 for the first buffer, and 2 for the second buffer.
  */
 int pyramicGetCurrentBufferHalf(struct pyramic *p);
 /** Gets handle to output buffer memory for output samples.
