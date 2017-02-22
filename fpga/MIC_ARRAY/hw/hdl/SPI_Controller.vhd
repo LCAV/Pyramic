@@ -109,18 +109,6 @@ architecture comp of SPI_Controller is
     signal aux2        : std_logic;
     signal CONVST      : std_logic;
 
-    -- Declare FIFO1 component
-    component FIFO_Mic
-        port(
-            clock : in  std_logic;
-            data  : in  std_logic_vector(15 downto 0);
-            rdreq : in  std_logic;
-            wrreq : in  std_logic;
-            q     : out std_logic_vector(15 downto 0);
-            usedw : out std_logic_vector(2 downto 0)
-        );
-    end component;
-
 begin
     -- SCLK generator
     clk_prescaler : process(reset_n, clk)
@@ -168,7 +156,7 @@ begin
 
     -- Create FIFO for 48 mics
     G1 : for i in 0 to 47 generate
-        FIFO_Mic_inst : FIFO_Mic
+        FIFO_Mic_inst : entity work.FIFO_Mic
         port map(
             clock => clk,
             data  => po(i),             -- Input
