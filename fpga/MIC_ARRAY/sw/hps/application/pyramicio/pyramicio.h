@@ -36,7 +36,7 @@
  */
 struct inputBuffer {
     /** How many microphones the Pyramic array has. */
-    int microphoneCount;
+    uint32_t microphoneCount;
     /** How many samples the buffer contains. */
     uint32_t totalSampleCount;
     /** How many samples are found for each microphone in the buffer. */
@@ -72,7 +72,7 @@ struct pyramic {
     void *reserved_memory;
     void *output_memory;
 
-    int captureDuration;
+    uint32_t captureDurationSec;
 };
 
 /** Initializes the Pyramic array and returns a reference to the associated
@@ -94,13 +94,13 @@ void pyramicDeinitPyramic(struct pyramic *p);
  * This parameter is useful for continuous captures where it is safe to use a
  * single half of the buffer at a time.
  */
-struct inputBuffer pyramicGetInputBuffer(struct pyramic *p, int bufferHalf);
+struct inputBuffer pyramicGetInputBuffer(struct pyramic *p, uint32_t bufferHalf);
 /** Gets the number of the half on which the Pyramic is currently recording
  * samples. The other half can be safely used for processing the signal.
  * @param p The Pyramic object structure on which the function is executed.
  * Returns 1 for the first buffer, and 2 for the second buffer.
  */
-int pyramicGetCurrentBufferHalf(struct pyramic *p);
+uint32_t pyramicGetCurrentBufferHalf(struct pyramic *p);
 /** Gets handle to output buffer memory for output samples.
  * @param p The Pyramic object structure on which the function is executed.
  * @param lengthInSamples The nummber of samples that the output buffer will
@@ -118,14 +118,14 @@ struct outputBuffer pyramicGetOutputBuffer(struct pyramic *p, uint32_t lengthInS
  * of it can be entirely processed while the other half is under capture.
  * You can get the capture buffers through the pyramicGetInputBuffer() function.
  */
-int pyramicStartCapture(struct pyramic *p, int bufferLengthInSeconds);
+int pyramicStartCapture(struct pyramic *p, uint32_t bufferLengthInSeconds);
 /** Starts a fixed length capture on the Pyramic array.
  * @param p The Pyramic object structure on which the function is executed.
  * @param durationInSeconds The duration of the capture.
  * After the capture, you will be able to get the samples through the
  * pyramicGetInputBuffer() function.
  */
-int pyramicFixedLengthCapture(struct pyramic *p, int durationInSeconds);
+int pyramicFixedLengthCapture(struct pyramic *p, uint32_t durationInSeconds);
 /** Stops the ongoing capture on the Pyramic array at the end of the current sample.
  * @param p The Pyramic object structure on which the function is executed.
  */

@@ -56,7 +56,7 @@ struct pyramic *pyramicInitializePyramic() {
     p->h2f_lw_axi_master_ofst = ALT_LWFPGASLVS_OFST;
 
     p->fd_dev_mem = open("/dev/mem", O_RDWR | O_SYNC);
-    if (p->fd_dev_mem == -1){
+    if (p->fd_dev_mem == -1) {
         free(p);
         return NULL;
     }
@@ -104,44 +104,24 @@ struct pyramic *pyramicInitializePyramic() {
     return p;
 }
 
-struct inputBuffer pyramicGetInputBuffer(struct pyramic *p, int bufferHalf)
-{
-    /*
-     * struct inputBuffer {
-        int microphoneCount;
-        uint32_t totalSampleCount;
-        uint32_t samplesPerMic;
-        int16_t *samples;
-    };
-    */
-
+struct inputBuffer pyramicGetInputBuffer(struct pyramic *p, uint32_t bufferHalf) {
     struct inputBuffer b = {0};
     b.microphoneCount = NUM_BOARDS * MICS_PER_BOARD;
-    b.totalSampleCount = p->captureDuration * SAMPLING_FREQUENCY * b.microphoneCount;
-    b.samplesPerMic = p->captureDuration * SAMPLING_FREQUENCY;
+    b.totalSampleCount = p->captureDurationSec * SAMPLING_FREQUENCY * b.microphoneCount;
+    b.samplesPerMic = p->captureDurationSec * SAMPLING_FREQUENCY;
     b.samples = (int16_t *)(p->reserved_memory) + bufferHalf * (b.totalSampleCount >> 1);
 
     return b;
 }
 
-int pyramicGetCurrentBufferHalf(struct pyramic *p)
-{
-    int buf1 = alt_read_word(p->fpga_SPI_System + BUFFER1);
-    int buf2 = alt_read_word(p->fpga_SPI_System + BUFFER2);
+uint32_t pyramicGetCurrentBufferHalf(struct pyramic *p) {
+    uint32_t buf1 = alt_read_word(p->fpga_SPI_System + BUFFER1);
+    uint32_t buf2 = alt_read_word(p->fpga_SPI_System + BUFFER2);
 
     return 2 * buf2 + buf1;
 }
 
-struct outputBuffer pyramicGetOutputBuffer(struct pyramic *p, uint32_t lengthInSamples)
-{
-/*
-    struct outputBuffer {
-        int baseAddress;
-        uint32_t length;
-        int16_t *samples;
-    };
-*/
-
+struct outputBuffer pyramicGetOutputBuffer(struct pyramic *p, uint32_t lengthInSamples) {
     struct outputBuffer o = {0};
     o.baseAddress = SEC_MEMORY_OFFSET_PHY; // TODO allow for multiple buffers that we swap
     o.length = lengthInSamples; // 16 bits per sample in stereo make 32 bit words
@@ -149,23 +129,22 @@ struct outputBuffer pyramicGetOutputBuffer(struct pyramic *p, uint32_t lengthInS
     return o;
 }
 
-int pyramicStartCapture(struct pyramic *p, int bufferLengthInSeconds)
-{
-    int num_samples = bufferLengthInSeconds * SAMPLING_FREQUENCY * NUM_MICS;
+int pyramicStartCapture(struct pyramic *p, uint32_t bufferLengthInSeconds) {
+    uint32_t num_samples = bufferLengthInSeconds * SAMPLING_FREQUENCY * NUM_MICS;
 
-    p->captureDuration = bufferLengthInSeconds;
+    p->captureDurationSec = bufferLengthInSeconds;
 
     alt_write_word(p->fpga_SPI_System + LENGTH_REG, num_samples);
     alt_write_word(p->fpga_SPI_System + ADDRESS_REG, RESERVED_MEMORY_OFFSET_PHY);
 
     uint32_t wraddr = 0;
-    if(RESERVED_MEMORY_OFFSET_PHY != (wraddr = alt_read_word(p->fpga_SPI_System + ADDRESS_REG)))
+    if(RESERVED_MEMORY_OFFSET_PHY != (wraddr = alt_read_word(p->fpga_SPI_System + ADDRESS_REG))) {
         return -EINVAL;
+    }
 
     // Start the acquisition: Send a low-active pulse
     alt_write_word(p->fpga_SPI_System + START_REG, START);
     return 0;
-
 }
 
 int pyramicStopCapture(struct pyramic *p) {
@@ -173,17 +152,16 @@ int pyramicStopCapture(struct pyramic *p) {
     return 0;
 }
 
-int pyramicFixedLengthCapture(struct pyramic *p, int durationInSeconds)
-{
+int pyramicFixedLengthCapture(struct pyramic *p, uint32_t durationInSeconds) {
     int captSucc;
-    if((captSucc = pyramicStartCapture(p, durationInSeconds)) == 0)
+    if((captSucc = pyramicStartCapture(p, durationInSeconds)) == 0) {
         pyramicStopCapture(p);
+    }
 
     return captSucc;
 }
 
-void pyramicDeinitPyramic(struct pyramic *p)
-{
+void pyramicDeinitPyramic(struct pyramic *p) {
     munmap(p->h2f_lw_axi_master, p->h2f_lw_axi_master_span);
     close(p->fd_dev_mem);
 
@@ -191,7 +169,7 @@ void pyramicDeinitPyramic(struct pyramic *p)
 }
 
 int pyramicSelectOutputSource(struct pyramic *p, int source) {
-    alt_write_word(p->fpga_Output_Controller + USE_MEMORY_REG, (source & 0x01) );
+    alt_write_word(p->fpga_Output_Controller + USE_MEMORY_REG, (source & 0x01));
     return 0;
 }
 
@@ -199,11 +177,11 @@ int pyramicSetOutputBuffer(struct pyramic *p, struct outputBuffer outputBuffer) 
     alt_write_word(p->fpga_Output_Controller + BASE_RDADDR_REG, outputBuffer.baseAddress);
     uint32_t check = alt_read_word(p->fpga_Output_Controller + BASE_RDADDR_REG);
 
-    if(check != outputBuffer.baseAddress)
+    if(check != outputBuffer.baseAddress) {
         return -EINVAL;
+    }
 
     alt_write_word(p->fpga_Output_Controller + SOUND_LEN_REG, outputBuffer.length);
 
     return 0;
 }
-
