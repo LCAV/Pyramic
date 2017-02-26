@@ -21,7 +21,7 @@ int main(void)
 		// Silence
 		pyramicSelectOutputSource(p, SRC_BEAMFORMER);
 
-		pyramicFixedLengthCapture(p, 5);
+		pyramicFixedLengthCapture(p, 5000);
 
 		usleep(200);
 		while(pyramicGetCurrentBufferHalf(p) != 0) {

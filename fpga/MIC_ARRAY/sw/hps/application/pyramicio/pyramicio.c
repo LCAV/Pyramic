@@ -46,6 +46,10 @@
 #define MICS_PER_BOARD     (8)                         // Microphones per board
 #define NUM_MICS           (MICS_PER_BOARD*NUM_BOARDS) // Total number of microphones during acquisition
 
+uint32_t sampleCount(uint32_t durationInMilliseconds, uint32_t samplingFrequency, uint32_t microphoneCount) {
+    return (uint32_t) ((durationInMilliseconds / 1000.0) * samplingFrequency * microphoneCount);
+}
+
 struct pyramic *pyramicInitializePyramic() {
     struct pyramic *p = malloc(sizeof(struct pyramic));
     if (p == NULL) {
@@ -107,8 +111,8 @@ struct pyramic *pyramicInitializePyramic() {
 struct inputBuffer pyramicGetInputBuffer(struct pyramic *p, uint32_t bufferHalf) {
     struct inputBuffer b = {0};
     b.microphoneCount = NUM_BOARDS * MICS_PER_BOARD;
-    b.totalSampleCount = p->captureDurationSec * SAMPLING_FREQUENCY * b.microphoneCount;
-    b.samplesPerMic = p->captureDurationSec * SAMPLING_FREQUENCY;
+    b.totalSampleCount = sampleCount(p->captureDurationMs, SAMPLING_FREQUENCY, b.microphoneCount);
+    b.samplesPerMic = sampleCount(p->captureDurationMs, SAMPLING_FREQUENCY, 1);
     b.samples = (int16_t *)(p->reserved_memory) + bufferHalf * (b.totalSampleCount >> 1);
 
     return b;
@@ -129,10 +133,10 @@ struct outputBuffer pyramicGetOutputBuffer(struct pyramic *p, uint32_t lengthInS
     return o;
 }
 
-int pyramicStartCapture(struct pyramic *p, uint32_t bufferLengthInSeconds) {
-    uint32_t num_samples = bufferLengthInSeconds * SAMPLING_FREQUENCY * NUM_MICS;
+int pyramicStartCapture(struct pyramic *p, uint32_t durationInMilliseconds) {
+    uint32_t num_samples = sampleCount(durationInMilliseconds, SAMPLING_FREQUENCY, NUM_MICS);
 
-    p->captureDurationSec = bufferLengthInSeconds;
+    p->captureDurationMs = durationInMilliseconds;
 
     alt_write_word(p->fpga_SPI_System + LENGTH_REG, num_samples);
     alt_write_word(p->fpga_SPI_System + ADDRESS_REG, RESERVED_MEMORY_OFFSET_PHY);
@@ -152,9 +156,9 @@ int pyramicStopCapture(struct pyramic *p) {
     return 0;
 }
 
-int pyramicFixedLengthCapture(struct pyramic *p, uint32_t durationInSeconds) {
+int pyramicFixedLengthCapture(struct pyramic *p, uint32_t durationInMilliseconds) {
     int captSucc;
-    if((captSucc = pyramicStartCapture(p, durationInSeconds)) == 0) {
+    if((captSucc = pyramicStartCapture(p, durationInMilliseconds)) == 0) {
         pyramicStopCapture(p);
     }
 

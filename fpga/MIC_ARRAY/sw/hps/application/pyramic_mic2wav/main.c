@@ -14,7 +14,7 @@
 
 int main(int argc, char* argv[])
 {
-	// Usage : pyramic_mic2wav -i <comma separated list> -p <prefix> -d <duration_in_seconds>
+	// Usage : pyramic_mic2wav -i <comma separated list> -p <prefix> -d <duration_in_milliseconds>
 	unsigned short* micList = NULL;
 	unsigned short micListLength = 0;
 	unsigned int duration = 0;
