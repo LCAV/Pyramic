@@ -63,7 +63,7 @@ sdcard_a2_dir="$(readlink -m "sdcard/a2")"
 sdcard_a2_preloader_bin_file="$(readlink -m "${sdcard_a2_dir}/$(basename "${preloader_bin_file}")")"
 
 sdcard_partition_size_fat32="32M"
-sdcard_partition_size_linux="2G"
+sdcard_partition_size_linux="7G"
 
 sdcard_partition_number_fat32="1"
 sdcard_partition_number_ext3="2"
