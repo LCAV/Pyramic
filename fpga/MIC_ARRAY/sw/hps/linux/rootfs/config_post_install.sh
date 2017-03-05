@@ -16,7 +16,7 @@ sudo perl -pi -e 's/^#+\s+(deb\s+http)/$1/g' "/etc/apt/sources.list"
 # server and a remote gdb server to be available on the target. These are easy
 # to install as we have a package manager available
 sudo apt update
-sudo apt -y install ssh gdbserver
+sudo apt -y install ssh gdbserver nano ntp
 
 # Allow root SSH login with password (needed so we can use ARM DS-5 for remote
 # debugging)
