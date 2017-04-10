@@ -48,6 +48,18 @@ rootfs_src_tgz_file="$(readlink -m "${rootfs_dir}/${rootfs_src_tgz_link##*/}")"
 rootfs_system_config_script_file="${rootfs_dir}/config_system.sh"
 rootfs_post_install_config_script_file="${rootfs_dir}/config_post_install.sh"
 
+software_dir="$(readlink -m "sw/hps/application")"
+software_target_dir="${rootfs_chroot_dir}/opt/pyramic"
+
+pyramicio_dir="${software_dir}/pyramicio"
+pyramicio_so_file="libpyramicio.so"
+pyramicio_h_file="pyramicio.h"
+pyramicio_so_target="${rootfs_dir}/usr/lib"
+pyramicio_h_target="${rootfs_dir}/usr/include"
+pyramicio_so_chroot_target="${rootfs_chroot_dir}/usr/lib"
+pyramicio_h_chroot_target="${rootfs_chroot_dir}/usr/include"
+
+
 sdcard_fat32_dir="$(readlink -m "sdcard/fat32")"
 sdcard_fat32_rbf_file="$(readlink -m "${sdcard_fat32_dir}/socfpga.rbf")"
 sdcard_fat32_uboot_img_file="$(readlink -m "${sdcard_fat32_dir}/$(basename "${uboot_img_file}")")"
@@ -410,7 +422,15 @@ EOF
 
     # copy chroot POST-INSTALL configuration script to chroot directory
     sudo cp "${rootfs_post_install_config_script_file}" "${rootfs_chroot_dir}"
-
+    
+    # copy the shared library
+    sudo cp -rf "${pyramicio_so_target}/${pyramicio_so_file}" "${pyramicio_so_chroot_target}"
+    sudo cp -rf "${pyramicio_h_target}/${pyramicio_h_file}" "${pyramicio_h_chroot_target}"
+    
+    # create directory containing the applications
+    sudo mkdir -p "${software_target_dir}"
+    sudo cp -rf "${software_dir}" "${software_target_dir}"
+    
     # create archive of updated rootfs
     pushd "${rootfs_chroot_dir}"
     sudo tar -czpf "${sdcard_ext3_rootfs_tgz_file}" .
@@ -482,6 +502,33 @@ write_sdcard() {
     rm -rf "${sdcard_dev_ext3_mount_point}"
 }
 
+compile_pyramicio() {
+    # Create the target directory for the headers that come out of Quartus
+    mkdir -p "${software_dir}/hw_headers/"
+
+    sopc-create-header-files \
+    "${quartus_dir}/Pyramic_Array.sopcinfo" \
+    --output-dir "${software_dir}/hw_headers/"
+
+    pushd "${pyramicio_dir}"
+    
+    # Compile the library
+    make clean
+    make
+    
+    # Create the target directories for the binaries if they don't
+    # already exist
+    mkdir -p "${pyramicio_so_target}"
+    mkdir -p "${pyramicio_h_target}"
+    
+    # Copy the compiled binary and header right to the system
+    cp "${pyramicio_so_file}" "${pyramicio_so_target}"
+    cp "${pyramicio_h_file}" "${pyramicio_h_target}"
+    
+    popd
+}
+
+
 # Script execution #############################################################
 
 # Report script line number on any error (non-zero exit code).
@@ -496,6 +543,7 @@ compile_quartus_project
 compile_preloader
 compile_uboot
 compile_linux
+compile_pyramicio
 create_rootfs
 
 # Write sdcard if it exists

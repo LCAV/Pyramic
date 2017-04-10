@@ -18,6 +18,12 @@ sudo perl -pi -e 's/^#+\s+(deb\s+http)/$1/g' "/etc/apt/sources.list"
 sudo apt update
 sudo apt -y install ssh gdbserver nano ntp
 
+# Allow compiling binaries directly on the target board by installing the
+# standard compilation toolchain. Since the library for exploiting the Pyramic
+# ships with the base system image, a developer does not need Altera's libaries
+# to compile, thus this can be done directly on the board.
+sudo apt -y install gcc make binutils
+
 # Allow root SSH login with password (needed so we can use ARM DS-5 for remote
 # debugging)
 sudo perl -pi -e 's/^(PermitRootLogin) without-password$/$1 yes/g' "/etc/ssh/sshd_config"
