@@ -3,7 +3,7 @@ LIBS =
 CC = arm-linux-gnueabihf-gcc
 CFLAGS = -g -Wall -Wextra -O0 -fpic -Dsoc_cv_av
 LDFLAGS = -shared
-INCS = -I"../hw_headers" -I"/opt/altera_lite/16.0/embedded/ip/altera/hps/altera_hps/hwlib/include/soc_cv_av" -I"/opt/altera_lite/16.0/embedded/ip/altera/hps/altera_hps/hwlib/include"
+INCS = -I"../hw_headers" -I "$(SOCEDS_DEST_ROOT)/ip/altera/hps/altera_hps/hwlib/include/soc_cv_av" -I"$(SOCEDS_DEST_ROOT)/ip/altera/hps/altera_hps/hwlib/include"
 
 .PHONY: default all clean
 
