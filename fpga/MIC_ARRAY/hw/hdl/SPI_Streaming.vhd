@@ -55,23 +55,9 @@ architecture streaming of SPI_Streaming is
     signal Source_Ready : std_logic;
     signal Source_Data  : std_logic_vector(21 downto 0);
 
-    component FIFO_Streaming
-        port(
-            data    : in  std_logic_vector(31 downto 0);
-            rdclk   : in  std_logic;
-            rdreq   : in  std_logic;
-            wrclk   : in  std_logic;
-            wrreq   : in  std_logic;
-            q       : out std_logic_vector(15 downto 0);
-            wrempty : out std_logic;
-            wrfull  : out std_logic;
-            wrusedw : out std_logic_vector(5 downto 0)
-        );
-    end component;
-
--- Create FIFO component
 begin
-    FIFO_Streaming_inst : FIFO_Streaming
+    -- Create FIFO component
+    FIFO_Streaming_inst : entity work.FIFO_Streaming
     port map(
         data    => Streaming_Data,
         rdclk   => clk,
@@ -83,8 +69,8 @@ begin
         wrfull  => wrfull,
         wrusedw => wrusedw
     );
-    -- processes
 
+    -- processes
     streaming : process(clk, reset_n)
     begin
         if reset_n = '0' then

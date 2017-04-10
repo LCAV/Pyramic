@@ -82,123 +82,8 @@ architecture project of SPI_System is
     signal Streaming_Valid, Streaming_Ready           : std_logic;
     signal Streaming_Data                             : std_logic_vector(31 downto 0);
 
-    component SPI_Controller
-        port(
-            -- System signals
-            clk      : in  std_logic;  -- clk will be 48 MHz, enough to respect timings
-            reset_n  : in  std_logic;
-            -- Interface with ADC
-            reset    : out std_logic;
-            busy_OR0 : in  std_logic;
-            busy_OR1 : in  std_logic;
-            busy_OR2 : in  std_logic;
-            MISO_00  : in  std_logic;
-            MISO_01  : in  std_logic;
-            MISO_10  : in  std_logic;
-            MISO_11  : in  std_logic;
-            MISO_20  : in  std_logic;
-            MISO_21  : in  std_logic;
-            CONVST0  : out std_logic;
-            CONVST1  : out std_logic;
-            CONVST2  : out std_logic;
-            CS_n     : out std_logic;
-            SCLK     : out std_logic;  -- SCLK will be 10 MHz, enough to respect timings
-
-            -- Interface with slave
-            Start          : in    std_logic;
-            -- Interface with DMA
-            Data           : out   std_logic_vector(31 downto 0);
-            DataRd         : in    std_logic;
-            sel            : in    std_logic_vector(2 downto 0);
-            array_vector   : in    std_logic_vector(2 downto 0);
-            Data_Available : out   std_logic;  -- Wait till 32*48 data available (i.e. 1536)
-            Stop           : inout std_logic
-        );
-
-    end component;
-
-    component SPI_Slave
-        port(
-            -- Global signals
-            Clk          : in  std_logic;
-            reset_n      : in  std_logic;
-            -- Signals from controller
-            AS_Addr      : in  std_logic_vector(2 downto 0);
-            AS_Write     : in  std_logic;
-            AS_Read      : in  std_logic;
-            AS_WriteData : in  std_logic_vector(31 downto 0);
-            AS_ReadData  : out std_logic_vector(31 downto 0);
-            -- Interface with SPI_controller and DMA
-            RegAddStart  : out std_logic_vector(31 downto 0);
-            RegLgt       : out std_logic_vector(31 downto 0);
-            Start        : out std_logic;
-            Buffer1      : in  std_logic;
-            Buffer2      : in  std_logic;
-            DMA_Stop     : in  std_logic
-        );
-    end component;
-
-    component SPI_DMA
-        port(
-            -- Global signals
-            clk            : in    std_logic;
-            reset_n        : in    std_logic;
-            -- DMA Control signals
-            AM_Addr        : out   std_logic_vector(31 downto 0);
-            AM_ByteEnable  : out   std_logic_vector(3 downto 0);
-            AM_BurstCount  : out   std_logic_vector(2 downto 0);
-            AM_Write       : out   std_logic;
-            AM_DataWrite   : out   std_logic_vector(31 downto 0);
-            AM_WaitRequest : in    std_logic;
-            -- SPI interface signals
-            Data           : in    std_logic_vector(31 downto 0);
-            Data_Available : in    std_logic;
-            sel            : out   std_logic_vector(2 downto 0);
-            array_vector   : out   std_logic_vector(2 downto 0);
-            DataRd         : out   std_logic;
-            -- Slave signals
-            RegAddStart    : in    std_logic_vector(31 downto 0);
-            RegLgt         : in    std_logic_vector(31 downto 0);
-            Start          : in    std_logic;
-            Stop           : inout std_logic;
-            Buffer1        : out   std_logic;
-            Buffer2        : out   std_logic;
-
-            -- Avalon ST interface
-            Streaming_Ready : in  std_logic;
-            Streaming_Valid : out std_logic;
-            Streaming_Data  : out std_logic_vector(31 downto 0)
-        );
-    end component;
-
-    component SPI_Streaming
-        port(
-            -- Global signals
-            clk             : in  std_logic;
-            reset_n         : in  std_logic;
-            -- DMA Control signals
-            Streaming_Data  : in  std_logic_vector(31 downto 0);
-            Streaming_Valid : in  std_logic;
-            Streaming_Ready : out std_logic;
-
-            -- Avalon ST source interface Left
-            Source_Data_Left  : out std_logic_vector(21 downto 0);
-            Source_sop_Left   : out std_logic;
-            Source_eop_Left   : out std_logic;
-            Source_Valid_Left : out std_logic;
-            Source_Ready_Left : in  std_logic;
-
-            -- Avalon ST source interface Right
-            Source_Data_Right  : out std_logic_vector(21 downto 0);
-            Source_sop_Right   : out std_logic;
-            Source_eop_Right   : out std_logic;
-            Source_Valid_Right : out std_logic;
-            Source_Ready_Right : in  std_logic
-        );
-    end component;
-
 begin
-    Controller : SPI_Controller
+    Controller : entity work.SPI_Controller
     port map(
         clk      => clk,
         reset_n  => reset_n,
@@ -231,7 +116,7 @@ begin
         Stop           => Stop
     );
 
-    DMA : SPI_DMA
+    DMA : entity work.SPI_DMA
     port map(
         clk             => clk,
         reset_n         => reset_n,
@@ -257,7 +142,7 @@ begin
         Streaming_Ready => Streaming_Ready
     );
 
-    Slave : SPI_Slave
+    Slave : entity work.SPI_Slave
     port map(
         clk          => clk,
         reset_n      => reset_n,
@@ -274,7 +159,7 @@ begin
         DMA_Stop     => Stop
     );
 
-    Streaming : SPI_Streaming
+    Streaming : entity work.SPI_Streaming
     port map(
         -- Global signals
         clk             => clk,
