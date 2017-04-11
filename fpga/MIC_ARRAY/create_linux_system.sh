@@ -68,6 +68,7 @@ sdcard_fat32_zImage_file="$(readlink -m "${sdcard_fat32_dir}/zImage")"
 sdcard_fat32_dtb_file="$(readlink -m "${sdcard_fat32_dir}/socfpga.dtb")"
 
 sdcard_dev="$(readlink -m "${1}")"
+sdcard_size="${2}"
 
 sdcard_ext3_rootfs_tgz_file="$(readlink -m "sdcard/ext3_rootfs.tar.gz")"
 
@@ -75,7 +76,7 @@ sdcard_a2_dir="$(readlink -m "sdcard/a2")"
 sdcard_a2_preloader_bin_file="$(readlink -m "${sdcard_a2_dir}/$(basename "${preloader_bin_file}")")"
 
 sdcard_partition_size_fat32="32M"
-sdcard_partition_size_linux="7G"
+sdcard_partition_size_linux="3G"
 
 sdcard_partition_number_fat32="1"
 sdcard_partition_number_ext3="2"
@@ -528,6 +529,72 @@ compile_pyramicio() {
     popd
 }
 
+create_sdimage() {
+    # TODO compute the right sizes: (size to be provided as an argument)
+    # 1M for a2
+    # 32M for Fat32
+    # the rest for the sd card
+    
+    # If the image already exists, clear it
+    rm -f "${sdcard_dev}"
+    
+    # Create a 2GB empty SD card image
+    if [ -z "${sdcard_size}" ]; then
+        fallocate -l 1G "${sdcard_dev}"
+    else
+        fallocate -l "${sdcard_size}" "${sdcard_dev}"
+    fi
+    
+    # Create the partition table
+    echo -e "n\np\n3\n\n+1M\nt\na2\nn\np\n1\n\n+32M\nt\n1\nb\nn\np\n2\n\n\n\nt\n2\n83\nw\nq\n" | sudo fdisk "${sdcard_dev}"
+    
+    # Get the size of each sector (logical should be == physical here, so we take logical)
+    bytes_per_sector=$(fdisk -l ./test.img | grep "Sector size" | grep -o "[0-9]* bytes" | head -n 1 | grep -o "[0-9]*")
+    
+    # Get partition table: offsets + sizes for each partition
+    part_table=$(fdisk -l ./test.img | tail -n 5 | head -n 3)
+    
+    offset_fat32_sect=$(echo "${part_table}" | grep "W95 FAT32" | grep -o "[0-9][0-9]*" | head -n 2 | tail -n 1)
+    size_fat32_sect=$(echo "${part_table}" | grep "W95 FAT32" | grep -o "[0-9][0-9]*" | head -n 4 | tail -n 1)
+    
+    offset_linux_sect=$(echo "${part_table}" | grep "Linux" | grep -o "[0-9][0-9]*" | head -n 2 | tail -n 1)
+    size_linux_sect=$(echo "${part_table}" | grep "Linux" | grep -o "[0-9][0-9]*" | head -n 4 | tail -n 1)
+    
+    offset_a2_sect=$(echo "${part_table}" | grep "Unknown" | grep -o "[0-9][0-9]*" | head -n 2 | tail -n 1)
+    size_a2_sect=$(echo "${part_table}" | grep "Unknown" | grep -o "[0-9][0-9]*" | head -n 4 | tail -n 1)
+    
+    offset_fat32=$((${bytes_per_sector} * ${offset_fat32_sect}))
+    offset_a2=$((${bytes_per_sector} * ${offset_a2_sect}))
+    offset_linux=$((${bytes_per_sector} * ${offset_linux_sect}))
+    
+    size_fat32=$((${bytes_per_sector} * ${size_fat32_sect}))
+    size_a2=$((${bytes_per_sector} * ${size_a2_sect}))
+    size_linux=$((${bytes_per_sector} * ${size_linux_sect}))
+    
+    # Create the loop devices in the same order as we will write to them in the sdcard
+    loop_fat32=$(losetup -f)
+    sudo losetup -o ${offset_fat32} --sizelimit ${size_fat32} "${loop_fat32}" "${sdcard_dev}"
+    loop_linux=$(losetup -f)
+    sudo losetup -o ${offset_linux} --sizelimit ${size_linux} "${loop_linux}" "${sdcard_dev}"
+    loop_a2=$(losetup -f)
+    sudo losetup -o ${offset_a2} --sizelimit ${size_a2} "${loop_a2}" "${sdcard_dev}"
+    
+    # Create the filesystems
+    sudo mkfs.vfat "${loop_fat32}"
+    sudo mkfs.ext3 -F "${loop_linux}"
+    
+    sdcard_dev_fat32="${loop_fat32}"
+    sdcard_dev_a2="${loop_a2}"
+    sdcard_dev_ext3="${loop_linux}"
+    
+    write_sdcard
+    
+    sudo losetup -d "${loop_fat32}"
+    sudo losetup -d "${loop_linux}"
+    sudo losetup -d "${loop_a2}"
+    
+}
+
 
 # Script execution #############################################################
 
@@ -550,9 +617,11 @@ create_rootfs
 if [ -z "${sdcard_dev}" ]; then
     echo "sdcard argument not provided => no sdcard written."
 
-elif [ -b "${sdcard_dev}" ]; then
+elif [ -b "${sdcard_dev}" ]; then # actual sdcard
     partition_sdcard
     write_sdcard
+else # create sdcard image
+    create_sdimage
 fi
 
 # Make sure MSEL = 000000
