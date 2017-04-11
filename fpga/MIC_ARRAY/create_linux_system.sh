@@ -36,7 +36,10 @@ linux_dir="$(readlink -m "sw/hps/linux")"
 linux_src_git_repo="https://github.com/altera-opensource/linux-socfpga.git"
 linux_src_dir="$(readlink -m "${linux_dir}/source")"
 linux_src_git_checkout_commit="ffea805b5209e0e6ad8645217f5ab742455a066b"
+linux_github_url="https://github.com/altera-opensource/linux-socfpga/archive/ffea805b5209e0e6ad8645217f5ab742455a066b.zip"
+linux_zipfile="${linux_dir}/linux-source.zip"
 linux_src_make_config_file="socfpga_defconfig"
+linux_hack_link="linux-socfpga-ffea805b5209e0e6ad8645217f5ab742455a066b"
 linux_kernel_mem_arg="500M"
 linux_zImage_file="$(readlink -m "${linux_src_dir}/arch/arm/boot/zImage")"
 linux_dtb_file="$(readlink -m "${linux_src_dir}/arch/arm/boot/dts/socfpga_cyclone5_socdk.dtb")" # socfpga_cyclone5_de0_sockit.dtb
@@ -342,8 +345,23 @@ EOF
 # compile_linux() ##############################################################
 compile_linux() {
     # if linux source tree doesn't exist, then download it
+    #v
+    #    git clone "${linux_src_git_repo}" "${linux_src_dir}"
+    #fi
+    
+    # Download the archive directly throug Github, this spares a lot of time
+    # rather than cloning the dir, since we know which commit we are
+    # looking for...
     if [ ! -d "${linux_src_dir}" ]; then
-        git clone "${linux_src_git_repo}" "${linux_src_dir}"
+        wget "${linux_github_url}" -O "${linux_zipfile}"
+        
+        mkdir -p "${linux_src_dir}"
+        
+        # HACK omit the toplevel directory by using a symlink that redirects everything
+        ln -s "${linux_src_dir}" "${linux_src_dir}/${linux_hack_link}"
+        
+        unzip "${linux_zipfile}" -d "${linux_src_dir}"
+        rm "${linux_src_dir}/${linux_hack_link}"
     fi
 
     # change working directory to linux source tree directory
@@ -359,7 +377,7 @@ compile_linux() {
     make distclean
 
     # checkout the following commit (tested and working):
-    git checkout "${linux_src_git_checkout_commit}"
+    # git checkout "${linux_src_git_checkout_commit}"
 
     # configure kernel for socfpga architecture
     make "${linux_src_make_config_file}"
@@ -530,11 +548,6 @@ compile_pyramicio() {
 }
 
 create_sdimage() {
-    # TODO compute the right sizes: (size to be provided as an argument)
-    # 1M for a2
-    # 32M for Fat32
-    # the rest for the sd card
-    
     # If the image already exists, clear it
     rm -f "${sdcard_dev}"
     
@@ -549,10 +562,10 @@ create_sdimage() {
     echo -e "n\np\n3\n\n+1M\nt\na2\nn\np\n1\n\n+32M\nt\n1\nb\nn\np\n2\n\n\n\nt\n2\n83\nw\nq\n" | sudo fdisk "${sdcard_dev}"
     
     # Get the size of each sector (logical should be == physical here, so we take logical)
-    bytes_per_sector=$(fdisk -l ./test.img | grep "Sector size" | grep -o "[0-9]* bytes" | head -n 1 | grep -o "[0-9]*")
+    bytes_per_sector=$(fdisk -l "${sdcard_dev}" | grep "Sector size" | grep -o "[0-9]* bytes" | head -n 1 | grep -o "[0-9]*")
     
     # Get partition table: offsets + sizes for each partition
-    part_table=$(fdisk -l ./test.img | tail -n 5 | head -n 3)
+    part_table=$(fdisk -l "${sdcard_dev}" | tail -n 5 | head -n 3)
     
     offset_fat32_sect=$(echo "${part_table}" | grep "W95 FAT32" | grep -o "[0-9][0-9]*" | head -n 2 | tail -n 1)
     size_fat32_sect=$(echo "${part_table}" | grep "W95 FAT32" | grep -o "[0-9][0-9]*" | head -n 4 | tail -n 1)
