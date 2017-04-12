@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash 
 
 # ===================================================================================
 # usage: create_linux_system.sh [sdcard_device]
@@ -6,6 +6,13 @@
 # positional arguments:
 #     sdcard_device    path to sdcard device file    [ex: "/dev/sdb", "/dev/mmcblk0"]
 # ===================================================================================
+
+# Make sure we have Quartus' tools at our disposal
+if [ -z "${QUARTUS_ROOTDIR}" ]; then
+    echo "QUARTUS_ROOTDIR isn't defined. Please open an Embedded Command Shell \
+from Altera in order to be able to compile the Quartus project."
+    exit 1
+fi
 
 # make sure to be in the same directory as this script
 script_dir_abs=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -85,6 +92,8 @@ sdcard_partition_number_fat32="1"
 sdcard_partition_number_ext3="2"
 sdcard_partition_number_a2="3"
 
+makeflags="-j8"
+
 if [ "$(echo "${sdcard_dev}" | grep -P "/dev/sd\w.*$")" ]; then
     sdcard_dev_fat32_id="${sdcard_partition_number_fat32}"
     sdcard_dev_ext3_id="${sdcard_partition_number_ext3}"
@@ -101,10 +110,19 @@ sdcard_dev_a2="${sdcard_dev}${sdcard_dev_a2_id}"
 sdcard_dev_fat32_mount_point="$(readlink -m "sdcard/mount_point_fat32")"
 sdcard_dev_ext3_mount_point="$(readlink -m "sdcard/mount_point_ext3")"
 
+
+# Utility function, by user1088084 
+# Found at http://stackoverflow.com/questions/17615881/simplest-method-to-convert-file-size-with-suffix-to-bytes
+toBytes() {
+ echo $1 | echo $((`sed 's/.*/\L\0/;s/t/Xg/;s/g/Xm/;s/m/Xk/;s/k/X/;s/b//;s/X/ *1024/g'`))
+}
+
+
 # compile_quartus_project() ####################################################
 compile_quartus_project() {
+    echo "Compiling Quartus project..."
     # change working directory to quartus directory
-    pushd "${quartus_dir}"
+    pushd "${quartus_dir}" &>/dev/null
 
     # delete old artifacts
     rm -rf "c5_pin_model_dump.txt" \
@@ -117,26 +135,31 @@ compile_quartus_project() {
            "Pyramic_Array/" \
            "${quartus_project_name}.qws" \
            "${sdcard_fat32_rbf_file}"
+    echo "-> Generating the Qsys entities..."
+    qsys-generate "Pyramic_Array.qsys" --synthesis=VHDL --output-directory="Pyramic_Array/" --part="${fpga_device_part_number}" &>/dev/null
 
-    qsys-generate "Pyramic_Array.qsys" --synthesis=VHDL --output-directory="Pyramic_Array/" --part="${fpga_device_part_number}"
-
+    echo "-> Performing analysis/synthesis..."
     # Analysis and synthesis
-    quartus_map "${quartus_project_name}"
+    quartus_map "${quartus_project_name}" &>/dev/null
 
+    echo "-> Executing pin assignment scripts..."
     # Execute HPS DDR3 pin assignment TCL script
     # it is normal for the following script to report an error, but it was
     # sucessfully executed
     ddr3_pin_assignment_script="$(find . -name "hps_sdram_p0_pin_assignments.tcl")"
-    quartus_sta -t "${ddr3_pin_assignment_script}" "${quartus_project_name}"
+    quartus_sta -t "${ddr3_pin_assignment_script}" "${quartus_project_name}" &>/dev/null
 
+    echo "-> Running the fitter..."
     # Fitter
-    quartus_fit "${quartus_project_name}"
+    quartus_fit "${quartus_project_name}" &>/dev/null
 
+    echo "-> Generating the assembled programmer files..."
     # Assembler
-    quartus_asm "${quartus_project_name}"
+    quartus_asm "${quartus_project_name}" &>/dev/null
 
+    echo "-> Generating the RBF FPGA programming file..."
     # convert .sof to .rbf in associated sdcard directory
-    quartus_cpf -c "${quartus_sof_file}" "${sdcard_fat32_rbf_file}"
+    quartus_cpf -c "${quartus_sof_file}" "${sdcard_fat32_rbf_file}" &>/dev/null
 
     # change working directory back to script directory
     popd
@@ -144,6 +167,7 @@ compile_quartus_project() {
 
 # compile_preloader() ##########################################################
 compile_preloader() {
+    echo "Compiling the preloader..."
     # delete old artifacts
     rm -rf "${preloader_dir}" \
            "${sdcard_a2_preloader_bin_file}"
@@ -152,8 +176,9 @@ compile_preloader() {
     mkdir -p "${preloader_dir}"
 
     # change working directory to preloader directory
-    pushd "${preloader_dir}"
+    pushd "${preloader_dir}" &>/dev/null
 
+    echo "-> Generating the Board Support Package settings..."
     # create bsp settings file
     bsp-create-settings \
     --bsp-dir "${preloader_dir}" \
@@ -204,15 +229,17 @@ compile_preloader() {
     --set spl.reset_assert.SPTIMER1 "0" \
     --set spl.warm_reset_handshake.ETR "1" \
     --set spl.warm_reset_handshake.FPGA "1" \
-    --set spl.warm_reset_handshake.SDRAM "0"
+    --set spl.warm_reset_handshake.SDRAM "0" &>/dev/null
 
+    echo "-> Generating the BSP..."
     # generate bsp
     bsp-generate-files \
     --bsp-dir "${preloader_dir}" \
-    --settings "${preloader_settings_file}"
+    --settings "${preloader_settings_file}" &>/dev/null
 
+    echo "-> Compiling the preloader..."
     # compile preloader
-    make -j4
+    make ${makeflags} &>/dev/null
 
     # copy artifacts to associated sdcard directory
     cp "${preloader_bin_file}" "${sdcard_a2_preloader_bin_file}"
@@ -223,35 +250,39 @@ compile_preloader() {
 
 # compile_uboot ################################################################
 compile_uboot() {
+    echo "Compiling U-Boot..."
     # delete old artifacts
     rm -rf "${sdcard_fat32_uboot_scr_file}" \
            "${sdcard_fat32_uboot_img_file}"
 
     # if uboot source tree doesn't exist, then download it
     if [ ! -d "${uboot_src_dir}" ]; then
-        git clone "${uboot_src_git_repo}" "${uboot_src_dir}"
+        echo "-> Downloading U-Boot..."
+        git clone "${uboot_src_git_repo}" "${uboot_src_dir}" &>/dev/null
     fi
 
     # change working directory to uboot source tree directory
-    pushd "${uboot_src_dir}"
+    pushd "${uboot_src_dir}" &>/dev/null
 
     # use cross compiler instead of standard x86 version of gcc
     export CROSS_COMPILE=arm-linux-gnueabihf-
 
+    echo "-> Cleaning U-Boot source tree..."
     # clean up source tree
-    make distclean
+    make distclean  &>/dev/null
 
     # checkout the following commit (tested and working):
-    git checkout "${uboot_src_git_checkout_commit}"
-
+    git checkout "${uboot_src_git_checkout_commit}" &>/dev/null
+    
+    echo "-> Configuring U-Boot..."
     # configure uboot for socfpga_cyclone5 architecture
-    make "${uboot_src_make_config_file}"
+    make "${uboot_src_make_config_file}"  &>/dev/null
 
     ## patch the uboot configuration file that describes environment variables
     # replace value of CONFIG_BOOTCOMMAND macro (we will always use a script for configuring everything)
     # result:
     #     #define CONFIG_BOOTCOMMAND  "run callscript"
-    perl -pi -e 's/^(#define\s+CONFIG_BOOTCOMMAND)(.*)/$1\t"run callscript"/g' "${uboot_src_config_file}"
+    perl -pi -e 's/^(#define\s+CONFIG_BOOTCOMMAND)(.*)/$1\t"run callscript"/g' "${uboot_src_config_file}" &>/dev/null
 
     # replace value of CONFIG_EXTRA_ENV_SETTINGS macro
     # result:
@@ -260,10 +291,11 @@ compile_uboot() {
     #         "fpgadata=0x2000000" "\0" \
     #         "callscript=fatload mmc 0:1 $fpgadata $scriptfile;" \
     #             "source $fpgadata" "\0"
-    perl -pi -e 'BEGIN{undef $/;} s/^(#define\s+CONFIG_EXTRA_ENV_SETTINGS)(.*)#include/$1\t"scriptfile=u-boot.scr\\0" "fpgadata=0x2000000\\0" "callscript=fatload mmc 0:1 \$fpgadata \$scriptfile; source \$fpgadata\\0"\n\n#include/smg' "${uboot_src_config_file}"
+    perl -pi -e 'BEGIN{undef $/;} s/^(#define\s+CONFIG_EXTRA_ENV_SETTINGS)(.*)#include/$1\t"scriptfile=u-boot.scr\\0" "fpgadata=0x2000000\\0" "callscript=fatload mmc 0:1 \$fpgadata \$scriptfile; source \$fpgadata\\0"\n\n#include/smg' "${uboot_src_config_file}" &>/dev/null
 
+    echo "-> Compiling U-Boot..."
     # compile uboot
-    make -j4
+    make ${makeflags} &>/dev/null
 
     # create uboot script
     cat <<EOF > "${uboot_script_file}"
@@ -332,18 +364,20 @@ run mmcload;
 run mmcboot;
 EOF
 
+    echo "-> Generating U-Boot binary..."
     # compile uboot script to binary form
-    mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "${quartus_project_name}" -d "${uboot_script_file}" "${sdcard_fat32_uboot_scr_file}"
+    mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "${quartus_project_name}" -d "${uboot_script_file}" "${sdcard_fat32_uboot_scr_file}" &>/dev/null
 
     # copy artifacts to associated sdcard directory
     cp "${uboot_img_file}" "${sdcard_fat32_uboot_img_file}"
 
     # change working directory back to script directory
-    popd
+    popd  &>/dev/null
 }
 
 # compile_linux() ##############################################################
 compile_linux() {
+    echo "Compiling the Linux kernel..."
     # if linux source tree doesn't exist, then download it
     #v
     #    git clone "${linux_src_git_repo}" "${linux_src_dir}"
@@ -353,19 +387,20 @@ compile_linux() {
     # rather than cloning the dir, since we know which commit we are
     # looking for...
     if [ ! -d "${linux_src_dir}" ]; then
-        wget "${linux_github_url}" -O "${linux_zipfile}"
+        echo "-> Downloading the Linux kernel..."
+        wget "${linux_github_url}" -O "${linux_zipfile}" &>/dev/null
         
         mkdir -p "${linux_src_dir}"
         
         # HACK omit the toplevel directory by using a symlink that redirects everything
         ln -s "${linux_src_dir}" "${linux_src_dir}/${linux_hack_link}"
         
-        unzip "${linux_zipfile}" -d "${linux_src_dir}"
+        unzip "${linux_zipfile}" -d "${linux_src_dir}" &>/dev/null
         rm "${linux_src_dir}/${linux_hack_link}"
     fi
 
     # change working directory to linux source tree directory
-    pushd "${linux_src_dir}"
+    pushd "${linux_src_dir}" &>/dev/null
 
     # compile for the ARM architecture
     export ARCH=arm
@@ -373,34 +408,39 @@ compile_linux() {
     # use cross compiler instead of standard x86 version of gcc
     export CROSS_COMPILE=arm-linux-gnueabihf-
 
+    echo "-> Cleaning the source tree..."
     # clean up source tree
-    make distclean
+    make distclean &>/dev/null
 
     # checkout the following commit (tested and working):
     # git checkout "${linux_src_git_checkout_commit}"
 
+    echo "-> Configuring the Linux kernel..."
     # configure kernel for socfpga architecture
-    make "${linux_src_make_config_file}"
+    make "${linux_src_make_config_file}" &>/dev/null
 
+    echo "-> Compiling the Linux kernel..."
     # compile zImage
-    make -j4 zImage
+    make ${makeflags} zImage &>/dev/null
 
+    echo "-> Compiling the device tree..."
     # compile device tree
-    make -j4 "$(basename "${linux_dtb_file}")"
+    make ${makeflags} "$(basename "${linux_dtb_file}")" &>/dev/null
 
     # copy artifacts to associated sdcard directory
     cp "${linux_zImage_file}" "${sdcard_fat32_zImage_file}"
     cp "${linux_dtb_file}" "${sdcard_fat32_dtb_file}"
 
     # change working directory back to script directory
-    popd
+    popd  &>/dev/null
 }
 
 # create_rootfs() ##############################################################
 create_rootfs() {
+    echo "Creating the Linux system..."
     # if rootfs tarball doesn't exist, then download it
     if [ ! -f "${rootfs_src_tgz_file}" ]; then
-        wget "${rootfs_src_tgz_link}" -O "${rootfs_src_tgz_file}"
+        wget "${rootfs_src_tgz_link}" -O "${rootfs_src_tgz_file}" &>/dev/null
     fi
 
     # delete old artifacts
@@ -410,11 +450,15 @@ create_rootfs() {
     # create dir to extract rootfs
     mkdir -p "${rootfs_chroot_dir}"
 
+    # TODO fakeroot-sysv here
+    
+    echo "-> Extracting Ubuntu's base image..."
     # extract ubuntu core rootfs
-    pushd "${rootfs_chroot_dir}"
-    sudo tar -xzpf "${rootfs_src_tgz_file}"
+    pushd "${rootfs_chroot_dir}" &>/dev/null
+    sudo tar -xzpf "${rootfs_src_tgz_file}" &>/dev/null
     popd
 
+    echo "-> Configuring Ubuntu..."
     # copy chroot SYSTEM configuration script to chroot directory
     sudo cp "${rootfs_system_config_script_file}" "${rootfs_chroot_dir}"
 
@@ -450,14 +494,18 @@ EOF
     sudo mkdir -p "${software_target_dir}"
     sudo cp -rf "${software_dir}" "${software_target_dir}"
     
+    echo "-> Packing the ext3fs as an archive..."
     # create archive of updated rootfs
-    pushd "${rootfs_chroot_dir}"
-    sudo tar -czpf "${sdcard_ext3_rootfs_tgz_file}" .
+    pushd "${rootfs_chroot_dir}" &>/dev/null
+    sudo tar -czpf "${sdcard_ext3_rootfs_tgz_file}" .  &>/dev/null
     popd
+    
+    # TODO end fakeroot here
 }
 
 # partition_sdcard() ###########################################################
 partition_sdcard() {
+    echo "Partitioning the SD card... Please don't remove the SD card."
     # manually partitioning the sdcard
         # sudo fdisk /dev/sdx
             # use the following commands
@@ -473,45 +521,53 @@ partition_sdcard() {
         # note that you can choose any size for the FAT32 and Linux partitions,
         # but the a2 partition must be 1M.
 
+    echo "-> Partitioning the disk..."
     # automatically partitioning the sdcard
     # wipe partition table
-    sudo dd if="/dev/zero" of="${sdcard_dev}" bs=512 count=1
+    sudo dd if="/dev/zero" of="${sdcard_dev}" bs=512 count=1 &>/dev/null
 
     # create partitions
     # no need to specify the partition number for the first invocation of
     # the "t" command in fdisk, because there is only 1 partition at this
     # point
-    echo -e "n\np\n3\n\n4095\nt\na2\nn\np\n1\n\n+${sdcard_partition_size_fat32}\nt\n1\nb\nn\np\n2\n\n+${sdcard_partition_size_linux}\nt\n2\n83\nw\nq\n" | sudo fdisk "${sdcard_dev}"
+    echo -e "n\np\n3\n\n4095\nt\na2\nn\np\n1\n\n+${sdcard_partition_size_fat32}\nt\n1\nb\nn\np\n2\n\n+${sdcard_partition_size_linux}\nt\n2\n83\nw\nq\n" | sudo fdisk "${sdcard_dev}" &>/dev/null
 
+    echo "-> Creating filesystems..."
     # create filesystems
-    sudo mkfs.vfat "${sdcard_dev_fat32}"
-    sudo mkfs.ext3 -F "${sdcard_dev_ext3}"
+    sudo mkfs.vfat "${sdcard_dev_fat32}" &>/dev/null
+    sudo mkfs.ext3 -F "${sdcard_dev_ext3}" &>/dev/null
 }
 
 # write_sdcard() ###############################################################
 write_sdcard() {
+    echo "Writing data on the SD card or image..."
     # create mount point for sdcard
     mkdir -p "${sdcard_dev_fat32_mount_point}"
     mkdir -p "${sdcard_dev_ext3_mount_point}"
 
+    echo "-> Mounting the partitions..."
     # mount sdcard partitions
     sudo mount "${sdcard_dev_fat32}" "${sdcard_dev_fat32_mount_point}"
     sudo mount "${sdcard_dev_ext3}" "${sdcard_dev_ext3_mount_point}"
 
+    echo "-> Writing the preloader image..."
     # preloader
-    sudo dd if="${sdcard_a2_preloader_bin_file}" of="${sdcard_dev_a2}" bs=64K seek=0
+    sudo dd if="${sdcard_a2_preloader_bin_file}" of="${sdcard_dev_a2}" bs=64K seek=0 &>/dev/null
 
+    echo "-> Copying U-Boot and the FPGA programmer files..."
     # fpga .rbf, uboot .img, uboot .scr, linux zImage, linux .dtb
     sudo cp "${sdcard_fat32_dir}"/* "${sdcard_dev_fat32_mount_point}"
 
+    echo "-> Copying the Linux tree files..."
     # linux rootfs
     pushd "${sdcard_dev_ext3_mount_point}"
-    sudo tar -xzf "${sdcard_ext3_rootfs_tgz_file}"
+    sudo tar -xzf "${sdcard_ext3_rootfs_tgz_file}" &>/dev/null
     popd
 
     # flush write buffers to target
     sudo sync
 
+    echo "-> Unmounting the partitions..."
     # unmount sdcard partitions
     sudo umount "${sdcard_dev_fat32_mount_point}"
     sudo umount "${sdcard_dev_ext3_mount_point}"
@@ -522,12 +578,13 @@ write_sdcard() {
 }
 
 compile_pyramicio() {
+    echo "Compiling the Pyramic I/O library..."
     # Create the target directory for the headers that come out of Quartus
     mkdir -p "${software_dir}/hw_headers/"
 
     sopc-create-header-files \
     "${quartus_dir}/Pyramic_Array.sopcinfo" \
-    --output-dir "${software_dir}/hw_headers/"
+    --output-dir "${software_dir}/hw_headers/" &>/dev/null
 
     pushd "${pyramicio_dir}"
     
@@ -548,63 +605,78 @@ compile_pyramicio() {
 }
 
 create_sdimage() {
+    echo "Creating the SD card image..."
     # If the image already exists, clear it
     rm -f "${sdcard_dev}"
     
-    # Create a 2GB empty SD card image
+    echo "-> Generating an empty image..."
+    # Create a 1GB empty SD card image
+    # NB: we use /dev/zero to fill up the space instead of fallocate(), since
+    # we'll likely do a tar-gz'd version of the image later on -and tar really
+    # prefers sequences of zero to whatever garbage could be on the hard drive!
     if [ -z "${sdcard_size}" ]; then
-        fallocate -l 1G "${sdcard_dev}"
+        echo "The default size for an image is 1GB. Append a size as an extra
+        argument to this script if you want to explicitly specify it."
+        dd if=/dev/zero of="${sdcard_dev}" bs=1k count=1M &>/dev/null # 1k * 1M = 1G bytes 
     else
-        fallocate -l "${sdcard_size}" "${sdcard_dev}"
+        size_in_bytes=$(toBytes "${sdcard_size}")
+        dd_size=$((${size_in_bytes} / 1024))
+        dd if=/dev/zero of="${sdcard_dev}" bs=1k count=${dd_size} &>/dev/null
     fi
     
+    echo "-> Partitioning the image..."
     # Create the partition table
-    echo -e "n\np\n3\n\n+1M\nt\na2\nn\np\n1\n\n+32M\nt\n1\nb\nn\np\n2\n\n\n\nt\n2\n83\nw\nq\n" | sudo fdisk "${sdcard_dev}"
+    echo -e "n\np\n3\n\n+1M\nt\na2\nn\np\n1\n\n+32M\nt\n1\nb\nn\np\n2\n\n\n\nt\n2\n83\nw\nq\n" | sudo fdisk "${sdcard_dev}" &>/dev/null
     
     # Get the size of each sector (logical should be == physical here, so we take logical)
-    bytes_per_sector=$(fdisk -l "${sdcard_dev}" | grep "Sector size" | grep -o "[0-9]* bytes" | head -n 1 | grep -o "[0-9]*")
+    bytes_per_sector=$(fdisk -u=sectors -l "${sdcard_dev}" | grep "Sector size" | grep -o "[0-9]* bytes" | head -n 1 | grep -o "[0-9]*")
     
     # Get partition table: offsets + sizes for each partition
-    part_table=$(fdisk -l "${sdcard_dev}" | tail -n 5 | head -n 3)
+    part_table=$(fdisk -u=sectors -l "${sdcard_dev}" | tail -n 5 | head -n 3)
     
     offset_fat32_sect=$(echo "${part_table}" | grep "W95 FAT32" | grep -o "[0-9][0-9]*" | head -n 2 | tail -n 1)
-    size_fat32_sect=$(echo "${part_table}" | grep "W95 FAT32" | grep -o "[0-9][0-9]*" | head -n 4 | tail -n 1)
+    end_fat32_sect=$(echo "${part_table}" | grep "W95 FAT32" | grep -o "[0-9][0-9]*" | head -n 3 | tail -n 1)
     
     offset_linux_sect=$(echo "${part_table}" | grep "Linux" | grep -o "[0-9][0-9]*" | head -n 2 | tail -n 1)
-    size_linux_sect=$(echo "${part_table}" | grep "Linux" | grep -o "[0-9][0-9]*" | head -n 4 | tail -n 1)
+    end_linux_sect=$(echo "${part_table}" | grep "Linux" | grep -o "[0-9][0-9]*" | head -n 3 | tail -n 1)
     
     offset_a2_sect=$(echo "${part_table}" | grep "Unknown" | grep -o "[0-9][0-9]*" | head -n 2 | tail -n 1)
-    size_a2_sect=$(echo "${part_table}" | grep "Unknown" | grep -o "[0-9][0-9]*" | head -n 4 | tail -n 1)
+    end_a2_sect=$(echo "${part_table}" | grep "Unknown" | grep -o "[0-9][0-9]*" | head -n 3 | tail -n 1)
     
     offset_fat32=$((${bytes_per_sector} * ${offset_fat32_sect}))
     offset_a2=$((${bytes_per_sector} * ${offset_a2_sect}))
     offset_linux=$((${bytes_per_sector} * ${offset_linux_sect}))
     
-    size_fat32=$((${bytes_per_sector} * ${size_fat32_sect}))
-    size_a2=$((${bytes_per_sector} * ${size_a2_sect}))
-    size_linux=$((${bytes_per_sector} * ${size_linux_sect}))
+    size_fat32=$((${bytes_per_sector} * (${end_fat32_sect} - ${offset_fat32_sect})))
+    size_a2=$((${bytes_per_sector} * (${end_a2_sect} - ${offset_a2_sect})))
+    size_linux=$((${bytes_per_sector} * (${end_linux_sect} - ${offset_linux_sect})))
     
+    echo "-> Creating loop devices..."
     # Create the loop devices in the same order as we will write to them in the sdcard
     loop_fat32=$(losetup -f)
-    sudo losetup -o ${offset_fat32} --sizelimit ${size_fat32} "${loop_fat32}" "${sdcard_dev}"
+    sudo losetup -o ${offset_fat32} --sizelimit ${size_fat32} "${loop_fat32}" "${sdcard_dev}" &>/dev/null
     loop_linux=$(losetup -f)
-    sudo losetup -o ${offset_linux} --sizelimit ${size_linux} "${loop_linux}" "${sdcard_dev}"
+    sudo losetup -o ${offset_linux} --sizelimit ${size_linux} "${loop_linux}" "${sdcard_dev}" &>/dev/null
     loop_a2=$(losetup -f)
-    sudo losetup -o ${offset_a2} --sizelimit ${size_a2} "${loop_a2}" "${sdcard_dev}"
+    sudo losetup -o ${offset_a2} --sizelimit ${size_a2} "${loop_a2}" "${sdcard_dev}" &>/dev/null
     
+    echo "-> Creating filesystems on the image..."
     # Create the filesystems
-    sudo mkfs.vfat "${loop_fat32}"
-    sudo mkfs.ext3 -F "${loop_linux}"
+    sudo mkfs.vfat "${loop_fat32}" &>/dev/null
+    sudo mkfs.ext3 -F "${loop_linux}" &>/dev/null
     
     sdcard_dev_fat32="${loop_fat32}"
     sdcard_dev_a2="${loop_a2}"
     sdcard_dev_ext3="${loop_linux}"
     
+    # Write the data onto the image, using the same function as real sdcards
     write_sdcard
     
-    sudo losetup -d "${loop_fat32}"
-    sudo losetup -d "${loop_linux}"
-    sudo losetup -d "${loop_a2}"
+    echo "-> Removing the loop devices..."
+    # Remove the loop devices
+    sudo losetup -d "${loop_fat32}" &>/dev/null
+    sudo losetup -d "${loop_linux}" &>/dev/null
+    sudo losetup -d "${loop_a2}" &>/dev/null
     
 }
 
@@ -619,7 +691,7 @@ set -e
 mkdir -p "${sdcard_a2_dir}"
 mkdir -p "${sdcard_fat32_dir}"
 
-compile_quartus_project
+# compile_quartus_project
 compile_preloader
 compile_uboot
 compile_linux
@@ -629,12 +701,13 @@ create_rootfs
 # Write sdcard if it exists
 if [ -z "${sdcard_dev}" ]; then
     echo "sdcard argument not provided => no sdcard written."
-
 elif [ -b "${sdcard_dev}" ]; then # actual sdcard
     partition_sdcard
     write_sdcard
 else # create sdcard image
     create_sdimage
 fi
+
+echo "Done !"
 
 # Make sure MSEL = 000000
