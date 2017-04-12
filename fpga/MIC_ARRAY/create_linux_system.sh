@@ -691,7 +691,7 @@ set -e
 mkdir -p "${sdcard_a2_dir}"
 mkdir -p "${sdcard_fat32_dir}"
 
-# compile_quartus_project
+compile_quartus_project
 compile_preloader
 compile_uboot
 compile_linux
