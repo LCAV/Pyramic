@@ -1,6 +1,8 @@
 Pyramic: Pyramidal compact microphone array
 =========================
 
+# This is Corentin Ferry's working tree. If you're looking for an up-to-date version, please go to the LCAV git : https://github.com/LCAV/Pyramic/
+
 This repository contains the design files and the documentation for the Pyramic compact microphone array.
 Pyramic has 48 microphones spread on 6 PCBs, each bearing 8 MEMS microphones and an ADC. This allows for
 flexible geometries while keeping calibration simple. The array plugs in a DE1-SoC FPGA that collects
@@ -10,7 +12,7 @@ Alternatively, the data can be sent to an ARM CPU that is on the same chip for f
 Contributors
 ------------
 
-Juan Azcarreta Ortiz, René Beuchat [1], Robin Scheibler [2], Francisco Rojo
+Juan Azcarreta Ortiz, René Beuchat [1], Robin Scheibler [2], Francisco Rojo, Corentin Ferry [1]
 
 [1] Audiovisual Communications Laboratory ([LCAV](http://lcav.epfl.ch)) at [EPFL](http://www.epfl.ch).
 

@@ -1,0 +1,68 @@
+\begin{theindex}
+
+  \item {input\+Buffer}, \hyperpage{7}
+    \subitem {microphone\+Count}, \hyperpage{7}
+    \subitem {samples}, \hyperpage{7}
+    \subitem {samples\+Per\+Mic}, \hyperpage{8}
+    \subitem {total\+Sample\+Count}, \hyperpage{8}
+
+  \indexspace
+
+  \item {microphone\+Count}
+    \subitem {input\+Buffer}, \hyperpage{7}
+
+  \indexspace
+
+  \item {output\+Buffer}, \hyperpage{8}
+
+  \indexspace
+
+  \item {pyramic}, \hyperpage{9}
+  \item {pyramic\+Allocate\+Output\+Buffer}
+    \subitem {pyramicio.\+h}, \hyperpage{12}
+  \item {pyramic\+Deallocate\+Output\+Buffer}
+    \subitem {pyramicio.\+h}, \hyperpage{13}
+  \item {pyramic\+Deinit\+Pyramic}
+    \subitem {pyramicio.\+h}, \hyperpage{13}
+  \item {pyramic\+Fixed\+Length\+Capture}
+    \subitem {pyramicio.\+h}, \hyperpage{13}
+  \item {pyramic\+Get\+Current\+Buffer\+Half}
+    \subitem {pyramicio.\+h}, \hyperpage{13}
+  \item {pyramic\+Get\+Input\+Buffer}
+    \subitem {pyramicio.\+h}, \hyperpage{14}
+  \item {pyramic\+Initialize\+Pyramic}
+    \subitem {pyramicio.\+h}, \hyperpage{14}
+  \item {pyramic\+Select\+Output\+Source}
+    \subitem {pyramicio.\+h}, \hyperpage{14}
+  \item {pyramic\+Set\+Output\+Buffer}
+    \subitem {pyramicio.\+h}, \hyperpage{15}
+  \item {pyramic\+Start\+Capture}
+    \subitem {pyramicio.\+h}, \hyperpage{15}
+  \item {pyramic\+Stop\+Capture}
+    \subitem {pyramicio.\+h}, \hyperpage{15}
+  \item {pyramicio.\+h}, \hyperpage{11}
+    \subitem {pyramic\+Allocate\+Output\+Buffer}, \hyperpage{12}
+    \subitem {pyramic\+Deallocate\+Output\+Buffer}, \hyperpage{13}
+    \subitem {pyramic\+Deinit\+Pyramic}, \hyperpage{13}
+    \subitem {pyramic\+Fixed\+Length\+Capture}, \hyperpage{13}
+    \subitem {pyramic\+Get\+Current\+Buffer\+Half}, \hyperpage{13}
+    \subitem {pyramic\+Get\+Input\+Buffer}, \hyperpage{14}
+    \subitem {pyramic\+Initialize\+Pyramic}, \hyperpage{14}
+    \subitem {pyramic\+Select\+Output\+Source}, \hyperpage{14}
+    \subitem {pyramic\+Set\+Output\+Buffer}, \hyperpage{15}
+    \subitem {pyramic\+Start\+Capture}, \hyperpage{15}
+    \subitem {pyramic\+Stop\+Capture}, \hyperpage{15}
+
+  \indexspace
+
+  \item {samples}
+    \subitem {input\+Buffer}, \hyperpage{7}
+  \item {samples\+Per\+Mic}
+    \subitem {input\+Buffer}, \hyperpage{8}
+
+  \indexspace
+
+  \item {total\+Sample\+Count}
+    \subitem {input\+Buffer}, \hyperpage{8}
+
+\end{theindex}
