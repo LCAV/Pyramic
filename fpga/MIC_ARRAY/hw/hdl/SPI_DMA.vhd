@@ -149,7 +149,7 @@ begin
                             AM_Write      <= '0';
                             AM_ByteEnable <= "0000";
                             -- Stop burst
-                            if cntLgt > 1 then
+                            if cntLgt > 8 then
                                 -- Update length and address counter after sending eight samples
                                 CntLgt <= CntLgt - 8;  -- Where 8 is equal to the number of microphones per board
                                 CntAdd <= CntAdd + 16;  --Each sample occupies 2 bytes, we need to jump 16 byss each time after sending 8 smples
@@ -177,6 +177,7 @@ begin
                                     CntLgt  <= unsigned(RegLgt);  -- Length of data to store
                                     CntAdd  <= unsigned(RegAddStart);  -- Destination address
                                     StateM  <= s_waitdata;
+                                    array_number <= (others => '0');
                                     Buffer1 <= '1';
                                     Buffer2 <= '0';
 

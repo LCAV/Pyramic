@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash -x
 
 # ===================================================================================
 # usage: create_linux_system.sh [sdcard_device]
@@ -122,7 +122,7 @@ toBytes() {
 compile_quartus_project() {
     echo "Compiling Quartus project..."
     # change working directory to quartus directory
-    pushd "${quartus_dir}" &>/dev/null
+    pushd "${quartus_dir}"
 
     # delete old artifacts
     rm -rf "c5_pin_model_dump.txt" \
@@ -136,30 +136,30 @@ compile_quartus_project() {
            "${quartus_project_name}.qws" \
            "${sdcard_fat32_rbf_file}"
     echo "-> Generating the Qsys entities..."
-    qsys-generate "Pyramic_Array.qsys" --synthesis=VHDL --output-directory="Pyramic_Array/" --part="${fpga_device_part_number}" &>/dev/null
+    qsys-generate "Pyramic_Array.qsys" --synthesis=VHDL --output-directory="Pyramic_Array/" --part="${fpga_device_part_number}"
 
     echo "-> Performing analysis/synthesis..."
     # Analysis and synthesis
-    quartus_map "${quartus_project_name}" &>/dev/null
+    quartus_map "${quartus_project_name}"
 
     echo "-> Executing pin assignment scripts..."
     # Execute HPS DDR3 pin assignment TCL script
     # it is normal for the following script to report an error, but it was
     # sucessfully executed
     ddr3_pin_assignment_script="$(find . -name "hps_sdram_p0_pin_assignments.tcl")"
-    quartus_sta -t "${ddr3_pin_assignment_script}" "${quartus_project_name}" &>/dev/null
+    quartus_sta -t "${ddr3_pin_assignment_script}" "${quartus_project_name}"
 
     echo "-> Running the fitter..."
     # Fitter
-    quartus_fit "${quartus_project_name}" &>/dev/null
+    quartus_fit "${quartus_project_name}"
 
     echo "-> Generating the assembled programmer files..."
     # Assembler
-    quartus_asm "${quartus_project_name}" &>/dev/null
+    quartus_asm "${quartus_project_name}"
 
     echo "-> Generating the RBF FPGA programming file..."
     # convert .sof to .rbf in associated sdcard directory
-    quartus_cpf -c "${quartus_sof_file}" "${sdcard_fat32_rbf_file}" &>/dev/null
+    quartus_cpf -c "${quartus_sof_file}" "${sdcard_fat32_rbf_file}"
 
     # change working directory back to script directory
     popd
@@ -692,21 +692,21 @@ mkdir -p "${sdcard_a2_dir}"
 mkdir -p "${sdcard_fat32_dir}"
 
 compile_quartus_project
-compile_preloader
-compile_uboot
-compile_linux
-compile_pyramicio
-create_rootfs
+# compile_preloader
+# compile_uboot
+# compile_linux
+# compile_pyramicio
+# create_rootfs
 
-# Write sdcard if it exists
-if [ -z "${sdcard_dev}" ]; then
-    echo "sdcard argument not provided => no sdcard written."
-elif [ -b "${sdcard_dev}" ]; then # actual sdcard
-    partition_sdcard
-    write_sdcard
-else # create sdcard image
-    create_sdimage
-fi
+# # Write sdcard if it exists
+# if [ -z "${sdcard_dev}" ]; then
+#     echo "sdcard argument not provided => no sdcard written."
+# elif [ -b "${sdcard_dev}" ]; then # actual sdcard
+#     partition_sdcard
+#     write_sdcard
+# else # create sdcard image
+#     create_sdimage
+# fi
 
 echo "Done !"
 
