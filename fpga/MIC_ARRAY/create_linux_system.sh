@@ -692,21 +692,21 @@ mkdir -p "${sdcard_a2_dir}"
 mkdir -p "${sdcard_fat32_dir}"
 
 compile_quartus_project
-# compile_preloader
-# compile_uboot
-# compile_linux
-# compile_pyramicio
-# create_rootfs
+compile_preloader
+compile_uboot
+compile_linux
+compile_pyramicio
+create_rootfs
 
-# # Write sdcard if it exists
-# if [ -z "${sdcard_dev}" ]; then
-#     echo "sdcard argument not provided => no sdcard written."
-# elif [ -b "${sdcard_dev}" ]; then # actual sdcard
-#     partition_sdcard
-#     write_sdcard
-# else # create sdcard image
-#     create_sdimage
-# fi
+# Write sdcard if it exists
+if [ -z "${sdcard_dev}" ]; then
+    echo "sdcard argument not provided => no sdcard written."
+elif [ -b "${sdcard_dev}" ]; then # actual sdcard
+    partition_sdcard
+    write_sdcard
+else # create sdcard image
+    create_sdimage
+fi
 
 echo "Done !"
 
