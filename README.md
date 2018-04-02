@@ -10,7 +10,7 @@ Alternatively, the data can be sent to an ARM CPU that is on the same chip for f
 Contributors
 ------------
 
-Juan Azcarreta Ortiz, René Beuchat [1], Robin Scheibler [2], Francisco Rojo, Corentin Ferry [1]
+Juan Azcarreta Ortiz, René Beuchat [2], Robin Scheibler [1], Francisco Rojo, Corentin Ferry [2]
 
 [1] Audiovisual Communications Laboratory ([LCAV](http://lcav.epfl.ch)) at [EPFL](http://www.epfl.ch).
 
