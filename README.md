@@ -1,4 +1,4 @@
-Pyramic: Pyramidal compact microphone array
+Pyramic: An FPGA based compact microphone array
 =========================
 
 This repository contains the design files and the documentation for the Pyramic compact microphone array.
