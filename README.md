@@ -37,7 +37,7 @@ Academic projects
 
 * J\. Azcarreta Ortiz, R. Scheibler and R. Beuchat. *Pyramic array: An FPGA based platform for multi-channel audio acquisition*, Master Thesis, EPFL, 2016.
 
-C\. Ferry, R. Scheibler and R. Beuchat. *Extension board for CycloneV multi microphone acquisition - signal analysis*, Semester Project, EPFL, 2017.
+* C\. Ferry, R. Scheibler and R. Beuchat. *Extension board for CycloneV multi microphone acquisition - signal analysis*, Semester Project, EPFL, 2017.
 
 Academic publications
 ---------------------
