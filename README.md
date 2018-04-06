@@ -32,6 +32,18 @@ Dependencies
 * The PCB were designed in Altium.
 * The FPGA cores were developed using Altera's tools (the free web edition should be sufficient).
 
+Academic publications
+---------------------
+
+* J\. Azcarreta Ortiz, R. Scheibler and R. Beuchat. *Pyramic array: An FPGA based platform for multi-channel audio acquisition*, Master Thesis, EPFL, 2016.
+
+C\. Ferry, R. Scheibler and R. Beuchat. *Extension board for CycloneV multi microphone acquisition - signal analysis*, Semester Project, EPFL, 2017.
+
+Academic publications
+---------------------
+
+* E\. Bezzam, R. Scheibler, J. Azcarreta, H. Pan, M. Simeoni, R. Beuchat, P. Hurley, B. Bruneau and C. Ferry. *Hardware and software for reproducible research in audio array signal processing*, ICASSP 2017, New Orleans, USA, 2017.
+
 Software License
 ----------------
 
