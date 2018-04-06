@@ -7,6 +7,10 @@ flexible geometries while keeping calibration simple. The array plugs in a DE1-S
 the data from the 6 ADC and can do real-time processing of the signals with output to an audio codec.
 Alternatively, the data can be sent to an ARM CPU that is on the same chip for further processing.
 
+<p align="left">
+  <img src="https://raw.githubusercontent.com/LCAV/Pyramic/master/doc/pyramic.png" width="250"/>
+</p>
+
 Contributors
 ------------
 
