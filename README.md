@@ -32,7 +32,7 @@ Dependencies
 * The PCB were designed in Altium.
 * The FPGA cores were developed using Altera's tools (the free web edition should be sufficient).
 
-Academic publications
+Academic projects
 ---------------------
 
 * J\. Azcarreta Ortiz, R. Scheibler and R. Beuchat. *Pyramic array: An FPGA based platform for multi-channel audio acquisition*, Master Thesis, EPFL, 2016.
