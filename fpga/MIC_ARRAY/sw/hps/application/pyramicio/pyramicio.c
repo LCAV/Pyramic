@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/mman.h>
 
 #include "pyramicio.h" // Public API
@@ -16,6 +17,8 @@
 #include "socal/socal.h"
 
 // Define constants according with SPI_Slave implementation
+
+// Pyramic Input Module
 #define OFFSET       (4)
 #define STOP         (0)
 #define START        (1)
@@ -26,9 +29,12 @@
 #define BUFFER2      (4*OFFSET)
 #define DMA_STOP_REG (5*OFFSET)
 
+// Pyramic Output Module
 #define BASE_RDADDR_REG (0*OFFSET)
 #define SOUND_LEN_REG   (1*OFFSET)
 #define USE_MEMORY_REG  (2*OFFSET)
+#define BUFFER1_OUT     (3*OFFSET)
+#define BUFFER2_OUT     (4*OFFSET)
 
 // Memory allocation for input buffer (audio samples)
 #define RESERVED_MEMORY_OFFSET_PHY (500*1024*1024)                  // Physical memory address where we can start to save data (500 MB)
@@ -93,6 +99,9 @@ struct pyramic *pyramicInitializePyramic() {
         return NULL;
     }
 
+    // zero out the input memory at the beginning
+    memset(p->reserved_memory, 0, RESERVED_MEMORY_SIZE_PHY);
+
     p->output_memory = mmap(NULL,
                             SEC_MEMORY_SIZE_PHY,
                             PROT_READ | PROT_WRITE,
@@ -105,14 +114,17 @@ struct pyramic *pyramicInitializePyramic() {
         return NULL;
     }
 
+    // zero out the output memory at the beginning
+    memset(p->output_memory, 0, SEC_MEMORY_SIZE_PHY);
+
     return p;
 }
 
 struct inputBuffer pyramicGetInputBuffer(struct pyramic *p, uint32_t bufferHalf) {
     struct inputBuffer b = {0};
-    b.microphoneCount = NUM_BOARDS * MICS_PER_BOARD;
-    b.totalSampleCount = sampleCount(p->captureDurationMs, SAMPLING_FREQUENCY, b.microphoneCount);
-    b.samplesPerMic = sampleCount(p->captureDurationMs, SAMPLING_FREQUENCY, 1);
+    b.microphoneCount = NUM_MICS;
+    b.totalSampleCount = p->num_samples * b.microphoneCount;
+    b.samplesPerMic = p->num_samples;
     b.samples = (int16_t *)(p->reserved_memory) + bufferHalf * (b.totalSampleCount >> 1);
 
     return b;
@@ -133,12 +145,19 @@ struct outputBuffer pyramicGetOutputBuffer(struct pyramic *p, uint32_t lengthInS
     return o;
 }
 
-int pyramicStartCapture(struct pyramic *p, uint32_t durationInMilliseconds) {
-    uint32_t num_samples = sampleCount(durationInMilliseconds, SAMPLING_FREQUENCY, NUM_MICS);
+uint32_t pyramicGetCurrentOutputBufferHalf(struct pyramic *p) {
+    uint32_t buf1 = alt_read_word(p->fpga_SPI_System + BUFFER1_OUT);
+    uint32_t buf2 = alt_read_word(p->fpga_SPI_System + BUFFER2_OUT);
 
-    p->captureDurationMs = durationInMilliseconds;
+    return 2 * buf2 + buf1;
+}
 
-    alt_write_word(p->fpga_SPI_System + LENGTH_REG, num_samples);
+
+int pyramicStartCapture(struct pyramic *p, uint32_t num_samples) {
+    p->num_samples = num_samples;
+    p->captureDurationMs = num_samples / SAMPLING_FREQUENCY;
+
+    alt_write_word(p->fpga_SPI_System + LENGTH_REG, num_samples * NUM_MICS);
     alt_write_word(p->fpga_SPI_System + ADDRESS_REG, RESERVED_MEMORY_OFFSET_PHY);
 
     uint32_t wraddr = 0;
@@ -156,9 +175,10 @@ int pyramicStopCapture(struct pyramic *p) {
     return 0;
 }
 
-int pyramicFixedLengthCapture(struct pyramic *p, uint32_t durationInMilliseconds) {
+int pyramicFixedLengthCapture(struct pyramic *p, float durationInMilliseconds) {
     int captSucc;
-    if((captSucc = pyramicStartCapture(p, durationInMilliseconds)) == 0) {
+    uint32_t num_samples = (uint32_t)(durationInMilliseconds * SAMPLING_FREQUENCY);
+    if((captSucc = pyramicStartCapture(p, num_samples)) == 0) {
         pyramicStopCapture(p);
     }
 

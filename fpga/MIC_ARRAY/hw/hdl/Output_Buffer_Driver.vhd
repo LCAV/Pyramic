@@ -83,6 +83,8 @@ architecture master of Output_Buffer_Driver is
     signal sound_len      : unsigned(31 downto 0) := to_unsigned(100 * 1024 * 1024, 32);  -- 100 MiB
     constant byteEnable   : unsigned(3 downto 0)  := "1111";  -- 32 bits are enabled ( L + R )
     signal Use_Memory     : std_logic             := '1';
+	 signal Buffer1        : std_logic			  	  := '0';
+	 signal Buffer2        : std_logic             := '0';
 
     -- Clock divider
     signal pulse        : std_logic;
@@ -135,10 +137,16 @@ begin
                         if DMA_ReadDataValid = '1' then  -- I assert this, I think it's never set to 0
                             DataOK_DMA        <= '1';
                             signal_holder_DMA <= DMA_Data;
-                            if SndAddr < base_read_addr + sound_len then  -- usage d'un compteur
+                            if SndAddr < base_read_addr + sound_len - 4 then  -- usage d'un compteur
                                 SndAddr <= SndAddr + 4;
+										  if SndAddr = base_read_addr + sound_len / 2 then
+									         Buffer1 <= '0';
+												Buffer2 <= '1';
+								        end if;
                             else
                                 SndAddr <= base_read_addr;
+										  Buffer1 <= '1';
+										  Buffer2 <= '0';
                             end if;
                             stateDMA <= s_waitForClock;
 
@@ -308,6 +316,8 @@ begin
                         Cfg_Avalon_ReadData(31 downto 0) <= std_logic_vector(sound_len(31 downto 0));
                     when "010" =>
                         Cfg_Avalon_ReadData(0) <= Use_Memory;
+						  when "011"  => Cfg_Avalon_ReadData(0) <= Buffer1;  -- Should be high during first  half period of the acquisition
+                    when "100"  => Cfg_Avalon_ReadData(0) <= Buffer2;  -- Should be high during second half period of the acquisitio
                     when others => null;
                 end case;
             end if;
