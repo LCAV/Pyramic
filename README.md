@@ -36,6 +36,53 @@ Dependencies
 * The PCB were designed in Altium.
 * The FPGA cores were developed using Altera's tools (the free web edition should be sufficient).
 
+From Zero to Pyramic Compilation
+--------------------------------
+
+(on Ubuntu linux)
+
+The FPGA part
+
+1. Follow `fpga/Installation_Manual.odt` to install the Altera SoC EDS and Quartus Lite
+2. Open Quartus
+    
+    nios_command_shell
+    quartus &
+
+3. Open Pyramic project: `File -> Open Project...` and select `hw/quartus/Pyramic_Array.qpf`
+4. Open Qsys via Quartus by `Tools -> Qsys`
+5. In Qsys, generate the HDL files `Generate -> Generate HDL...` and click `Generate`
+6. Back in Quartus, compile by `Processing -> Start Compilation`
+7. Generate the hardware header
+
+    cd fpga/MIC_ARRAY
+    ./create_hw_headers.sh
+
+8. Generate `RBF` file
+
+    quartus_cpf -c hw/quartus/output_files/Pyramic_Array.sof socfpga.rbf
+
+  and place it at the root of the SD card
+
+Hopefully, things went smoothly. Now we can try to compile the library that let us
+control Pyramic from HPS.
+
+1. For the compilation, some additional C library is required
+
+    sudo apt-get install libc6-dev-i386
+    sudo apt-get install zlib1g:i386
+
+2. Start the embedded development shell
+
+    embedded_command_shell
+
+3. Compile `libpyramicio`
+
+    cd fpga/MIC_ARRAY/sw/hps/application/pyramicio
+    make all
+
+4. The files `pyramic.h` and `libpyramicio.so` can be copied to the system on the DE1-SoC
+
 Academic projects
 ---------------------
 
