@@ -152,6 +152,13 @@ int pyramicStopCapture(struct pyramic *p);
  * pyramicSetOutputBuffer() before calling this function with SRC_MEMORY.
  */
 int pyramicSelectOutputSource(struct pyramic *p, int source);
+
+/** Enables or disables the audio output.
+ * @param p The Pyramic object structure on which the function is executed.
+ * @param enable 0 to disable output, 1 to enable.
+ */
+int pyramicEnableOutput(struct pyramic *p, int enable);
+
 /** Sets the Pyramic's output buffer as the designated one.
  * @param p The Pyramic object structure on which the function is executed.
  * @param outputBuffer An output buffer that has been obtained with

@@ -35,6 +35,8 @@
 #define USE_MEMORY_REG  (2*OFFSET)
 #define BUFFER1_OUT     (3*OFFSET)
 #define BUFFER2_OUT     (4*OFFSET)
+#define ENABLE_REG      (5*OFFSET)
+
 
 // Memory allocation for input buffer (audio samples)
 #define RESERVED_MEMORY_OFFSET_PHY (500*1024*1024)                  // Physical memory address where we can start to save data (500 MB)
@@ -196,6 +198,12 @@ int pyramicSelectOutputSource(struct pyramic *p, int source) {
     alt_write_word(p->fpga_Output_Controller + USE_MEMORY_REG, (source & 0x01));
     return 0;
 }
+
+int pyramicEnableOutput(struct pyramic *p, int enable) {
+    alt_write_word(p->fpga_Output_Controller + ENABLE_REG, (enable & 0x01));
+    return 0;
+}
+
 
 int pyramicSetOutputBuffer(struct pyramic *p, struct outputBuffer outputBuffer) {
     alt_write_word(p->fpga_Output_Controller + BASE_RDADDR_REG, outputBuffer.baseAddress);

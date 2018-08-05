@@ -83,12 +83,15 @@ architecture master of Output_Buffer_Driver is
     signal sound_len      : unsigned(31 downto 0) := to_unsigned(100 * 1024 * 1024, 32);  -- 100 MiB
     constant byteEnable   : unsigned(3 downto 0)  := "1111";  -- 32 bits are enabled ( L + R )
     signal Use_Memory     : std_logic             := '1';
-	 signal Buffer1        : std_logic			  	  := '0';
-	 signal Buffer2        : std_logic             := '0';
+    signal Enable         : std_logic             := '0';
+    signal Buffer1        : std_logic             := '0';
+    signal Buffer2        : std_logic             := '0';
 
     -- Clock divider
     signal pulse        : std_logic;
     signal clockCounter : integer range 0 to 1000;  -- counter to have dma periodic (read samples at 48 khz)
+    
+    
 
 begin
     read_DMA : process(reset_n, clk)
@@ -101,64 +104,71 @@ begin
             signal_holder_DMA <= (others => '0');
             DataOK_DMA        <= '0';
         elsif rising_edge(clk) then
-            if Use_Memory = '1' then
-                case stateDMA is
-                    when s_idle =>      -- don't do dma if not needed
-                        DMA_Read       <= '0';
-                        DMA_Addr       <= (others => '0');
-                        DMA_ByteEnable <= (others => '0');
-                        if SndAddr < base_read_addr then
-                            SndAddr <= base_read_addr;
-                        end if;
-                        stateDMA <= s_init_dma_read;
-                    -- DMA
-                    when s_init_dma_read =>
-                        -- initialize dma transfer
-                        DMA_Addr       <= std_logic_vector(SndAddr);
-                        DMA_ByteEnable <= std_logic_vector(byteEnable);
-                        DMA_Read       <= '1';
-                        stateDMA       <= s_wait_memory;
-
-                    when s_wait_memory =>
-                        -- wait for data to come from memory -takes two cycles according
-                        -- to avalon master specs p. 29
-
-                        -- The read is pipelined with 2 wait cycles !! Obvisouly we can wait a bit
-                        -- if the codec is too slow
-                        DMA_Addr <= std_logic_vector(SndAddr);
-                        if DMA_WaitRequest = '0' then
-                            -- Data is there
-                            stateDMA <= s_read_memory;
-                            DMA_Read <= '0';
-                        end if;
-                    when s_read_memory =>
-                        -- this state waits for the data to be available on DMA
-                        -- i.e. readdatavalid is 1
-                        if DMA_ReadDataValid = '1' then  -- I assert this, I think it's never set to 0
-                            DataOK_DMA        <= '1';
-                            signal_holder_DMA <= DMA_Data;
-                            if SndAddr < base_read_addr + sound_len - 4 then  -- usage d'un compteur
-                                SndAddr <= SndAddr + 4;
-										  if SndAddr = base_read_addr + sound_len / 2 then
-									         Buffer1 <= '0';
-												Buffer2 <= '1';
-								        end if;
-                            else
+            if Enable = '1' then
+                if Use_Memory = '1' then
+                    case stateDMA is
+                        when s_idle =>      -- don't do dma if not needed
+                            DMA_Read       <= '0';
+                            DMA_Addr       <= (others => '0');
+                            DMA_ByteEnable <= (others => '0');
+                            if SndAddr < base_read_addr then
                                 SndAddr <= base_read_addr;
-										  Buffer1 <= '1';
-										  Buffer2 <= '0';
                             end if;
-                            stateDMA <= s_waitForClock;
+                            stateDMA <= s_init_dma_read;
+                        -- DMA
+                        when s_init_dma_read =>
+                            -- initialize dma transfer
+                            DMA_Addr       <= std_logic_vector(SndAddr);
+                            DMA_ByteEnable <= std_logic_vector(byteEnable);
+                            DMA_Read       <= '1';
+                            stateDMA       <= s_wait_memory;
 
-                        end if;
-                    -- Each read cycle should take 1000 cycles so we pass the samples at 48 kHz to the audio controller
-                    when s_waitForClock =>
-                        if pulse = '1' then
-                            stateDMA <= s_idle;
-                        end if;
-                    when others => null;
-                end case;
+                        when s_wait_memory =>
+                            -- wait for data to come from memory -takes two cycles according
+                            -- to avalon master specs p. 29
 
+                            -- The read is pipelined with 2 wait cycles !! Obvisouly we can wait a bit
+                            -- if the codec is too slow
+                            DMA_Addr <= std_logic_vector(SndAddr);
+                            if DMA_WaitRequest = '0' then
+                                -- Data is there
+                                stateDMA <= s_read_memory;
+                                DMA_Read <= '0';
+                            end if;
+                        when s_read_memory =>
+                            -- this state waits for the data to be available on DMA
+                            -- i.e. readdatavalid is 1
+                            if DMA_ReadDataValid = '1' then  -- I assert this, I think it's never set to 0
+                                DataOK_DMA        <= '1';
+                                signal_holder_DMA <= DMA_Data;
+                                if SndAddr < base_read_addr + sound_len - 4 then  -- usage d'un compteur
+                                    SndAddr <= SndAddr + 4;
+                                    if SndAddr = base_read_addr + sound_len / 2 then
+                                        Buffer1 <= '0';
+                                        Buffer2 <= '1';
+                                    end if;
+                                else
+                                    SndAddr <= base_read_addr;
+                                    Buffer1 <= '1';
+                                    Buffer2 <= '0';
+                                end if;
+                                stateDMA <= s_waitForClock;
+
+                            end if;
+                        -- Each read cycle should take 1000 cycles so we pass the samples at 48 kHz to the audio controller
+                        when s_waitForClock =>
+                            if pulse = '1' then
+                                stateDMA <= s_idle;
+                            end if;
+                        when others => null;
+                    end case;
+                else
+                    DMA_Addr       <= (others => '0');
+                    DMA_ByteEnable <= (others => '0');
+                    DMA_Read       <= '0';
+                    DataOK_DMA     <= '0';
+                    SndAddr        <= base_read_addr;
+                end if;
             else
                 DMA_Addr       <= (others => '0');
                 DMA_ByteEnable <= (others => '0');
@@ -271,20 +281,27 @@ begin
             Out_R_Avalon_Valid <= '0';
             Out_R_Avalon_Data  <= (others => '0');
         elsif rising_edge(clk) then
-            if Use_memory = '0' then
-                Out_L_Avalon_Data  <= signal_holder_L;
-                Out_R_Avalon_Valid <= LDataValid;
-            else
-                Out_L_Avalon_Data  <= signal_holder_DMA(31 downto 16);
-                Out_L_Avalon_Valid <= DataOK_DMA;
-            end if;
+            if Enable = '1' then
+                if Use_memory = '0' then
+                    Out_L_Avalon_Data  <= signal_holder_L;
+                    Out_R_Avalon_Valid <= LDataValid;
+                else
+                    Out_L_Avalon_Data  <= signal_holder_DMA(31 downto 16);
+                    Out_L_Avalon_Valid <= DataOK_DMA;
+                end if;
 
-            if Use_memory = '0' then
-                Out_R_Avalon_Data  <= signal_holder_R;
-                Out_R_Avalon_Valid <= RDataValid;
+                if Use_memory = '0' then
+                    Out_R_Avalon_Data  <= signal_holder_R;
+                    Out_R_Avalon_Valid <= RDataValid;
+                else
+                    Out_R_Avalon_Data  <= signal_holder_DMA(15 downto 0);
+                    Out_R_Avalon_Valid <= DataOK_DMA;
+                end if;
             else
-                Out_R_Avalon_Data  <= signal_holder_DMA(15 downto 0);
-                Out_R_Avalon_Valid <= DataOK_DMA;
+                Out_L_Avalon_Valid <= '0';
+                Out_L_Avalon_Data  <= (others => '0');
+                Out_R_Avalon_Valid <= '0';
+                Out_R_Avalon_Data  <= (others => '0');
             end if;
 
         end if;
@@ -296,6 +313,7 @@ begin
             base_read_addr <= to_unsigned(900 * 1024 * 1024, 32);
             sound_len      <= to_unsigned(100 * 1024 * 1024, 32);
             Use_Memory     <= '0';  -- by default we use the Avalon Streaming (to avoid hearing grabage)
+            Enable         <= '0';
         elsif rising_edge(clk) then
             if Cfg_Avalon_Write = '1' then
                 case Cfg_Avalon_Address is
@@ -305,6 +323,8 @@ begin
                         sound_len(31 downto 0) <= unsigned(Cfg_Avalon_WriteData);
                     when "010" =>
                         Use_Memory <= Cfg_Avalon_WriteData(0);
+                    when "101" =>
+                        Enable <= Cfg_Avalon_WriteData(0);
                     when others => null;
                 end case;
             elsif Cfg_Avalon_Read = '1' then
@@ -316,8 +336,9 @@ begin
                         Cfg_Avalon_ReadData(31 downto 0) <= std_logic_vector(sound_len(31 downto 0));
                     when "010" =>
                         Cfg_Avalon_ReadData(0) <= Use_Memory;
-						  when "011"  => Cfg_Avalon_ReadData(0) <= Buffer1;  -- Should be high during first  half period of the acquisition
+                    when "011"  => Cfg_Avalon_ReadData(0) <= Buffer1;  -- Should be high during first  half period of the acquisition
                     when "100"  => Cfg_Avalon_ReadData(0) <= Buffer2;  -- Should be high during second half period of the acquisitio
+                    when "101"  => Cfg_Avalon_ReadData(0) <= Enable;
                     when others => null;
                 end case;
             end if;
