@@ -70,6 +70,7 @@ control Pyramic from HPS.
 1. For the compilation, some additional C library is required
 
     sudo apt-get install libc6-dev-i386
+    
     sudo apt-get install zlib1g:i386
 
 2. Start the embedded development shell
@@ -81,7 +82,7 @@ control Pyramic from HPS.
     cd fpga/MIC_ARRAY/sw/hps/application/pyramicio
     make all
 
-4. The files `pyramic.h` and `libpyramicio.so` can be copied to the system on the DE1-SoC
+4. The files `pyramicio.h` and `libpyramicio.so` can be copied to the system on the DE1-SoC
 
 Academic projects
 ---------------------
