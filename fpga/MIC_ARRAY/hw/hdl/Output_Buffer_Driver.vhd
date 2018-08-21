@@ -80,7 +80,6 @@ architecture master of Output_Buffer_Driver is
 
     -- Configuration Slave (constants for now)
     signal base_read_addr : unsigned(31 downto 0) := to_unsigned(900 * 1024 * 1024, 32);  -- 900 MiB = 900 * 1024 KiB = 900 * 1024 * 1024 B
-    signal base_read_new  : unsigned(31 downto 0) := to_unsigned(900 * 1024 * 1024, 32);  -- 900 MiB = 900 * 1024 KiB = 900 * 1024 * 1024 B
     signal sound_len      : unsigned(31 downto 0) := to_unsigned(100 * 1024 * 1024, 32);  -- 100 MiB
     constant byteEnable   : unsigned(3 downto 0)  := "1111";  -- 32 bits are enabled ( L + R )
     signal Use_Memory     : std_logic             := '1';
@@ -99,6 +98,7 @@ begin
     begin
         if reset_n = '0' then
             -- reset everything here
+				stateDMA          <= s_waitForClock;
             DMA_Addr          <= (others => '0');
             DMA_ByteEnable    <= (others => '0');
             DMA_Read          <= '0';
@@ -106,6 +106,10 @@ begin
             DataOK_DMA        <= '0';
             base_read_addr    <= to_unsigned(900 * 1024 * 1024, 32);
             SndAddr           <= to_unsigned(900 * 1024 * 1024, 32);
+				Use_Memory        <= '1';
+				Enable            <= '0';
+				Buffer1           <= '0';
+				Buffer2           <= '0';
         elsif rising_edge(clk) then
             if Enable = '1' then
                 if Use_Memory = '1' then
@@ -114,11 +118,17 @@ begin
                             DMA_Read       <= '0';
                             DMA_Addr       <= (others => '0');
                             DMA_ByteEnable <= (others => '0');
-                            if SndAddr < base_read_addr then
-                                SndAddr <= base_read_addr;
-                            end if;
-                            stateDMA <= s_init_dma_read;
-                        -- DMA
+									 -- Protect the active buffer
+									 if SndAddr < base_read_addr + (sound_len / 2) then
+									     Buffer1 <= '1';
+										  Buffer2 <= '0';
+									 else
+										  Buffer1 <= '0';
+									     Buffer2 <= '1';
+									 end if;
+									 -- Move to next state
+									 stateDMA <= s_init_dma_read;
+							   -- DMA
                         when s_init_dma_read =>
                             -- initialize dma transfer
                             DMA_Addr       <= std_logic_vector(SndAddr);
@@ -146,16 +156,9 @@ begin
                                 signal_holder_DMA <= DMA_Data;
                                 if SndAddr < base_read_addr + sound_len - 4 then  -- usage d'un compteur
                                     SndAddr <= SndAddr + 4;
-                                    if SndAddr = base_read_addr + sound_len / 2 then
-                                        Buffer1 <= '0';
-                                        Buffer2 <= '1';
-                                    end if;
                                 else
                                     -- Update the base address only here. 
-                                    SndAddr <= base_read_new;
-                                    base_read_addr <= base_read_new;
-                                    Buffer1 <= '1';
-                                    Buffer2 <= '0';
+                                    SndAddr <= base_read_addr;
                                 end if;
                                 stateDMA <= s_waitForClock;
 
@@ -163,25 +166,34 @@ begin
                         -- Each read cycle should take 1000 cycles so we pass the samples at 48 kHz to the audio controller
                         when s_waitForClock =>
                             if pulse = '1' then
-                                stateDMA <= s_idle;
+										  -- sanity check
+										  if SndAddr < base_read_addr then
+                                    SndAddr <= base_read_addr;
+                                end if;
+										  -- move to next state
+										  stateDMA <= s_idle;
                             end if;
                         when others => null;
                     end case;
                 else
+					     stateDMA       <= s_waitForClock;
                     DMA_Addr       <= (others => '0');
                     DMA_ByteEnable <= (others => '0');
                     DMA_Read       <= '0';
                     DataOK_DMA     <= '0';
-                    SndAddr        <= base_read_new;
-                    base_read_addr <= base_read_new;
+                    SndAddr        <= base_read_addr;
+						  Buffer1        <= '0';
+					     Buffer2        <= '0';
                 end if;
             else
+				    stateDMA       <= s_waitForClock;
                 DMA_Addr       <= (others => '0');
                 DMA_ByteEnable <= (others => '0');
                 DMA_Read       <= '0';
                 DataOK_DMA     <= '0';
-                SndAddr        <= base_read_new;
-                base_read_addr <= base_read_new;
+                SndAddr        <= base_read_addr;
+					 Buffer1        <= '0';
+					 Buffer2        <= '0';
             end if;
         end if;
     end process;
@@ -317,36 +329,28 @@ begin
     configSlave : process(reset_n, clk)
     begin
         if reset_n = '0' then
-            base_read_new  <= to_unsigned(900 * 1024 * 1024, 32);
+            base_read_addr  <= to_unsigned(900 * 1024 * 1024, 32);
             sound_len      <= to_unsigned(100 * 1024 * 1024, 32);
             Use_Memory     <= '0';  -- by default we use the Avalon Streaming (to avoid hearing grabage)
             Enable         <= '0';
         elsif rising_edge(clk) then
             if Cfg_Avalon_Write = '1' then
                 case Cfg_Avalon_Address is
-                    when "000" =>
-                        base_read_new(31 downto 0) <= unsigned(Cfg_Avalon_WriteData);
-                    when "001" =>
-                        sound_len(31 downto 0) <= unsigned(Cfg_Avalon_WriteData);
-                    when "010" =>
-                        Use_Memory <= Cfg_Avalon_WriteData(0);
-                    when "101" =>
-                        Enable <= Cfg_Avalon_WriteData(0);
+                    when "000" => base_read_addr(31 downto 0) <= unsigned(Cfg_Avalon_WriteData);
+                    when "001" => sound_len(31 downto 0) <= unsigned(Cfg_Avalon_WriteData);
+                    when "010" => Use_Memory <= Cfg_Avalon_WriteData(0);
+                    when "011" => Enable <= Cfg_Avalon_WriteData(0);
                     when others => null;
                 end case;
             elsif Cfg_Avalon_Read = '1' then
                 Cfg_Avalon_ReadData(31 downto 0) <= (others => '0');
                 case Cfg_Avalon_Address is
-                    when "000" => -- Old value of the register : the one that is still under readback.
-                        -- The value of this register is updated once the new buffer is being read.
-                        Cfg_Avalon_ReadData(31 downto 0) <= std_logic_vector(base_read_addr(31 downto 0));
-                    when "001" =>
-                        Cfg_Avalon_ReadData(31 downto 0) <= std_logic_vector(sound_len(31 downto 0));
-                    when "010" =>
-                        Cfg_Avalon_ReadData(0) <= Use_Memory;
-                    when "011"  => Cfg_Avalon_ReadData(0) <= Buffer1;  -- Should be high during first  half period of the acquisition
-                    when "100"  => Cfg_Avalon_ReadData(0) <= Buffer2;  -- Should be high during second half period of the acquisitio
-                    when "101"  => Cfg_Avalon_ReadData(0) <= Enable;
+                    when "000"  => Cfg_Avalon_ReadData(31 downto 0) <= std_logic_vector(base_read_addr(31 downto 0));
+                    when "001"  => Cfg_Avalon_ReadData(31 downto 0) <= std_logic_vector(sound_len(31 downto 0));
+                    when "010"  => Cfg_Avalon_ReadData(0) <= Use_Memory;
+						  when "011"  => Cfg_Avalon_ReadData(0) <= Enable;
+                    when "100"  => Cfg_Avalon_ReadData(0) <= Buffer1;  -- Should be high during first  half period of the acquisition
+                    when "101"  => Cfg_Avalon_ReadData(0) <= Buffer2;  -- Should be high during second half period of the acquisition
                     when others => null;
                 end case;
             end if;
