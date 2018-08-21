@@ -81,7 +81,7 @@ control Pyramic from HPS.
       cd fpga/MIC_ARRAY/sw/hps/application/pyramicio
       make all
 
-4. The files `pyramic.h` and `libpyramicio.so` can be copied to the system on the DE1-SoC
+4. The files `pyramicio.h` and `libpyramicio.so` can be copied to the system on the DE1-SoC
 
 Academic projects
 ---------------------
