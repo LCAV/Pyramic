@@ -104,10 +104,7 @@ begin
             DMA_Read          <= '0';
             signal_holder_DMA <= (others => '0');
             DataOK_DMA        <= '0';
-            base_read_addr    <= to_unsigned(900 * 1024 * 1024, 32);
             SndAddr           <= to_unsigned(900 * 1024 * 1024, 32);
-				Use_Memory        <= '1';
-				Enable            <= '0';
 				Buffer1           <= '0';
 				Buffer2           <= '0';
         elsif rising_edge(clk) then
