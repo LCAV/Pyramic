@@ -20,7 +20,7 @@ First, switch to root mode
       
 3. Start the installation
 
-		~Downloads/Quartus_setup/setup.sh
+		~/Downloads/Quartus_setup/setup.sh
 		
 4. Follow the installation steps and set your installation folder in the home directory as ```~/altera_lite/16.0```.
 
