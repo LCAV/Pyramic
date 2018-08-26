@@ -31,7 +31,8 @@ First, switch to root mode
 6. Paste the following environmental variables in the end of the ```~/.bashrc``` file:
 
 		################################################################################
-		############################### Altera-specific################################################################################################################
+		############################### Altera-specific#################################
+		###############################################################################
 		export QSYS_ROOTDIR="~/altera_lite/16.0/quartus/sopc_builder/bin"
 		export SOPC_KIT_NIOS2="~/altera_lite/16.0/nios2eds"
 		export QUARTUS_ROOTDIR="~/altera_lite/16.0/quartus"
