@@ -43,7 +43,7 @@ From Zero to Pyramic Compilation
 
 The FPGA part
 
-1. Follow `fpga/Installation_Manual.odt` to install the Altera SoC EDS and Quartus Lite
+1. Follow `fpga/README.md` to install the Altera SoC EDS and Quartus Lite
 2. Open Quartus
     
     nios_command_shell
