@@ -80,7 +80,7 @@ First, switch to root mode
        
 5. Go to `~/altera_lite/16.0/embedded/ds-5_installer/` and execute
 
-        ~/altera_lite/16.0/embedded/ds-5_installer//install.sh
+        ~/altera_lite/16.0/embedded/ds-5_installer/install.sh
 
 6. Follow the instructions in the terminal (say yes to everything).
 
