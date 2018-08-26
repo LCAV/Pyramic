@@ -1,14 +1,14 @@
 Development tools (Quartus and Eclipse) installation
 --------------------------------
 
-
-### Quartus installation for FPGA development (Version 16.0)
-
-0. Switch to root mode
+First, switch to root mode
 		
 		sudo -s
 
-1. Download Quartus __Lite 16.9__ edition  for __Linux__ [here](http://dl.altera.com/?edition=lite)
+### Installation of Quartus for FPGA development (Version 16.0)
+
+
+1. Download Quartus __Lite 16.9__ edition  for __Linux__ [here](http://dl.altera.com/?edition=lite).
 
 3. Create a set up directory
 
@@ -22,7 +22,8 @@ Development tools (Quartus and Eclipse) installation
 
 		~Downloads/Quartus_setup/setup.sh
 		
-4. Follow the installation steps and set your installation folder in the home directory as ```~/altera_lite/16.0```
+4. Follow the installation steps and set your installation folder in the home directory as ```~/altera_lite/16.0```.
+
 5.  Open the bashrc file with your favourite text editor (we use sublime in this guide)
 
 		subl ~/.bashrc
@@ -64,11 +65,8 @@ The following lines should appear:
 
 		quartus
 		
-### Eclipse installation for Application development (Version 16.0)
+### Installation of Eclipse for Applications development (Version 16.0)
 
-0. Switch to root mode
-		
-		sudo -s
 
 1. Download the __Standard edition__ for __Linux__ of the  __Release 16.0__  ```SoC Embedded Design Suite (EDS)``` [here](https://fpgasoftware.intel.com/soceds/16.0/?edition=standard&platform=linux&download_manager=dlm3).
 
