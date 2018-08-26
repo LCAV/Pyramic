@@ -3,7 +3,7 @@ Development tools (Quartus and Eclipse) installation
 
 First, switch to root mode
 		
-		sudo -s
+	sudo -s
 
 ### Installation of Quartus for FPGA development (Version 16.0)
 
@@ -40,7 +40,7 @@ First, switch to root mode
 
          embedded_command_shell
 
-The following lines should appear:
+	The following lines should appear:
 
 		------------------------------------------------
 		Altera Embedded Command Shell
@@ -53,7 +53,7 @@ The following lines should appear:
 
 		nios_command_shell
 		
-The following lines should appear:
+	The following lines should appear:
 
 		------------------------------------------------
 		Altera Nios2 Command Shell [GCC 4]
