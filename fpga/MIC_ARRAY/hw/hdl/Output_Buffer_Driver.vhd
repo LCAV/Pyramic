@@ -91,8 +91,6 @@ architecture master of Output_Buffer_Driver is
     signal pulse        : std_logic;
     signal clockCounter : integer range 0 to 1000;  -- counter to have dma periodic (read samples at 48 khz)
     
-    
-
 begin
     read_DMA : process(reset_n, clk)
     begin
@@ -115,17 +113,17 @@ begin
                             DMA_Read       <= '0';
                             DMA_Addr       <= (others => '0');
                             DMA_ByteEnable <= (others => '0');
-									 -- Protect the active buffer
-									 if SndAddr < base_read_addr + (sound_len / 2) then
-									     Buffer1 <= '1';
-										  Buffer2 <= '0';
-									 else
-										  Buffer1 <= '0';
-									     Buffer2 <= '1';
-									 end if;
-									 -- Move to next state
-									 stateDMA <= s_init_dma_read;
-							   -- DMA
+			    -- Protect the active buffer
+			    if SndAddr < base_read_addr + (sound_len / 2) then
+			    	Buffer1 <= '1';
+				Buffer2 <= '0';
+			    else
+			  	Buffer1 <= '0';
+				Buffer2 <= '1';
+			    end if;
+			     -- Move to next state
+			     stateDMA <= s_init_dma_read;
+			-- DMA
                         when s_init_dma_read =>
                             -- initialize dma transfer
                             DMA_Addr       <= std_logic_vector(SndAddr);
@@ -163,34 +161,34 @@ begin
                         -- Each read cycle should take 1000 cycles so we pass the samples at 48 kHz to the audio controller
                         when s_waitForClock =>
                             if pulse = '1' then
-										  -- sanity check
-										  if SndAddr < base_read_addr then
+				-- sanity check
+				if SndAddr < base_read_addr then
                                     SndAddr <= base_read_addr;
                                 end if;
-										  -- move to next state
-										  stateDMA <= s_idle;
+				-- move to next state
+				stateDMA <= s_idle;
                             end if;
                         when others => null;
                     end case;
                 else
-					     stateDMA       <= s_waitForClock;
+		    stateDMA       <= s_waitForClock;
                     DMA_Addr       <= (others => '0');
                     DMA_ByteEnable <= (others => '0');
                     DMA_Read       <= '0';
                     DataOK_DMA     <= '0';
                     SndAddr        <= base_read_addr;
-						  Buffer1        <= '0';
-					     Buffer2        <= '0';
+		    Buffer1        <= '0';
+		    Buffer2        <= '0';
                 end if;
             else
-				    stateDMA       <= s_waitForClock;
+		stateDMA       <= s_waitForClock;
                 DMA_Addr       <= (others => '0');
                 DMA_ByteEnable <= (others => '0');
                 DMA_Read       <= '0';
                 DataOK_DMA     <= '0';
                 SndAddr        <= base_read_addr;
-					 Buffer1        <= '0';
-					 Buffer2        <= '0';
+		Buffer1        <= '0';
+		Buffer2        <= '0';
             end if;
         end if;
     end process;
@@ -345,13 +343,12 @@ begin
                     when "000"  => Cfg_Avalon_ReadData(31 downto 0) <= std_logic_vector(base_read_addr(31 downto 0));
                     when "001"  => Cfg_Avalon_ReadData(31 downto 0) <= std_logic_vector(sound_len(31 downto 0));
                     when "010"  => Cfg_Avalon_ReadData(0) <= Use_Memory;
-						  when "011"  => Cfg_Avalon_ReadData(0) <= Enable;
+		    when "011"  => Cfg_Avalon_ReadData(0) <= Enable;
                     when "100"  => Cfg_Avalon_ReadData(0) <= Buffer1;  -- Should be high during first  half period of the acquisition
                     when "101"  => Cfg_Avalon_ReadData(0) <= Buffer2;  -- Should be high during second half period of the acquisition
                     when others => null;
                 end case;
             end if;
-
         end if;
 
     end process configSlave;
