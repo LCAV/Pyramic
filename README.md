@@ -64,10 +64,10 @@ The FPGA part
 
   and place it at the root of the SD card
 
-Hopefully, things went smoothly. Now we can try to compile the library that let us
+Hopefully, things went smoothly. Now we can try to compile the library that lets us
 control Pyramic from HPS.
 
-1. For the compilation, some additional C library is required
+1. For the compilation, some additional C libraries are required
 
         sudo apt-get install libc6-dev-i386
         sudo apt-get install zlib1g:i386
