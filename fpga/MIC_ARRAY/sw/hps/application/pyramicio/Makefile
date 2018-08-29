@@ -21,6 +21,14 @@ HEADERS = $(wildcard *.h)
 $(TARGET): $(OBJECTS)
 	$(CC) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@
 
+install: $(TARGET)
+ifneq ($(PREFIX),)
+	install -d $(PREFIX)/lib/
+	install -m 644 $(TARGET) $(PREFIX)/lib/
+	install -d $(PREFIX)/include/
+	install -m 644 pyramicio.h $(PREFIX)/include/
+endif
+
 clean:
 	-rm -f *.o
 	-rm -f $(TARGET)
