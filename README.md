@@ -46,7 +46,7 @@ can be accessed independently depending on the research interests of the user. T
 main layers of the full-stack Pyramic array model:
 
 <p align="left">
-  <img src="https://raw.githubusercontent.com/LCAV/Pyramic/master/doc/pyramic_layers.png" width="250"/>
+  <img src="https://raw.githubusercontent.com/jazcarretao/Pyramic/master/doc/pyramic_layers.png" width="350"/>
 </p>
 
 
