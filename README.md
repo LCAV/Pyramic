@@ -35,8 +35,8 @@ Tokyo, Japan <br>
 Dependencies
 ------------
 
-* The PCB were designed in Altium.
-* The FPGA cores were developed using Altera's tools (the free web edition should be sufficient).
+* The PCBs were designed in Altium.
+* The FPGA cores were developed using Altera's tools (the free web edition should be sufficient). The installation steps are explained in the `fpga/README.md` file.
 
 Pyramic array modular design
 --------------------------------
@@ -45,10 +45,17 @@ The Pyramic array is designed as a full-stack modular system. This means that di
 can be accessed independently depending on the research interests of the user. The following figure summarizes the
 main layers of the full-stack Pyramic array model:
 
-<p align="left">
+<p align="center">
   <img src="https://raw.githubusercontent.com/jazcarretao/Pyramic/master/doc/pyramic_layers.png" width="350"/>
 </p>
 
+Next, we explain where to find the different modules:
+
+* **Physical layer**: The PCB design can be found under the `pcb` folder in this github repository.
+* **Acquisition layer**: The FPGA design can be found in the `fpga/MIC_ARRAY/hw` folder.
+* **Communication layer**: The communication accross peripherals in the DE1-SoC board is controlled by a Hardcore Processor System (HPS) and the design files can be found in the `fpga/MIC_ARRAY/sw/hps` folder. The `Ultimate_Guide.pdf` explains how to connect the Pyramic array to a host computer through an Ethernet connection.
+* **Application layer**: The application files for the demo presented at IWAENC2018 are available [here](https://github.com/fakufaku/pyramic-demo). To compile an application project follow the steps in the following section (i.e. `From Zero to Pyramic Compilation`).
+* **Dataset**: Anechoic dataset available in [zenodo](https://zenodo.org/record/1209563#.W5qOkkxuKUk).
 
 From Zero to Pyramic Compilation
 --------------------------------
