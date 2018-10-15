@@ -24,17 +24,31 @@ Juan Azcarreta Ortiz, René Beuchat [2], Robin Scheibler [1], Francisco Rojo, Co
 
 #### Contact
 
-[Robin Scheibler](mailto:robin[dot]scheibler[at]epfl[dot]ch) <br>
-EPFL-IC-LCAV <br>
-BC Building <br>
-Station 14 <br>
-1015 Lausanne
+[Robin Scheibler](mailto:robin[at]tmu[dot]ac[dot]jp) <br> 
+Tokyo Metropolitan University, TMU <br>
+Ono Lab <br>
+Department of Computer Science <br>
+Graduate School of System Design <br>
+6-6 Asahigaoka, Hino-shi <br>
+Tokyo, Japan <br>
 
 Dependencies
 ------------
 
 * The PCB were designed in Altium.
 * The FPGA cores were developed using Altera's tools (the free web edition should be sufficient).
+
+Pyramic array modular design
+--------------------------------
+
+The Pyramic array is designed as a full-stack modular system. This means that different parts of the system
+can be accessed independently depending on the research interests of the user. The following figure summarizes the
+main layers of the full-stack Pyramic array model:
+
+<p align="left">
+  <img src="https://raw.githubusercontent.com/LCAV/Pyramic/master/doc/pyramic_layers.pdf" width="250"/>
+</p>
+
 
 From Zero to Pyramic Compilation
 --------------------------------
