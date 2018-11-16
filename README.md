@@ -114,12 +114,17 @@ Academic projects
 Academic publications
 ---------------------
 
-* E\. Bezzam, R. Scheibler, J. Azcarreta, H. Pan, M. Simeoni, R. Beuchat, P. Hurley, B. Bruneau and C. Ferry. *Hardware and software for reproducible research in audio array signal processing*, ICASSP 2017, New Orleans, USA, 2017.
-
 If you use the Pyramic array in your own research, please cite 
 
-  R\. Scheibler, J. Azcarreta, R. Beuchat, C. Ferry, *Pyramic: Full Stack Open Microphone Array Architecture and Dataset*, IWAENC, Tokyo, 2018.
+* R\. Scheibler, J. Azcarreta, R. Beuchat, C. Ferry, *Pyramic: Full Stack Open Microphone Array Architecture and Dataset*, IWAENC, Tokyo, 2018.
   
+Below we list some publications using the Pyramic array:
+
+* E\. Bezzam, R. Scheibler, J. Azcarreta, H. Pan, M. Simeoni, R. Beuchat, P. Hurley, B. Bruneau and C. Ferry. *Hardware and software for reproducible research in audio array signal processing*, ICASSP 2017, New Orleans, USA, 2017.
+
+* R\. Scheibler,  D. Horiike,  N. Ono, *Blinkies:  Sound-to-light conversion sensors and their application to
+speech enhancement and sound source localization*, APSIPA, 2018.
+
 
 Software License
 ----------------
