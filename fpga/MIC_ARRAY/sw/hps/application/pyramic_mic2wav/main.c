@@ -106,6 +106,8 @@ int main(int argc, char* argv[])
 
 		write_wav(filename, numSamples, (short int*)buffer, 48000);
 		free(filename);
+
+		free(buffer)
 	}
 
 	pyramicDeinitPyramic(p);
