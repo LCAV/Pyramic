@@ -1,10 +1,11 @@
 #!/bin/bash -x
 
 # ===================================================================================
-# usage: create_linux_system.sh [sdcard_device]
+# usage: create_linux_system.sh [sdcard_device] [sdcard_size]
 #
 # positional arguments:
 #     sdcard_device    path to sdcard device file    [ex: "/dev/sdb", "/dev/mmcblk0"]
+      sdcard_size      size of Linux partition       [ex: 500mb, 4gb]
 # ===================================================================================
 
 # Make sure we have Quartus' tools at our disposal
